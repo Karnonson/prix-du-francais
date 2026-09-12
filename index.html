@@ -1,0 +1,804 @@
+<title>Le prix du français</title>
+<meta name="description" content="Écris une phrase en anglais et en français, et vois combien de jetons une IA compte pour chacune.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap">
+<style>
+  :root {
+    --ground: #f2f4f7;
+    --surface: #ffffff;
+    --ink: #151b28;
+    --muted: #5a6478;
+    --rule: #d8dde6;
+    --en: #2350b8;
+    --en-chip-a: #dfe7fb;
+    --en-chip-b: #c9d6f6;
+    --fr: #b8324f;
+    --fr-chip-a: #f9e0e6;
+    --fr-chip-b: #f2c9d3;
+    --focus: #2350b8;
+    --track: #e4e8ef;
+    --band: #e9ecf2;
+
+    --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+    --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+    --step--1: 0.8125rem;
+    --step-0: 1rem;
+    --step-1: 1.1875rem;
+    --step-2: 1.5rem;
+    --step-3: 2.25rem;
+    --step-4: clamp(2.5rem, 6vw, 3.75rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0e1219;
+      --surface: #161b25;
+      --ink: #e5e9f1;
+      --muted: #97a1b3;
+      --rule: #2a3140;
+      --en: #8aa9f6;
+      --en-chip-a: #1d2945;
+      --en-chip-b: #283758;
+      --fr: #f28ca2;
+      --fr-chip-a: #3c1d27;
+      --fr-chip-b: #4d2633;
+      --focus: #8aa9f6;
+      --track: #232a37;
+      --band: #1b212c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0e1219;
+    --surface: #161b25;
+    --ink: #e5e9f1;
+    --muted: #97a1b3;
+    --rule: #2a3140;
+    --en: #8aa9f6;
+    --en-chip-a: #1d2945;
+    --en-chip-b: #283758;
+    --fr: #f28ca2;
+    --fr-chip-a: #3c1d27;
+    --fr-chip-b: #4d2633;
+    --focus: #8aa9f6;
+    --track: #232a37;
+    --band: #1b212c;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: var(--step-0);
+    line-height: 1.55;
+    padding-inline: 20px;
+    padding-block: 28px 64px;
+  }
+  .wrap { max-width: 1080px; margin-inline: auto; display: grid; gap: 40px; }
+  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.1; }
+  p { margin: 0; }
+  button, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .label {
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* Header */
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .intro { display: grid; gap: 14px; max-width: 64ch; }
+  h1 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.02em; font-variation-settings: "opsz" 96; }
+  h1 .fr-word { color: var(--fr); }
+  .lede { font-size: var(--step-1); color: var(--ink); }
+  .lede em { font-style: normal; font-family: var(--mono); font-size: 0.92em; background: var(--fr-chip-a); padding: 0 4px; border-radius: 3px; }
+  .ui-lang { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; background: var(--surface); flex-shrink: 0; }
+  .ui-lang button {
+    border: 0; background: transparent; padding: 4px 12px; border-radius: 999px; cursor: pointer;
+    font-size: var(--step--1); font-weight: 600; letter-spacing: 0.06em; color: var(--muted);
+  }
+  .ui-lang button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+
+  /* Templates */
+  .templates { display: grid; gap: 12px; }
+  .template-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .template {
+    text-align: left; cursor: pointer; background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; align-content: start;
+    transition: border-color 120ms ease, transform 120ms ease;
+  }
+  .template:hover { border-color: var(--muted); }
+  .template[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+  .template strong { font-family: var(--display); font-size: var(--step-1); font-weight: 700; }
+  .template span { color: var(--muted); font-size: var(--step--1); }
+  .template .run { color: var(--ink); font-weight: 600; margin-top: 6px; }
+
+  /* Workbench */
+  .bench { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; }
+  .panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pane { padding: 20px; display: grid; gap: 14px; align-content: start; }
+  .pane + .pane { border-left: 1px solid var(--rule); }
+  .pane[data-lang="en"] { --lang: var(--en); --chip-a: var(--en-chip-a); --chip-b: var(--en-chip-b); }
+  .pane[data-lang="fr"] { --lang: var(--fr); --chip-a: var(--fr-chip-a); --chip-b: var(--fr-chip-b); }
+  .pane-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .lang-name { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  .lang-code {
+    font-family: var(--mono); font-size: var(--step--1); color: var(--surface); background: var(--lang);
+    padding: 1px 7px; border-radius: 4px; letter-spacing: 0.04em;
+  }
+  .translate {
+    border: 1px solid var(--rule); background: transparent; border-radius: 999px; padding: 4px 12px;
+    font-size: var(--step--1); cursor: pointer; color: var(--ink);
+  }
+  .translate:hover { border-color: var(--lang); color: var(--lang); }
+  .translate:disabled { cursor: progress; opacity: 0.7; }
+  textarea {
+    width: 100%; min-height: 7.5rem; resize: vertical; border: 1px solid var(--rule); border-radius: 8px;
+    background: var(--ground); padding: 12px 14px; line-height: 1.5;
+  }
+  textarea:focus-visible { outline: 2px solid var(--lang); outline-offset: 1px; }
+  .count-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .count { font-family: var(--display); font-size: var(--step-3); font-weight: 800; color: var(--lang); line-height: 1; font-variation-settings: "opsz" 72; }
+  .count-unit { font-weight: 600; }
+  .count-meta { color: var(--muted); font-size: var(--step--1); }
+  .note { font-size: var(--step--1); color: var(--muted); min-height: 1.2em; }
+  .note.error { color: var(--fr); }
+
+  .chips {
+    font-family: var(--mono); font-size: 0.9375rem; line-height: 1.95;
+    max-height: 15rem; overflow-y: auto;
+  }
+  .chip {
+    display: inline-block; max-width: 100%; overflow-wrap: anywhere; white-space: pre;
+    background: var(--chip-a); border-radius: 3px; padding-inline: 1px; line-height: 1.5; margin-block: 2px;
+  }
+  .chip.alt { background: var(--chip-b); }
+  .chip .sp { color: var(--muted); opacity: 0.7; }
+  .chip sub { font-size: 0.65em; color: var(--lang); font-weight: 500; vertical-align: -0.1em; margin-left: 1px; }
+  .chips-more { color: var(--muted); font-family: var(--body); font-size: var(--step--1); }
+  .chips.loading { color: var(--muted); font-family: var(--body); font-size: var(--step--1); }
+
+  .how-tokens { padding: 12px 20px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .seg button { border: 0; background: transparent; padding: 6px 12px; cursor: pointer; font-size: var(--step--1); color: var(--muted); text-align: left; }
+  .seg button + button { border-left: 1px solid var(--rule); }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+  .seg b { font-weight: 700; }
+
+  /* Verdict */
+  .verdict { border-top: 1px solid var(--rule); background: var(--band); padding: 22px 20px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: center; }
+  .verdict-main { display: grid; gap: 6px; }
+  .big { font-family: var(--display); font-size: var(--step-4); font-weight: 800; line-height: 1; letter-spacing: -0.02em; font-variation-settings: "opsz" 96; }
+  .big.more { color: var(--fr); }
+  .big.less { color: var(--en); }
+  .verdict-text { font-size: var(--step-1); max-width: 40ch; }
+  .verdict-scale { color: var(--muted); }
+  .bars { display: grid; gap: 12px; }
+  .bar-group { display: grid; gap: 4px; }
+  .bar-title { display: flex; justify-content: space-between; gap: 8px; font-size: var(--step--1); }
+  .bar-title .ratio { font-weight: 700; }
+  .bar { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr) 3.5rem; align-items: center; gap: 8px; font-size: var(--step--1); }
+  .bar .code { font-family: var(--mono); color: var(--muted); }
+  .bar .track { height: 10px; background: var(--track); border-radius: 2px; overflow: hidden; }
+  .bar .fill { height: 100%; border-radius: 2px; transition: width 240ms ease; }
+  .bar.en .fill { background: var(--en); }
+  .bar.fr .fill { background: var(--fr); }
+  .bar .val { text-align: right; }
+
+  /* Measured */
+  .measured { display: grid; gap: 18px; }
+  .measured-head { display: grid; gap: 8px; max-width: 64ch; }
+  h2 { font-size: var(--step-2); font-weight: 700; }
+  .measured-head p { color: var(--muted); }
+  .plot { background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: 18px 20px 14px; overflow-x: auto; }
+  .plot-inner { min-width: 520px; display: grid; gap: 0; }
+  .plot-row, .plot-axis { display: grid; grid-template-columns: 11.5rem minmax(0, 1fr) 3.25rem; gap: 14px; align-items: center; }
+  .plot-row { padding-block: 7px; }
+  .plot-row + .plot-row { border-top: 1px dashed var(--rule); }
+  .plot-row .who { display: grid; line-height: 1.25; }
+  .plot-row .who b { font-weight: 600; }
+  .plot-row .who span { color: var(--muted); font-size: var(--step--1); }
+  .plot-row.legacy { color: var(--muted); }
+  .lane { position: relative; height: 22px; }
+  .lane::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--rule); }
+  .lane .range { position: absolute; top: 3px; bottom: 3px; background: var(--fr-chip-a); border-radius: 2px; }
+  .lane .dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--fr); border: 2px solid var(--surface); }
+  .plot-row.legacy .dot { background: var(--surface); border: 2px solid var(--muted); }
+  .plot-row .val { text-align: right; font-weight: 700; }
+  .plot-axis { padding-top: 6px; border-top: 1px solid var(--rule); }
+  .ticks { position: relative; height: 1.4em; font-size: var(--step--1); color: var(--muted); }
+  .ticks span { position: absolute; transform: translateX(-50%); }
+  .ticks span:first-child { transform: none; }
+  .plot-caption { font-size: var(--step--1); color: var(--muted); padding-top: 10px; }
+
+  /* Notes */
+  .notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; border-top: 1px solid var(--rule); padding-top: 24px; }
+  .notes section { display: grid; gap: 6px; align-content: start; }
+  h3 { font-size: var(--step-1); font-weight: 700; }
+  .notes p { color: var(--muted); font-size: 0.9375rem; }
+  .notes code { font-family: var(--mono); font-size: 0.9em; }
+
+  @media (max-width: 820px) {
+    .panes { grid-template-columns: minmax(0, 1fr); }
+    .pane + .pane { border-left: 0; border-top: 1px solid var(--rule); }
+    .verdict { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .notes { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    body { padding-inline: 16px; }
+    .template-row { grid-template-columns: minmax(0, 1fr); }
+    .top { flex-direction: column-reverse; }
+    .seg { display: grid; width: 100%; }
+    .seg button + button { border-left: 0; border-top: 1px solid var(--rule); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="intro">
+      <h1 data-i18n-html="title">Le prix du <span class="fr-word">français</span></h1>
+      <p class="lede" data-i18n-html="lede">Une IA ne lit pas des mots&nbsp;: elle lit des morceaux de texte, appelés <em>jetons</em>. Chaque jeton se paie — en argent, et en place dans sa mémoire. Écris la même phrase en anglais et en français, et compte.</p>
+    </div>
+    <div class="ui-lang" role="group" aria-label="Langue de la page">
+      <button type="button" id="ui-fr" data-ui="fr" aria-pressed="true">FR</button>
+      <button type="button" id="ui-en" data-ui="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <section class="templates" aria-labelledby="templates-label">
+    <p class="label" id="templates-label" data-i18n="templatesLabel">Essaie un exemple, ou écris le tien plus bas</p>
+    <div class="template-row" id="template-row"></div>
+  </section>
+
+  <section class="bench" aria-label="Comparateur">
+    <div class="panes">
+      <div class="pane" data-lang="en">
+        <div class="pane-head">
+          <label class="lang-name" for="text-en"><span class="lang-code">EN</span> <span data-i18n="english">Anglais</span></label>
+          <button type="button" class="translate" id="translate-en" data-target="en" hidden data-i18n="fromFrench">Traduire depuis le français</button>
+        </div>
+        <textarea id="text-en" spellcheck="false"></textarea>
+        <div class="count-row">
+          <span class="count num" id="count-en">–</span>
+          <span class="count-unit" data-i18n="tokens">jetons</span>
+          <span class="count-meta num" id="chars-en"></span>
+        </div>
+        <div class="chips" id="chips-en" aria-live="polite"></div>
+        <p class="note" id="note-en"></p>
+      </div>
+      <div class="pane" data-lang="fr">
+        <div class="pane-head">
+          <label class="lang-name" for="text-fr"><span class="lang-code">FR</span> <span data-i18n="french">Français</span></label>
+          <button type="button" class="translate" id="translate-fr" data-target="fr" hidden data-i18n="fromEnglish">Traduire depuis l’anglais</button>
+        </div>
+        <textarea id="text-fr" spellcheck="false"></textarea>
+        <div class="count-row">
+          <span class="count num" id="count-fr">–</span>
+          <span class="count-unit" data-i18n="tokens">jetons</span>
+          <span class="count-meta num" id="chars-fr"></span>
+        </div>
+        <div class="chips" id="chips-fr" aria-live="polite"></div>
+        <p class="note" id="note-fr"></p>
+      </div>
+    </div>
+
+    <div class="how-tokens">
+      <p class="label" data-i18n="cutWith">Découpé par</p>
+      <div class="seg" role="group" aria-label="Tokenizer">
+        <button type="button" id="tok-o200k" data-tok="o200k" aria-pressed="true"><b data-i18n="recent">Récent</b> · GPT-4o, GPT-5</button>
+        <button type="button" id="tok-cl100k" data-tok="cl100k" aria-pressed="false"><b data-i18n="older">Plus ancien</b> · GPT-4, Llama 3</button>
+      </div>
+    </div>
+
+    <div class="verdict" aria-live="polite">
+      <div class="verdict-main">
+        <p class="big num" id="big">–</p>
+        <p class="verdict-text" id="verdict-text"></p>
+        <p class="verdict-scale num" id="verdict-scale"></p>
+      </div>
+      <div class="bars" id="bars"></div>
+    </div>
+  </section>
+
+  <section class="measured" aria-labelledby="measured-title">
+    <div class="measured-head">
+      <h2 id="measured-title" data-i18n="measuredTitle">Et sur de vrais textes longs&nbsp;?</h2>
+      <p data-i18n-html="measuredLede">Les 6 skills CADRER entiers — environ 18&nbsp;000 caractères d’instructions — passés dans 8 tokenizers publics. Le point montre combien de jetons le français coûte pour 1 jeton en anglais.</p>
+    </div>
+    <div class="plot">
+      <div class="plot-inner" id="plot"></div>
+      <p class="plot-caption" data-i18n="plotCaption">Anglais ≈ 4 200 jetons partout. Version française&nbsp;: une traduction de travail, au tutoiement. La zone rosée couvre les tokenizers actuels.</p>
+    </div>
+  </section>
+
+  <footer class="notes">
+    <section>
+      <h3 data-i18n="n1t">Et Claude&nbsp;?</h3>
+      <p data-i18n="n1">Le découpeur de Claude n’est pas public. Anthropic offre un compteur exact, mais il demande une clé d’API. Ici, on mesure avec les découpeurs publics&nbsp;: dans tous ceux testés, l’anglais coûte moins cher.</p>
+    </section>
+    <section>
+      <h3 data-i18n="n2t">Pourquoi le français coûte plus</h3>
+      <p data-i18n="n2">Deux raisons. La phrase est plus longue — articles, prépositions, terminaisons. Et les découpeurs ont surtout appris sur de l’anglais&nbsp;: un mot anglais courant tient souvent en un jeton, un mot français se coupe plus souvent, surtout autour des accents.</p>
+    </section>
+    <section>
+      <h3 data-i18n="n3t">Ce qui reste sur ton ordinateur</h3>
+      <p data-i18n="n3">Le comptage se fait dans ton navigateur&nbsp;: ce que tu écris n’est envoyé nulle part. Seul le bouton «&nbsp;Traduire&nbsp;», quand il est là, envoie le texte à Claude avec ton accord.</p>
+    </section>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const TOKENIZERS = {
+    o200k: { global: "GPTTokenizer_o200k_base", src: "https://cdn.jsdelivr.net/npm/gpt-tokenizer@2.9.0/dist/o200k_base.js" },
+    cl100k: { global: "GPTTokenizer_cl100k_base", src: "https://cdn.jsdelivr.net/npm/gpt-tokenizer@2.9.0/dist/cl100k_base.js" },
+  };
+
+  // Measured with tools/token_estimate.py in workflow-skills, 2026-09-12: the 6 CADRER skills, EN vs draft FR.
+  const MEASURED = [
+    { name: "OpenAI o200k", note: "GPT-4o, GPT-5", en: 4201, fr: 5313 },
+    { name: "Mistral Nemo", note: "Tekken", en: 4244, fr: 5355 },
+    { name: "Google Gemma 3", note: "", en: 4304, fr: 5515 },
+    { name: "DeepSeek V3", note: "", en: 4221, fr: 5913 },
+    { name: "Qwen 3", note: "", en: 4208, fr: 5930 },
+    { name: "Meta Llama 3", note: "", en: 4207, fr: 5977 },
+    { name: "OpenAI cl100k", note: "GPT-4", en: 4208, fr: 5982 },
+    { name: "Claude 1 et 2", noteEn: "old, not Claude 3+", noteFr: "ancien, pas Claude 3+", en: 4364, fr: 6707, legacy: true },
+  ];
+
+  const TEMPLATES = [
+    {
+      id: "daily",
+      label: { fr: "Au quotidien", en: "Everyday" },
+      hint: { fr: "Une demande de tous les jours", en: "A plain everyday request" },
+      en: "Can you remind me to call the dentist tomorrow morning before work?",
+      fr: "Tu peux me rappeler d’appeler le dentiste demain matin avant le travail ?",
+    },
+    {
+      id: "prompt",
+      label: { fr: "Une consigne à une IA", en: "An instruction to an AI" },
+      hint: { fr: "Ce qu’on tape dans un chat", en: "What you type into a chat" },
+      en: "Summarise this email in three bullet points, then suggest a short, polite reply that accepts the meeting but asks to move it to Thursday.",
+      fr: "Résume cet e-mail en trois points, puis propose une réponse courte et polie qui accepte la réunion mais demande de la déplacer à jeudi.",
+    },
+    {
+      id: "skill",
+      label: { fr: "Un extrait de skill CADRER", en: "A CADRER skill excerpt" },
+      hint: { fr: "Le début de « choisir »", en: "The opening of “ideate”" },
+      en: "You are helping decide *what* to build, not *how*. This session ends with one file and no code; create nothing else. Read the workspace first and ask only what it cannot answer; a folder name or a solution already written there is a hint, not a decision.\n\nStart with the problem, solutions banned. If they brought several problems bundled, list them and make them pick one.",
+      fr: "Tu aides à décider *quoi* construire, pas *comment*. Cette séance se termine par un seul fichier et aucun code ; ne crée rien d’autre. Lis d’abord l’espace de travail et ne demande que ce qu’il ne peut pas te dire ; un nom de dossier ou une solution déjà écrite est un indice, pas une décision.\n\nCommence par le problème, solutions interdites. Si la personne a apporté plusieurs problèmes mêlés, liste-les et fais-lui en choisir un.",
+    },
+  ];
+
+  const STRINGS = {
+    fr: {
+      title: 'Le prix du <span class="fr-word">français</span>',
+      lede: "Une IA ne lit pas des mots\u00a0: elle lit des morceaux de texte, appelés <em>jetons</em>. Chaque jeton se paie — en argent, et en place dans sa mémoire. Écris la même phrase en anglais et en français, et compte.",
+      templatesLabel: "Essaie un exemple, ou écris le tien plus bas",
+      run: "Lancer →",
+      english: "Anglais", french: "Français", tokens: "jetons",
+      fromFrench: "Traduire depuis le français", fromEnglish: "Traduire depuis l’anglais",
+      translating: "Traduction…",
+      cutWith: "Découpé par", recent: "Récent", older: "Plus ancien",
+      chars: (n) => `${n} caractères`,
+      loading: "Chargement du compteur (environ 3 Mo, une seule fois)…",
+      loadFailed: "Le compteur n’a pas pu se charger. Vérifie ta connexion, puis recharge la page.",
+      empty: "Écris quelque chose au-dessus.",
+      more: (n) => ` … et ${n} jetons de plus`,
+      multi: "plusieurs jetons pour un seul caractère",
+      waiting: "Écris dans les deux cases pour comparer.",
+      more_: (p) => `En français, ce texte coûte <b>${p}</b> de jetons en plus.`,
+      less_: (p) => `En français, ce texte coûte <b>${p}</b> de jetons en moins.`,
+      same_: "Les deux langues coûtent autant de jetons ici.",
+      scale: (en, fr) => `Pour ${en} jetons en anglais, compte environ ${fr} en français.`,
+      barTitleRecent: "Récent · GPT-4o, GPT-5",
+      barTitleOlder: "Plus ancien · GPT-4, Llama 3",
+      measuredTitle: "Et sur de vrais textes longs\u00a0?",
+      measuredLede: "Les 6 skills CADRER entiers — environ 18\u00a0000 caractères d’instructions — passés dans 8 tokenizers publics. Le point montre combien de jetons le français coûte pour 1 jeton en anglais.",
+      plotCaption: "Anglais ≈ 4 200 jetons partout. Version française : une traduction de travail, au tutoiement. La zone rosée couvre les tokenizers actuels.",
+      n1t: "Et Claude\u00a0?",
+      n1: "Le découpeur de Claude n’est pas public. Anthropic offre un compteur exact, mais il demande une clé d’API. Ici, on mesure avec les découpeurs publics : dans tous ceux testés, l’anglais coûte moins cher.",
+      n2t: "Pourquoi le français coûte plus",
+      n2: "Deux raisons. La phrase est plus longue — articles, prépositions, terminaisons. Et les découpeurs ont surtout appris sur de l’anglais : un mot anglais courant tient souvent en un jeton, un mot français se coupe plus souvent, surtout autour des accents.",
+      n3t: "Ce qui reste sur ton ordinateur",
+      n3: "Le comptage se fait dans ton navigateur : ce que tu écris n’est envoyé nulle part. Seul le bouton « Traduire », quand il est là, envoie le texte à Claude avec ton accord.",
+      translateErrors: {
+        not_granted: "Traduction refusée. Tu peux écrire la version toi-même.",
+        rate_limited: "Trop de traductions d’un coup. Réessaie dans une minute.",
+        default: "La traduction n’a pas marché. Écris la version toi-même, ou réessaie plus tard.",
+      },
+      translateNote: "Traduit par Claude — corrige-le si tu le dirais autrement.",
+      uiGroup: "Langue de la page",
+    },
+    en: {
+      title: 'The price of <span class="fr-word">French</span>',
+      lede: "An AI doesn’t read words: it reads chunks of text called <em>tokens</em>. Every token costs — in money, and in room in its memory. Write the same sentence in English and in French, and count.",
+      templatesLabel: "Try an example, or write your own below",
+      run: "Run →",
+      english: "English", french: "French", tokens: "tokens",
+      fromFrench: "Translate from French", fromEnglish: "Translate from English",
+      translating: "Translating…",
+      cutWith: "Cut by", recent: "Recent", older: "Older",
+      chars: (n) => `${n} characters`,
+      loading: "Loading the counter (about 3 MB, once)…",
+      loadFailed: "The counter couldn’t load. Check your connection, then reload the page.",
+      empty: "Write something above.",
+      more: (n) => ` … and ${n} more tokens`,
+      multi: "several tokens for a single character",
+      waiting: "Write in both boxes to compare.",
+      more_: (p) => `In French, this text costs <b>${p}</b> more tokens.`,
+      less_: (p) => `In French, this text costs <b>${p}</b> fewer tokens.`,
+      same_: "Both languages cost the same number of tokens here.",
+      scale: (en, fr) => `For every ${en} tokens in English, expect about ${fr} in French.`,
+      barTitleRecent: "Recent · GPT-4o, GPT-5",
+      barTitleOlder: "Older · GPT-4, Llama 3",
+      measuredTitle: "And on real, long texts?",
+      measuredLede: "All 6 CADRER skills — about 18,000 characters of instructions — run through 8 public tokenizers. Each dot shows how many French tokens you pay for 1 English token.",
+      plotCaption: "English ≈ 4,200 tokens everywhere. French version: a working translation, in the informal “tu”. The pink band covers today’s tokenizers.",
+      n1t: "What about Claude?",
+      n1: "Claude’s tokenizer isn’t public. Anthropic offers an exact counter, but it needs an API key. So this page measures with the public ones: in every one tested, English costs less.",
+      n2t: "Why French costs more",
+      n2: "Two reasons. The sentence is longer — articles, prepositions, endings. And tokenizers learned mostly from English: a common English word often fits in one token, while a French word gets cut more often, especially around accents.",
+      n3t: "What stays on your computer",
+      n3: "Counting happens in your browser: what you type is sent nowhere. Only the “Translate” button, when it shows, sends the text to Claude, with your permission.",
+      translateErrors: {
+        not_granted: "Translation declined. You can write the other version yourself.",
+        rate_limited: "Too many translations at once. Try again in a minute.",
+        default: "The translation didn’t work. Write the other version yourself, or try again later.",
+      },
+      translateNote: "Translated by Claude — fix it if you’d say it differently.",
+      uiGroup: "Page language",
+    },
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const state = { ui: "fr", tok: "o200k", template: "skill", ready: {}, failed: false };
+  const text = { en: $("text-en"), fr: $("text-fr") };
+  let sample = null;
+
+  const t = (key) => STRINGS[state.ui][key];
+  const locale = () => (state.ui === "fr" ? "fr-CA" : "en-CA");
+  const fmt = (n, digits = 0) => new Intl.NumberFormat(locale(), { maximumFractionDigits: digits, minimumFractionDigits: digits }).format(n);
+  const pct = (r) => new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 0 }).format(Math.abs(r - 1));
+  const times = (r) => `${fmt(r, 2)}×`;
+
+  // Decode token by token. A character split over several tokens decodes as "" until its last
+  // byte arrives, so empty pieces fold into the next one and the chip keeps the real count.
+  function cut(enc, value) {
+    const ids = enc.encode(value);
+    const pieces = [];
+    let pending = 0;
+    for (const id of ids) {
+      const piece = enc.decode([id]);
+      pending += 1;
+      if (piece === "") continue;
+      pieces.push({ text: piece, n: pending });
+      pending = 0;
+    }
+    if (pending) pieces.push({ text: "", n: pending });
+    return { count: ids.length, pieces };
+  }
+
+  const CHIP_LIMIT = 700;
+  function renderChips(el, result) {
+    el.classList.remove("loading");
+    el.replaceChildren();
+    if (!result.count) {
+      el.classList.add("loading");
+      el.textContent = t("empty");
+      return;
+    }
+    let shown = 0;
+    let index = 0;
+    for (const p of result.pieces) {
+      if (shown >= CHIP_LIMIT) break;
+      const chip = document.createElement("span");
+      chip.className = (index++) % 2 ? "chip alt" : "chip";
+      const parts = p.text.split(/( |\n)/);
+      let breaks = 0;
+      for (const part of parts) {
+        if (part === " ") {
+          const s = document.createElement("span");
+          s.className = "sp";
+          s.textContent = "·";
+          chip.append(s);
+        } else if (part === "\n") {
+          const s = document.createElement("span");
+          s.className = "sp";
+          s.textContent = "↵";
+          chip.append(s);
+          breaks += 1;
+        } else if (part) {
+          chip.append(part);
+        }
+      }
+      if (p.n > 1) {
+        const sub = document.createElement("sub");
+        sub.textContent = p.n;
+        sub.title = t("multi");
+        chip.append(sub);
+      }
+      el.append(chip);
+      for (let i = 0; i < breaks; i++) el.append(document.createElement("br"));
+      shown += p.n;
+    }
+    if (result.count > shown) {
+      const more = document.createElement("span");
+      more.className = "chips-more";
+      more.textContent = t("more")(fmt(result.count - shown));
+      el.append(more);
+    }
+  }
+
+  function counts(tok) {
+    const enc = state.ready[tok];
+    if (!enc) return null;
+    return { en: cut(enc, text.en.value), fr: cut(enc, text.fr.value) };
+  }
+
+  function render() {
+    for (const lang of ["en", "fr"]) {
+      const n = [...text[lang].value].length;
+      $("chars-" + lang).textContent = n ? "· " + t("chars")(fmt(n)) : "";
+    }
+    if (state.failed) {
+      for (const lang of ["en", "fr"]) {
+        $("chips-" + lang).className = "chips loading";
+        $("chips-" + lang).textContent = t("loadFailed");
+      }
+      return;
+    }
+    const main = counts(state.tok);
+    if (!main) {
+      for (const lang of ["en", "fr"]) {
+        $("chips-" + lang).className = "chips loading";
+        $("chips-" + lang).textContent = t("loading");
+        $("count-" + lang).textContent = "–";
+      }
+      renderVerdict({});
+      return;
+    }
+    for (const lang of ["en", "fr"]) {
+      $("count-" + lang).textContent = fmt(main[lang].count);
+      renderChips($("chips-" + lang), main[lang]);
+    }
+    renderVerdict({ o200k: state.tok === "o200k" ? main : counts("o200k"), cl100k: state.tok === "cl100k" ? main : counts("cl100k") });
+  }
+
+  function renderVerdict(all) {
+    const main = all[state.tok];
+    const big = $("big");
+    big.className = "big num";
+    if (!main || !main.en.count || !main.fr.count) {
+      big.textContent = "–";
+      $("verdict-text").textContent = main ? t("waiting") : "";
+      $("verdict-scale").textContent = "";
+    } else {
+      const r = main.fr.count / main.en.count;
+      const rounded = Math.round((r - 1) * 100);
+      if (rounded > 0) {
+        big.classList.add("more");
+        big.textContent = `+${pct(r)}`;
+        $("verdict-text").innerHTML = t("more_")(pct(r));
+      } else if (rounded < 0) {
+        big.classList.add("less");
+        big.textContent = `−${pct(r)}`;
+        $("verdict-text").innerHTML = t("less_")(pct(r));
+      } else {
+        big.textContent = "±0\u00a0%";
+        $("verdict-text").textContent = t("same_");
+      }
+      $("verdict-scale").textContent = t("scale")(fmt(1000), fmt(Math.round(r * 1000)));
+    }
+
+    const bars = $("bars");
+    bars.replaceChildren();
+    for (const tok of ["o200k", "cl100k"]) {
+      const c = all[tok];
+      if (!c) continue;
+      const max = Math.max(c.en.count, c.fr.count, 1);
+      const group = document.createElement("div");
+      group.className = "bar-group";
+      const ratio = c.en.count && c.fr.count ? times(c.fr.count / c.en.count) : "";
+      group.innerHTML = `<div class="bar-title"><span></span><span class="ratio num"></span></div>`;
+      group.querySelector(".bar-title span").textContent = t(tok === "o200k" ? "barTitleRecent" : "barTitleOlder");
+      group.querySelector(".ratio").textContent = ratio;
+      for (const lang of ["en", "fr"]) {
+        const row = document.createElement("div");
+        row.className = `bar ${lang}`;
+        row.innerHTML = `<span class="code">${lang.toUpperCase()}</span><span class="track"><span class="fill" style="display:block"></span></span><span class="val num"></span>`;
+        row.querySelector(".fill").style.width = `${(c[lang].count / max) * 100}%`;
+        row.querySelector(".val").textContent = fmt(c[lang].count);
+        group.append(row);
+      }
+      bars.append(group);
+    }
+  }
+
+  function renderPlot() {
+    const lo = 1.0, hi = 1.6;
+    const x = (r) => `${((r - lo) / (hi - lo)) * 100}%`;
+    const current = MEASURED.filter((m) => !m.legacy).map((m) => m.fr / m.en);
+    const bandLo = Math.min(...current), bandHi = Math.max(...current);
+    const plot = $("plot");
+    plot.replaceChildren();
+    for (const m of MEASURED) {
+      const r = m.fr / m.en;
+      const row = document.createElement("div");
+      row.className = "plot-row" + (m.legacy ? " legacy" : "");
+      const note = m.legacy ? (state.ui === "fr" ? m.noteFr : m.noteEn) : m.note;
+      row.innerHTML = `<div class="who"><b></b><span></span></div><div class="lane"><span class="range"></span><span class="dot"></span></div><div class="val num"></div>`;
+      row.querySelector(".who b").textContent = m.legacy && state.ui === "en" ? "Claude 1 and 2" : m.name;
+      row.querySelector(".who span").textContent = note;
+      const range = row.querySelector(".range");
+      range.style.left = x(bandLo);
+      range.style.width = `calc(${x(bandHi)} - ${x(bandLo)})`;
+      row.querySelector(".dot").style.left = x(r);
+      row.querySelector(".val").textContent = times(r);
+      row.title = `${fmt(m.en)} → ${fmt(m.fr)}`;
+      plot.append(row);
+    }
+    const axis = document.createElement("div");
+    axis.className = "plot-axis";
+    axis.innerHTML = `<span></span><div class="ticks"></div><span></span>`;
+    const ticks = axis.querySelector(".ticks");
+    for (let v = lo; v <= hi + 1e-9; v += 0.1) {
+      const s = document.createElement("span");
+      s.style.left = x(v);
+      s.textContent = times(v);
+      if (v > hi - 0.05) s.style.transform = "translateX(-100%)";
+      ticks.append(s);
+    }
+    plot.append(axis);
+  }
+
+  function renderTemplates() {
+    const row = $("template-row");
+    row.replaceChildren();
+    for (const tpl of TEMPLATES) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "template";
+      b.id = "template-" + tpl.id;
+      b.setAttribute("aria-pressed", String(state.template === tpl.id));
+      b.innerHTML = `<strong></strong><span></span><span class="run"></span>`;
+      b.querySelector("strong").textContent = tpl.label[state.ui];
+      b.querySelector("span").textContent = tpl.hint[state.ui];
+      b.querySelector(".run").textContent = t("run");
+      b.addEventListener("click", () => loadTemplate(tpl.id));
+      row.append(b);
+    }
+  }
+
+  function loadTemplate(id) {
+    const tpl = TEMPLATES.find((x) => x.id === id);
+    state.template = id;
+    text.en.value = tpl.en;
+    text.fr.value = tpl.fr;
+    $("note-en").textContent = "";
+    $("note-fr").textContent = "";
+    renderTemplates();
+    render();
+  }
+
+  function applyUi() {
+    document.documentElement.lang = state.ui === "fr" ? "fr" : "en";
+    document.title = state.ui === "fr" ? "Le prix du français" : "The price of French";
+    for (const el of document.querySelectorAll("[data-i18n]")) el.textContent = t(el.dataset.i18n);
+    for (const el of document.querySelectorAll("[data-i18n-html]")) el.innerHTML = t(el.dataset.i18nHtml);
+    for (const b of document.querySelectorAll("[data-ui]")) b.setAttribute("aria-pressed", String(b.dataset.ui === state.ui));
+    document.querySelector(".ui-lang").setAttribute("aria-label", t("uiGroup"));
+    renderTemplates();
+    renderPlot();
+    render();
+  }
+
+  let pendingRender = 0;
+  for (const lang of ["en", "fr"]) {
+    text[lang].addEventListener("input", () => {
+      if (state.template) {
+        state.template = null;
+        renderTemplates();
+      }
+      $("note-" + lang).textContent = "";
+      clearTimeout(pendingRender);
+      pendingRender = setTimeout(render, 90);
+    });
+  }
+  for (const b of document.querySelectorAll("[data-ui]")) {
+    b.addEventListener("click", () => { state.ui = b.dataset.ui; applyUi(); });
+  }
+  for (const b of document.querySelectorAll("[data-tok]")) {
+    b.addEventListener("click", () => {
+      state.tok = b.dataset.tok;
+      for (const o of document.querySelectorAll("[data-tok]")) o.setAttribute("aria-pressed", String(o === b));
+      render();
+    });
+  }
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.async = true;
+      s.onload = resolve;
+      s.onerror = () => reject(new Error(src));
+      document.head.append(s);
+    });
+  }
+  for (const [name, spec] of Object.entries(TOKENIZERS)) {
+    loadScript(spec.src)
+      .then(() => {
+        state.ready[name] = globalThis[spec.global];
+        render();
+      })
+      .catch(() => {
+        if (name === state.tok || !Object.keys(state.ready).length) state.failed = true;
+        render();
+      });
+  }
+
+  // Translation: only inside a Claude viewer that can ask Claude; hidden everywhere else.
+  async function setupTranslate() {
+    if (!window.claude?.use) return;
+    sample = await window.claude.use("sample");
+    if (!sample) return;
+    for (const lang of ["en", "fr"]) {
+      const button = $("translate-" + lang);
+      button.hidden = false;
+      button.addEventListener("click", () => translate(lang, button));
+    }
+  }
+
+  async function translate(target, button) {
+    const source = target === "fr" ? "en" : "fr";
+    const input = text[source].value.trim();
+    const note = $("note-" + target);
+    note.classList.remove("error");
+    if (!input) {
+      text[source].focus();
+      return;
+    }
+    const buttons = document.querySelectorAll(".translate");
+    buttons.forEach((b) => (b.disabled = true));
+    const label = button.textContent;
+    button.textContent = t("translating");
+    note.textContent = "";
+    const instruction = target === "fr"
+      ? 'Translate the text inside <text> into natural French, using the informal "tu" register.'
+      : "Translate the text inside <text> into natural English.";
+    try {
+      const { text: out } = await sample(
+        `${instruction} Keep the meaning, the tone, the line breaks and any *emphasis* marks. Reply with the translation only: no quotes, no notes.\n\n<text>\n${input}\n</text>`,
+        { modelTier: "quick", onText: ({ text: so }) => { text[target].value = so; } },
+      );
+      text[target].value = out.trim();
+      state.template = null;
+      renderTemplates();
+      note.textContent = t("translateNote");
+    } catch (e) {
+      note.classList.add("error");
+      const errors = t("translateErrors");
+      note.textContent = errors[e?.code] ?? errors.default;
+      if (e?.code === "not_granted") $("translate-en").hidden = $("translate-fr").hidden = true;
+    } finally {
+      buttons.forEach((b) => (b.disabled = false));
+      button.textContent = label;
+      render();
+    }
+  }
+
+  loadTemplate(state.template);
+  applyUi();
+  setupTranslate();
+})();
+</script>
