@@ -24,9 +24,11 @@ pick from, and a French/English switch for the page itself.
 | --- | --- |
 | `index.html` | The whole page, written as a page body — the form Claude Artifacts publish |
 | `build.sh` | Wraps `index.html` into `dist/index.html`, a full document for any other static host |
+| `deploy.sh` | Builds, then force-pushes `dist/` as the `gh-pages` branch |
 
 ## Publish
 
-- **As a Claude Artifact:** publish `index.html` with `capabilities: {sample: {}}` so the translate button can
+- **GitHub Pages** — https://karnonson.github.io/prix-du-francais/ — run `./deploy.sh` after committing.
+  Pages serves the `gh-pages` branch, so `main` stays source only. No translate button there.
+- **Claude Artifact** — publish `index.html` with `capabilities: {sample: {}}` so the translate button can
   appear.
-- **Anywhere else:** run `./build.sh`, then serve `dist/`.
