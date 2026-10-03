@@ -64,7 +64,7 @@ En tant que francophone qui utilise des skills, je veux écrire moi-même les de
 
 - Que se passe-t-il quand le compteur de jetons ne se charge pas (pas d'internet) ? Le jeu ne démarre pas, et la page dit pourquoi : « le compteur n'a pas pu se charger », avec de quoi recharger la page.
 - Que se passe-t-il quand je touche deux fois de suite la même phrase ? La réponse ne compte qu'une fois.
-- Que se passe-t-il quand je mets du temps à répondre ? [À PRÉCISER : temps pour répondre → Q2]
+- Que se passe-t-il quand je mets du temps à répondre ? Rien : il n'y a pas de limite, le défi attend ; seul le bonus de rapidité diminue, jusqu'à zéro, et ma bonne réponse compte quand même.
 - Que se passe-t-il quand je tourne mon téléphone ou que l'écran est étroit ? Les phrases, les blocs et les barres restent lisibles sans défilement latéral.
 
 ## Exigences

@@ -10,7 +10,7 @@
 - Options : 10 secondes | 20 secondes | sans limite, la rapidité ne fait que le bonus
 - Effets : change la pression ressentie sur téléphone
 - Conseil : sans limite, rapidité en bonus — pas de défi raté par le temps
-- Réponse :
+- Réponse : sans limite, la rapidité ne fait que le bonus (A)
 
 ## Q3 · spec · Quelle longueur maximale pour une phrase composée ?
 - Options : 140 caractères | 280 caractères | 500 caractères
