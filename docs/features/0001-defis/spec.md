@@ -55,7 +55,7 @@ En tant que francophone qui utilise des skills, je veux écrire moi-même les de
 1. **Étant donné** l'accueil, **quand** je touche « Composer mon défi », **alors** je vois deux champs, un pour la phrase française et un pour l'anglaise, chacun avec son étiquette, et rien n'est traduit pour moi.
 2. **Étant donné** deux phrases écrites, **quand** je touche « Jouer ce défi », **alors** je joue ce défi comme les autres : je choisis la phrase la plus chère, puis je vois la révélation (blocs colorés, barres).
 3. **Étant donné** un champ vide ou fait seulement d'espaces, **quand** je touche « Jouer ce défi », **alors** on me dit quel champ est à remplir, et le défi ne démarre pas.
-4. **Étant donné** une phrase plus longue que la limite [À PRÉCISER : longueur maximale → Q3], **quand** je touche « Jouer ce défi », **alors** on me dit que la phrase est trop longue et de combien, et le défi ne démarre pas ; ce que j'ai écrit reste dans le champ.
+4. **Étant donné** une phrase plus longue que 280 caractères, **quand** je touche « Jouer ce défi », **alors** on me dit que la phrase est trop longue et de combien, et le défi ne démarre pas ; ce que j'ai écrit reste dans le champ.
 5. **Étant donné** une phrase qui ressemble à du code (par exemple des balises), **quand** je joue le défi, **alors** elle s'affiche telle que je l'ai écrite, sans être interprétée.
 
 ---
@@ -79,7 +79,7 @@ En tant que francophone qui utilise des skills, je veux écrire moi-même les de
 - **EF8** : L'écran final DOIT montrer le score, des animations amusantes, et un bouton qui relance tout de suite une partie. (US2, scénarios 1 et 2)
 - **EF9** : Les animations DOIVENT être absentes quand l'appareil demande moins de mouvement. (US2, scénario 3)
 - **EF10** : Je DOIS pouvoir écrire les deux phrases d'un défi moi-même ; l'appli ne traduit rien. (US3, scénario 1)
-- **EF11** : Une phrase composée vide, faite d'espaces, ou plus longue que la limite DOIT être refusée avant de jouer, avec un message clair qui dit quoi corriger. (US3, scénarios 3 et 4)
+- **EF11** : Une phrase composée vide, faite d'espaces, ou plus longue que 280 caractères DOIT être refusée avant de jouer, avec un message clair qui dit quoi corriger. (US3, scénarios 3 et 4)
 - **EF12** : Ce que j'écris DOIT s'afficher tel quel, jamais interprété comme du code ou de la mise en forme. (US3, scénario 5)
 - **EF13** : Fermer la page en pleine partie DOIT perdre la partie, et l'appli ne DOIT rien garder de ce que j'ai joué ni écrit. (US1, scénario 5)
 - **EF14** : Si le compteur de jetons ne se charge pas, le jeu NE DOIT PAS démarrer et la page DOIT le dire. (Cas limites)

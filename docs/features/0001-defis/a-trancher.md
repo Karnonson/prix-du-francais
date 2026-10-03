@@ -16,4 +16,4 @@
 - Options : 140 caractères | 280 caractères | 500 caractères
 - Effets : change ce qu'on peut comparer, et le risque de saisie énorme
 - Conseil : 280 caractères — une phrase ou deux
-- Réponse :
+- Réponse : 280 caractères (conseil)
