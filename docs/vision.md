@@ -1,4 +1,4 @@
-# Le prix du français — vision
+# Tokenette — vision
 ## Pour qui
 🇫🇷 Cette application s'adresse à des francophones qui utilisent mes skills et se demandent pourquoi le corps est en anglais alors que je leur parle en français.
 ## Problème

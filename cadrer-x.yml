@@ -1,0 +1,4 @@
+name: prix-du-francais
+docs: docs
+commands:
+  checks: [./build.sh]
