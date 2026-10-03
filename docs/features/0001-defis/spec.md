@@ -2,7 +2,7 @@
 
 **Branche** : `feature/defis`
 **Créée** : 2026-10-03
-**Statut** : brouillon
+**Statut** : validée
 **Source** : `idee.md`, `decisions.md`
 
 ## Récits
@@ -110,8 +110,8 @@ En tant que francophone qui utilise des skills, je veux écrire moi-même les de
 
 ## Vérifs
 
-- [ ] Chaque récit nomme une personne de `idee.md` et pourquoi ça compte pour elle ? (US1, US2, US3)
-- [ ] Chaque scénario se vérifie par quelqu'un qui ne code pas, en faisant et en regardant ? (US1, US2, US3)
-- [ ] Chaque décision de `decisions.md` apparaît dans un récit ou sous Pas encore ? (US1, US2, US3)
-- [ ] Qui peut voir, changer ou télécharger chaque donnée personnelle est dit ? (aucune donnée personnelle : rien n'est gardé, EF13)
-- [ ] Chaque point ouvert est tranché, supposé, ou posé dans `a-trancher.md` avec un conseil ? (US2, US3)
+- [x] Chaque récit nomme une personne de `idee.md` et pourquoi ça compte pour elle ? (US1, US2, US3)
+- [x] Chaque scénario se vérifie par quelqu'un qui ne code pas, en faisant et en regardant ? (US1, US2, US3)
+- [x] Chaque décision de `decisions.md` apparaît dans un récit ou sous Pas encore ? (US1, US2, US3)
+- [x] Qui peut voir, changer ou télécharger chaque donnée personnelle est dit ? (aucune donnée personnelle : rien n'est gardé, EF13)
+- [x] Chaque point ouvert est tranché, supposé, ou posé dans `a-trancher.md` avec un conseil ? (US2, US3)
