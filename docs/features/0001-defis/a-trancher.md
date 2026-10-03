@@ -4,7 +4,7 @@
 - Options : points fixes par bonne réponse + bonus de rapidité | points qui baissent avec le temps | bonne réponse seule + départage par le temps
 - Effets : change ce que le visiteur comprend de son score final
 - Conseil : points fixes + bonus de rapidité — simple à expliquer sur l'écran final
-- Réponse :
+- Réponse : points fixes par bonne réponse + bonus de rapidité (A)
 
 ## Q2 · spec · Combien de temps pour répondre à un défi ?
 - Options : 10 secondes | 20 secondes | sans limite, la rapidité ne fait que le bonus

@@ -35,7 +35,7 @@ En tant que propriétaire, je veux voir mon score à la fin de la partie, avec u
 
 **Scénarios** :
 
-1. **Étant donné** que j'ai répondu au 5e défi, **quand** j'arrive à l'écran final, **alors** je vois mon score, calculé sur mes bonnes réponses et ma rapidité [À PRÉCISER : façon de calculer le score → Q1], le nombre de bonnes réponses sur 5, et des animations amusantes.
+1. **Étant donné** que j'ai répondu au 5e défi, **quand** j'arrive à l'écran final, **alors** je vois mon score, fait de points fixes pour chaque bonne réponse, plus un bonus quand j'ai répondu vite, et je vois comment il s'est formé (points des bonnes réponses, bonus de rapidité), le nombre de bonnes réponses sur 5, et des animations amusantes.
 2. **Étant donné** l'écran final, **quand** je touche « Rejouer », **alors** une nouvelle partie de 5 défis démarre aussitôt, sans repasser par l'accueil.
 3. **Étant donné** que mon appareil demande moins de mouvement, **quand** j'arrive à l'écran final (ou à une révélation), **alors** il n'y a aucune animation : le score et les barres s'affichent tout de suite, sans perdre d'information.
 4. **Étant donné** une partie où j'ai tout faux, **quand** j'arrive à l'écran final, **alors** je vois un score bas, sans moquerie, et le bouton « Rejouer ».
@@ -75,7 +75,7 @@ En tant que francophone qui utilise des skills, je veux écrire moi-même les de
 - **EF4** : Les nombres de jetons DOIVENT être les mêmes que ceux du compteur de la page. (US1, scénario 2)
 - **EF5** : Deux phrases au même nombre de jetons DOIVENT donner « égalité », ni bonne ni mauvaise réponse. (US1, scénario 3)
 - **EF6** : Les défis proposés DOIVENT venir d'une liste écrite à la main dans la page. (US1, scénario 1)
-- **EF7** : Le score DOIT tenir compte des bonnes réponses et de la rapidité [À PRÉCISER : façon de calculer le score → Q1]. (US2, scénario 1)
+- **EF7** : Le score DOIT donner des points fixes par bonne réponse, plus un bonus de rapidité, et l'écran final DOIT séparer les deux ; une réponse fausse ou une égalité ne rapporte aucun point. (US2, scénario 1)
 - **EF8** : L'écran final DOIT montrer le score, des animations amusantes, et un bouton qui relance tout de suite une partie. (US2, scénarios 1 et 2)
 - **EF9** : Les animations DOIVENT être absentes quand l'appareil demande moins de mouvement. (US2, scénario 3)
 - **EF10** : Je DOIS pouvoir écrire les deux phrases d'un défi moi-même ; l'appli ne traduit rien. (US3, scénario 1)
