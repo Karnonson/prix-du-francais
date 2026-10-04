@@ -10,7 +10,6 @@
 - écrans : oui
 - code : oui
 - données : non
-- voie : courte (demandé après la spec : fonctionnalité trop petite pour la maquette cliquable ; les détails visuels se décident en codant)
 ## Précisions
 - Q : Le jeu et le comparateur restent visibles ensemble, ou bascule avec retour ? → R : bascule en vue unique, avec un bouton retour.
 - Q : Faut-il une phrase avant chaque bouton du choix ? → R : oui, un bloc avec icône, titre et phrase par option.
