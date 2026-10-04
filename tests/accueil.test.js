@@ -8,7 +8,7 @@ import assert from "node:assert/strict";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 import { lireIndex, lireReadme, estCachee, texteEtat, premierTitreReadme, titreH1 } from "./aide/accueil.js";
-import { creerDocument } from "./aide/page.js";
+import { creerDocument, attendre } from "./aide/page.js";
 
 test("étant donné que j'ouvre le site, quand la page se charge, alors je vois le titre « Tokenette », l'explication du jeton, puis les deux blocs Jouer et Comparer", () => {
   const accueil = texteEtat(lireIndex(), "accueil", "jeu");
@@ -126,4 +126,25 @@ test("étant donné l'accueil affiché, quand je touche deux fois de suite « Jo
   assert.equal(etat(document, "jeu").hidden, false, "je reste sur le jeu");
   assert.equal(etat(document, "accueil").hidden, true);
   assert.equal(etat(document, "comparateur").hidden, true);
+});
+
+// --- T03 ---------------------------------------------------------------
+
+test("étant donné que je suis en pleine partie de défis, quand je touche « Retour à l'accueil », alors la partie est perdue, comme si je fermais la page, et je repars de l'accueil", async () => {
+  const document = await monterAccueil();
+
+  boutonGoto(document, "jeu").click();
+  await attendre(0);
+  // Ce que seul le jeu connaît : une partie en cours, opaque à main.js (D5). Elle doit disparaître au
+  // retour, comme si la page avait été fermée — jamais survivre à un « Jouer » suivant.
+  const jeu = document.getElementById("jeu");
+  jeu.textContent = "partie simulée en cours";
+
+  boutonGoto(document, "accueil").click();
+  await attendre(0);
+
+  assert.ok(
+    !jeu.textContent.includes("partie simulée en cours"),
+    "la partie en cours ne doit pas survivre au retour à l'accueil",
+  );
 });

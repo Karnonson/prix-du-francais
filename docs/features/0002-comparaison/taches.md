@@ -68,8 +68,8 @@ jamais les deux usages en même temps.
   Fichiers : src/main.js, tests/accueil.test.js
   Après : T01
   Taille : S
-- [ ] T03 [US2] Perdre la partie en cours en revenant à l'accueil
-  - [ ] Étant donné que je suis en pleine partie de défis, quand je touche « Retour à l'accueil », alors la partie est perdue, comme si je fermais la page, et je repars de l'accueil.
+- [x] T03 [US2] Perdre la partie en cours en revenant à l'accueil
+  - [x] Étant donné que je suis en pleine partie de défis, quand je touche « Retour à l'accueil », alors la partie est perdue, comme si je fermais la page, et je repars de l'accueil.
   Exigences : EF5
   Risques : aucun — remonter le jeu ne touche qu'à son propre état en mémoire, rien d'externe
   Fichiers : src/main.js, tests/accueil.test.js

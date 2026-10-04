@@ -11,8 +11,14 @@ const sections = new Map(
 );
 let etatActuel = "accueil";
 
+// Quitter le jeu perd la partie en cours, comme fermer la page (EF5) : remontée tout de suite par sa
+// seule entrée (monter()), jamais en touchant à son état interne (D5, risque — remonter le jeu ne
+// touche qu'à son propre état en mémoire, rien d'externe). No-op si le jeu ne s'est pas chargé.
+let remonterJeu = () => {};
+
 function basculer(etat) {
   if (etat === etatActuel || !sections.has(etat)) return;
+  if (etatActuel === "jeu" && etat !== "jeu") remonterJeu();
   for (const [nom, section] of sections) section.hidden = nom !== etat;
   etatActuel = etat;
 }
@@ -30,4 +36,5 @@ try {
     import("./modules/jeu/api.js"),
   ]);
   monter(document.getElementById("jeu"), creerCompteur());
+  remonterJeu = () => monter(document.getElementById("jeu"), creerCompteur());
 } catch {}
