@@ -2,26 +2,30 @@
 
 ## US3 Composer mon propre défi
 
-**Tour** : 1
+**Tour** : 2
 **Date** : 2026-10-03
-**Verdict** : à corriger
+**Verdict** : validé
 
 ### Spec
 
-- Bloquant : src/modules/jeu/ui/jeu.js:72 `onclick: () => contexte.composer()` — contraire : « Composer mon défi » reste touchable tant que le compteur charge (ni prêt, ni en échec), alors que `compter` rend `null` (src/modules/compteur/api.js:49) ; `juger` lit `fr.nombre` sur `null` (src/modules/jeu/jugement.js:6) et l'erreur est avalée par le `.catch` de src/modules/jeu/api.js:18, qui vide l'emplacement ; une personne sur une connexion lente écrit ses deux phrases, touche « Jouer ce défi », choisit une phrase, et tout le jeu disparaît sans un mot (rejoué : après le choix, `el.textContent` vaut `""`) ; correction : à l'accueil, faire attendre « Composer mon défi » comme « C'est parti » (EF14), ou ne montrer la révélation qu'une fois `pret()` vrai ; ajouter un task avec un test « compteur pas prêt, défi composé joué » (aujourd'hui tous les tests de composer et de jouer seul utilisent `compteurParMots`, toujours prêt)
-- Info : scénarios 1, 3, 4 et 5 faits et prouvés par tests/modules/jeu/composer.test.js, saisie.test.js et jouer-seul.test.js ; casser la limite (`>` en `>=`), le `trim()`, le segmenteur de graphèmes ou l'insertion en texte (`innerHTML`) fait chaque fois échouer un test
+- Corrigé : « Composer mon défi » touchable pendant que le compteur charge, révélation d'un défi composé sur `null` — src/modules/jeu/ui/jeu.js:35 `demander("composer")` : le bouton attend (`aria-busy`), l'écran composer s'ouvre dès que le compteur est prêt (jeu.js:49), une seule fois, et rien ne s'ouvre si le compteur échoue ; prouvé par quatre tests de tests/modules/jeu/compteur.test.js (pas prêt, prêt, touches répétées, échec) ; la ligne `|| quoi === "composer"` ajoutée à la garde fait échouer trois tests, et `const quoi = "partie"` à la reprise en fait échouer deux
+- Info : les scénarios 1 à 5 restent faits et prouvés (tour 1) ; aucun test affaibli : l'ancien test « reste possible tant que le compteur charge » encodait le défaut et est remplacé par quatre tests du comportement voulu
 
 ### Règles
 
-- Détail : src/modules/jeu/ui/composer.js:24 `oninput` et src/modules/jeu/saisie.js:7 `caracteresVus` — le compteur « n / 280 caractères » segmente tout le texte à chaque frappe, sans plafond ; 5 millions de caractères collés coûtent environ 0,9 s par segmentation (mesuré) ; rien n'est découpé en jetons avant le refus, le risque d'abus est tenu ; correction : arrêter de compter à 281
-- Info : M2 tenue : toute saisie passe par `verifier` avant `jouerSeul`, et le texte n'est inséré que par `append` d'une chaîne (src/modules/jeu/ui/dom.js:11) ; M6 tenue : `jeu` n'importe pas `compteur`, il reçoit l'objet de `monter` ; aucun secret ; aucune donnée gardée
-- Info : textes de SC4 identiques à `contenu.md` (étiquettes, « n / 280 caractères », « ✋ Tu n'as pas écrit la phrase en français. », « ✂️ … dépasse la limite de 32 caractères. Coupe un peu. »)
+- Détail : src/modules/jeu/ui/jeu.js:35 `if (enAttente) return;` — la garde « une seule demande en attente » (toucher l'autre bouton pendant l'attente est ignoré, choix du commit) n'a aucun test : la retirer laisse les neuf tests verts ; ce qu'une personne y gagne ne change pas, une touche répétée du même bouton ne double rien ; correction : un test « C'est parti » puis « Composer mon défi » pendant l'attente
+- Détail : src/modules/jeu/saisie.js:7 `caracteresVus` — compteur de frappe sans plafond (tour 1), laissé par le correctif, sans effet sur le refus ; correction : arrêter de compter à 281
+- Info : tard — src/modules/jeu/api.js:18 `.catch(() => …)` vide l'emplacement pour toute erreur d'un écran sans trace ; le défaut qu'il cachait est corrigé en amont, reste une dette de diagnostic ; correction : ne vider que sur échec du `import`
+- Info : M2 et M6 tenues par le correctif (`jeu.js` ne lit le compteur que par l'objet du contexte) ; aucun secret ; `architecture.md`, `adr/` et `CHANGELOG.md` non touchés par le correctif (ils changent par le merge de main)
+
+### Correctifs
+
+- Info : T12, 24 lignes de code (jeu.js) et 41 de test ; rien d'autre ; le texte du bouton n'a pas changé (« Composer mon défi », contenu.md:14), `aria-busy` suit le style de « C'est parti » (jeu.css:25)
 
 ### Non jugé
 
-Vérifs : lancées — `./build.sh`, code de sortie 0, « tests 88, pass 88, fail 0 »
-Écrans : pas cliqués — SC1, SC2 et SC4 : le navigateur de l'outil est tenu par une autre session (« Browser is already in use ») ; SC1 et SC2 ont été cliqués au tour 1 de US1 ; SC4 vu par le code seulement : textes, étiquettes de champs, `aria-invalid`, `role="alert"`, cibles de 44 px
-- SC4 à 390 et à 1280 : défilement de côté et ordre de Tab non vérifiés, aucune capture `SC4-*.png`
+Vérifs : lancées — `./build.sh`, code de sortie 0, « tests 91, pass 91, fail 0 »
+Écrans : pas cliqués — tour 2 : seul le correctif est revu, par le code et les tests ; SC1 (état d’attente du bouton « Composer mon défi »), SC2 et SC4 n’ont pas été cliqués à 390 et à 1280, aucune capture `SC4-*.png`
 - Les textes anglais du jeu n'existent pas (`passation.md` → Ouvert)
 
 ## US2 Voir mon score et rejouer
