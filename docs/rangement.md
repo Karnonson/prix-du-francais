@@ -5,7 +5,7 @@
 
 ## Avant
 - Vérifs : `./build.sh` — tests 91, pass 91, fail 0
-- Écrans : à capturer (accueil en français, en anglais, découpeur « Plus ancien », à 390 et 1280 de large)
+- Écrans : aucun — la personne a dit de ne pas tester avec un navigateur ; la preuve : les tests de la page (`tests/modules/comparaison/`, faux document) et le second regard
 
 ## Modules
 - [ ] comparaison — la page : les exemples, les deux phrases découpées en jetons, le verdict et les barres, le choix du découpeur, la langue de la page, les mesures sur textes longs, le bouton « Traduire » — depuis : le `<script>` de `index.html` (lignes 343-808)
