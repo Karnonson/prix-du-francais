@@ -6,8 +6,10 @@
 
 ### accueil
 
-- Message : Une IA ne lit pas des mots. Elle lit des jetons, des morceaux de texte. Chaque jeton coûte de l’argent, et prend de la place dans sa mémoire. Pour dire la même chose, un texte en français demande presque toujours plus de jetons qu’en anglais.
-- Message : Tokenette te permet de connaître le coût en jetons d’une requête dans les deux langues. Elle te propose deux façons de le savoir, en jouant ou en comparant directement deux phrases.
+- Message : Une IA ne lit pas des mots. Elle lit des jetons, des morceaux de texte. Chaque jeton coûte de l’argent, et prend de la place dans sa mémoire.
+- Message : Pour dire la même chose, un texte en français demande presque toujours plus de jetons qu’en anglais.
+- Message : Tokenette te permet de connaître le coût en jetons d’une requête dans les deux langues.
+- Message : Elle te propose deux façons de le savoir, en jouant ou en comparant directement deux phrases.
 - Bloc : 🎮 Jouer — Devine en cinq défis quelle phrase coûte le plus de jetons. — Jouer →
 - Bloc : ⚖️ Comparer — Écris une phrase en français et en anglais, et vois l’écart de jetons. — Comparer →
 
