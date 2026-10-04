@@ -43,3 +43,9 @@ export function premierTitreReadme(html) {
   const ligne = html.split("\n").find((l) => l.startsWith("# "));
   return ligne ? ligne.slice(2).trim() : "";
 }
+
+// Le contenu du premier <h1> d'un texte d'état : pour vérifier le titre affiché lui-même, pas
+// n'importe où dans le bloc (un mot qui revient aussi dans un paragraphe ne doit pas suffire).
+export function titreH1(texteEtatHtml) {
+  return texteEtatHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? "";
+}

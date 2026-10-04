@@ -3,12 +3,12 @@
 // pas encore câblé.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { lireIndex, lireReadme, estCachee, texteEtat, premierTitreReadme } from "./aide/accueil.js";
+import { lireIndex, lireReadme, estCachee, texteEtat, premierTitreReadme, titreH1 } from "./aide/accueil.js";
 
 test("étant donné que j'ouvre le site, quand la page se charge, alors je vois le titre « Tokenette », l'explication du jeton, puis les deux blocs Jouer et Comparer", () => {
   const accueil = texteEtat(lireIndex(), "accueil", "jeu");
 
-  assert.match(accueil, /Token(?:<[^>]*>)?ette/, "le titre « Tokenette » manque");
+  assert.match(titreH1(accueil), /Token(?:<[^>]*>)?ette/, "le titre « Tokenette » manque du <h1>");
   assert.match(accueil, /Une IA ne lit pas des mots\. Elle lit des jetons, des morceaux de texte\. Chaque jeton coûte de l’argent, et prend de la place dans sa mémoire\./, "l'explication du jeton manque");
   assert.match(accueil, /Pour dire la même chose, un texte en français demande presque toujours plus de jetons qu’en anglais\./);
   assert.match(accueil, /Tokenette te permet de connaître le coût en jetons d’une requête dans les deux langues\./);
@@ -41,7 +41,7 @@ test("étant donné le dépôt, quand j'ouvre index.html et README.md, alors le 
   assert.equal(titreOnglet, "Tokenette");
   assert.doesNotMatch(titreOnglet ?? "", /Le prix du français/);
 
-  assert.match(accueil, /Token(?:<[^>]*>)?ette/);
+  assert.match(titreH1(accueil), /Token(?:<[^>]*>)?ette/, "le titre « Tokenette » manque du <h1>");
   assert.doesNotMatch(accueil, /Le prix du français/);
 
   assert.equal(premierTitreReadme(lireReadme()), "Tokenette");
