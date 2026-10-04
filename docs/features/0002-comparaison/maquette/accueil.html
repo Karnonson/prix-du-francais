@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>SC1 Accueil — maquette</title>
+  <link rel="stylesheet" href="polices.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .maquette-etats { display: flex; flex-wrap: wrap; gap: var(--espace-2); padding: var(--espace-2) var(--espace-4); font-size: var(--step--1); background: var(--band); border-bottom: 1px dashed var(--rule); margin: calc(-1 * var(--espace-5)) calc(-1 * var(--espace-4)) var(--espace-5); }
+    .maquette-etats::before { content: "maquette ·"; color: var(--muted); }
+    .maquette-etats a[aria-current] { font-weight: 700; text-decoration: none; }
+
+    /* Nouveauté : Duo — deux blocs de choix côte à côte, une colonne sur téléphone. */
+    .duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--espace-3); }
+    @media (max-width: 640px) { .duo { grid-template-columns: minmax(0, 1fr); } }
+
+    /* Nouveauté : icône d'un bloc de choix, et sa ligne d'action. */
+    .choix .icone { display: block; font-size: var(--step-2); line-height: 1; margin-bottom: var(--espace-1); }
+    .choix .lancer { display: block; margin-top: var(--espace-2); font-weight: 700; color: var(--ink); }
+
+    /* Nouveauté : barre du haut avec le bouton Retour, sur jeu et comparateur. */
+    .barre-haut { margin-bottom: var(--espace-4); }
+
+    .hero { display: flex; flex-direction: column; gap: var(--espace-4); max-width: 64ch; margin-inline: auto; padding-block: var(--espace-4); }
+    .hero h1 { font-size: var(--step-4); align-self: center; }
+    .hero .chapo { text-align: left; max-width: none; }
+    .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--espace-3); text-align: left; }
+    .trio .carte { align-content: start; }
+    .trio .grandemoji { font-size: var(--step-3); line-height: 1; }
+    @media (max-width: 640px) { .trio { grid-template-columns: minmax(0, 1fr); } }
+
+    /* Comparateur condensé : deux volets, l'un sous l'autre sur téléphone. */
+    .volets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+    .volet { padding: var(--espace-4); display: grid; gap: var(--espace-3); align-content: start; }
+    .volet + .volet { border-left: 1px dashed var(--rule); }
+    .volet-tete { display: flex; justify-content: space-between; align-items: center; gap: var(--espace-2); }
+    @media (max-width: 640px) {
+      .volets { grid-template-columns: minmax(0, 1fr); }
+      .volet + .volet { border-left: 0; border-top: 1px dashed var(--rule); }
+    }
+    .verdict { display: flex; align-items: baseline; gap: var(--espace-3); flex-wrap: wrap; }
+    /* Nouveauté : le grand nombre du verdict, coloré en français quand le français coûte plus. */
+    .verdict .grand.plus-cher { color: var(--fr); }
+
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <nav class="maquette-etats" aria-label="États de la maquette">
+    <a href="#accueil">accueil</a> <a href="#jeu">jeu</a> <a href="#comparateur">comparateur</a>
+  </nav>
+
+  <main class="page">
+    <section data-state="accueil">
+      <div class="hero">
+        <h1><span aria-hidden="true">🧮</span> Token<span class="mot-fr">ette</span></h1>
+        <p class="chapo">Une IA ne lit pas des mots. Elle lit des jetons, des morceaux de texte. Chaque jeton coûte de l’argent, et prend de la place dans sa mémoire.</p>
+        <p class="chapo">Pour dire la même chose, un texte en français demande presque toujours plus de jetons qu’en anglais.</p>
+        <p class="chapo">Tokenette te permet de connaître le coût en jetons d’une requête dans les deux langues.</p>
+        <p class="chapo">Elle te propose deux façons de le savoir, en jouant ou en comparant directement deux phrases.</p>
+      </div>
+      <div class="duo">
+        <button type="button" class="choix" data-goto="jeu">
+          <span class="icone" aria-hidden="true">🎮</span>
+          <strong>Jouer</strong>
+          <p>Devine en cinq défis quelle phrase coûte le plus de jetons.</p>
+          <span class="lancer">Jouer →</span>
+        </button>
+        <button type="button" class="choix" data-goto="comparateur">
+          <span class="icone" aria-hidden="true">⚖️</span>
+          <strong>Comparer</strong>
+          <p>Écris une phrase en français et en anglais, et vois l’écart de jetons.</p>
+          <span class="lancer">Comparer →</span>
+        </button>
+      </div>
+    </section>
+
+    <section data-state="jeu" aria-live="polite">
+      <div class="rangee barre-haut">
+        <button type="button" class="bouton secondaire" data-goto="accueil">← Retour à l’accueil</button>
+      </div>
+      <div class="pile">
+        <div class="hero">
+          <h1><span aria-hidden="true">🧮</span> Token<span class="mot-fr">ette</span></h1>
+          <p class="chapo">Tu lis une phrase en français et la même en anglais. Tu paries sur la plus chère en jetons. Tokenette compte, et tu vois qui gagne.</p>
+          <div class="rangee">
+            <span class="bouton" aria-disabled="true">🎮 C’est parti</span>
+            <span class="bouton secondaire" aria-disabled="true">✍️ Composer mon défi</span>
+          </div>
+        </div>
+        <div class="trio">
+          <div class="carte"><span class="grandemoji" aria-hidden="true">🎯</span><p>Tu choisis la phrase la plus chère.</p></div>
+          <div class="carte"><span class="grandemoji" aria-hidden="true">🔍</span><p>Tokenette compte les vrais jetons et te montre la découpe.</p></div>
+          <div class="carte"><span class="grandemoji" aria-hidden="true">⚡</span><p>Une bonne réponse te rapporte des points. Une réponse rapide t’en rapporte plus.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section data-state="comparateur" aria-live="polite">
+      <div class="rangee barre-haut">
+        <button type="button" class="bouton secondaire" data-goto="accueil">← Retour à l’accueil</button>
+      </div>
+      <div class="pile">
+        <h1><span aria-hidden="true">🧮</span> Token<span class="mot-fr">ette</span></h1>
+        <div class="pile">
+          <p class="etiquette">Essaie un exemple, ou écris le tien plus bas</p>
+          <div class="trio">
+            <button type="button" class="choix" aria-pressed="true">
+              <strong>Au quotidien</strong>
+              <p class="discret">Une demande de tous les jours</p>
+            </button>
+            <button type="button" class="choix">
+              <strong>Une consigne à une IA</strong>
+              <p class="discret">Ce qu’on tape dans un chat</p>
+            </button>
+            <button type="button" class="choix">
+              <strong>Un extrait de skill CADRER</strong>
+              <p class="discret">Le début de « choisir »</p>
+            </button>
+          </div>
+        </div>
+        <div class="carte">
+          <div class="volets">
+            <div class="volet" data-lang="en">
+              <div class="volet-tete">
+                <span class="langue">EN</span>
+                <span class="etiquette">Anglais</span>
+              </div>
+              <p class="jetons"><span class="pastille">Can</span> <span class="pastille alt">you</span> <span class="pastille">remind</span> <span class="pastille alt">me</span> <span class="pastille">to</span> <span class="pastille alt">call</span> <span class="pastille">the</span> <span class="pastille alt">dentist</span> <span class="pastille">tomorrow</span> <span class="pastille alt">morning</span> <span class="pastille">before</span> <span class="pastille alt">work?</span></p>
+              <div class="compte"><span class="nombre num">13</span> <span>jetons</span></div>
+            </div>
+            <div class="volet" data-lang="fr">
+              <div class="volet-tete">
+                <span class="langue">FR</span>
+                <span class="etiquette">Français</span>
+              </div>
+              <p class="jetons"><span class="pastille">Tu</span> <span class="pastille alt">peux</span> <span class="pastille">me</span> <span class="pastille alt">rappeler</span> <span class="pastille">d’appeler</span> <span class="pastille alt">le</span> <span class="pastille">dentiste</span> <span class="pastille alt">demain</span> <span class="pastille">matin</span> <span class="pastille alt">avant</span> <span class="pastille">le</span> <span class="pastille alt">travail</span> <span class="pastille">?</span></p>
+              <div class="compte"><span class="nombre num">17</span> <span>jetons</span></div>
+            </div>
+          </div>
+          <div class="verdict">
+            <span class="grand plus-cher">+31 %</span>
+            <p>Le français coûte 31 % de jetons en plus pour dire la même chose.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="maquette.js"></script>
+</body>
+</html>
