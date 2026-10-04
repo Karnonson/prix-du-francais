@@ -15,7 +15,7 @@
 - Parties : page, pile, rangée, carte, bouton (secondaire), alerte, chapo, mot-fr ; nouvelles : Accueil animé (hero, flottants, gros bouton), Trio, Emoji
 - États : avant (#avant) — titre Tokenette, accroche, « C'est parti » (mène à SC2), « Composer mon défi » (mène à SC4), trois cartes d'explication ; erreur (#erreur) — le compteur ne répond pas, le jeu ne démarre pas, bouton pour recharger
 - Largeurs : 390 — tout en une colonne, les trois cartes l'une sous l'autre ; 1280 — les trois cartes côte à côte
-- Textes : textes.md → SC1
+- Contenu : contenu.md → SC1
 
 ### SC2 Défi
 
@@ -24,7 +24,7 @@
 - Parties : page, pile, rangée, carte (bande), bouton (secondaire), choix, langue, jetons, pastille, compte, barre, étiquette ; nouvelles : Duo, Emoji, Animations d'entrée
 - États : choix (#choix) — « Défi 1 sur 5 », deux phrases à toucher ; bon (#bon) — révélation avec découpe, nombres, barres, « Dans le mille », points et bonus ; faux (#faux) — même révélation, « Aïe, raté », 0 point ; egalite (#egalite) — « Match nul », 0 point ; dernier (#dernier) — 5e défi, le bouton mène à SC3 ; perso-choix (#perso-choix) — « Ton défi », deux phrases à toucher ; perso-revele (#perso-revele) — révélation du défi composé, hors partie, deux boutons (composer un autre, accueil)
 - Largeurs : 390 — les deux cartes l'une sous l'autre ; 1280 — les deux cartes côte à côte
-- Textes : textes.md → SC2
+- Contenu : contenu.md → SC2
 
 ### SC3 Écran final
 
@@ -33,7 +33,7 @@
 - Parties : page, pile, rangée, carte, bouton (secondaire), grand ; nouvelles : Ligne de score, Confettis, Emoji
 - États : score (#score) — « Et voilà, c'est fini », 55 points, détail bonnes réponses, bonus de rapidité et total, confettis, « Rejouer » (mène à SC2) ; score-bas (#score-bas) — 0 point, sans confettis, même bouton
 - Largeurs : 390 — une colonne ; 1280 — une colonne centrée dans la largeur de la page
-- Textes : textes.md → SC3
+- Contenu : contenu.md → SC3
 
 ### SC4 Composer
 
@@ -42,7 +42,7 @@
 - Parties : page, pile, rangée, champ, langue, note (erreur), bouton (secondaire), chapo
 - États : vide (#vide) — deux champs vides, compteur à 0 sur 280 ; erreur-vide (#erreur-vide) — il manque la phrase en français, signalé sous le champ ; erreur-longue (#erreur-longue) — la phrase anglaise dépasse de 32 caractères, le texte reste dans le champ ; pret (#pret) — deux phrases correctes, « Jouer ce défi » mène à SC2 (perso-choix)
 - Largeurs : 390 — les deux champs l'un sous l'autre ; 1280 — idem, dans la largeur de la page
-- Textes : textes.md → SC4
+- Contenu : contenu.md → SC4
 
 ## Nouveautés
 
@@ -75,6 +75,6 @@
 - [x] Chaque `class` des pages est une partie du design system, une Nouveauté, ou la barre des états ; aucune couleur ni taille brute.
 - [x] Chaque écran montre le moins de données personnelles possible, jamais celles d'un autre.
 - [x] Un écran qui recueille des données dit pourquoi, et demande le consentement (jamais pré-coché) quand c'est sa base.
-- [x] Chaque texte est dans `textes.md`, tel que les pages le montrent ; un nombre qui varie a chaque forme.
+- [x] Chaque texte est dans `contenu.md`, tel que les pages le montrent ; un nombre qui varie a chaque forme.
 - [x] Chaque champ a un libellé visible ; une erreur est annoncée (`role="alert"`), un résultat qui arrive aussi (`aria-live="polite"`) ; une cible tactile fait au moins la taille du design system.
 - [x] Chaque page a été vue à 390 et à 1280, sans défilement de côté à 390 ; sinon, dit sous Ouvert.

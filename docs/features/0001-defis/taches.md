@@ -68,7 +68,7 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
 **Test seul** : jouer les 5 défis d'une partie jusqu'au bout.
 
 - [x] T04 [US1] Démarrer une partie et afficher le premier défi à choisir
-  - [x] Étant donné que j'ouvre la page, quand je touche « C'est parti », alors je vois le premier défi : deux phrases, l'une en français, l'autre en anglais, et « Défi 1 sur 5 » ; l'accueil montre son titre, ses trois cartes, « C'est parti » et « Composer mon défi », avec les textes de `textes.md` (SC1, SC2)
+  - [x] Étant donné que j'ouvre la page, quand je touche « C'est parti », alors je vois le premier défi : deux phrases, l'une en français, l'autre en anglais, et « Défi 1 sur 5 » ; l'accueil montre son titre, ses trois cartes, « C'est parti » et « Composer mon défi », avec les textes de `contenu.md` (SC1, SC2)
   - [x] Une partie tire 5 défis différents, dans un ordre au hasard, d'une liste écrite à la main d'au moins 5 défis ; le nombre 5 est une constante à un seul endroit
   - [x] Sur un écran de 390 pixels de large, l'accueil et le défi ne demandent aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
   Exigences : EF1, EF2, EF6
@@ -91,7 +91,7 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Après : T04
   Taille : M
 - [x] T06 [P] [US1] Attendre ou refuser de démarrer selon l'état du compteur
-  - [x] Étant donné que le compteur de jetons ne se charge pas, quand j'ouvre la page, alors le jeu ne démarre pas, la page dit « Le compteur de jetons ne répond pas… » (texte de `textes.md`, SC1 erreur) et un bouton recharge la page
+  - [x] Étant donné que le compteur de jetons ne se charge pas, quand j'ouvre la page, alors le jeu ne démarre pas, la page dit « Le compteur de jetons ne répond pas… » (texte de `contenu.md`, SC1 erreur) et un bouton recharge la page
   - [x] Étant donné que le compteur charge encore, quand je touche « C'est parti », alors le jeu attend, puis démarre dès que le compteur est prêt ; s'il n'arrive pas, la page dit qu'il ne répond pas
   Exigences : EF14
   Risques : aucun — pas de connexion, pas de secret, rien de saisi

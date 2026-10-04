@@ -146,7 +146,7 @@ test("un mot très long sans espace ne fait pas déborder les blocs (la feuille 
   assert.match(css, /\.pastille\s*\{[^}]*white-space:\s*pre-wrap/);
 });
 
-// Correctif US1 : la révélation dit ce que la réponse rapporte (textes.md : bon, faux, egalite).
+// Correctif US1 : la révélation dit ce que la réponse rapporte (contenu.md : bon, faux, egalite).
 const avecHorloge = (secondes) => {
   let t = 1000;
   const partie = creerPartie({ defis: [DENTISTE, DENTISTE, DENTISTE, DENTISTE, DENTISTE], maintenant: () => t });

@@ -15,7 +15,7 @@
 
 - Détail : src/modules/jeu/ui/composer.js:24 `oninput` et src/modules/jeu/saisie.js:7 `caracteresVus` — le compteur « n / 280 caractères » segmente tout le texte à chaque frappe, sans plafond ; 5 millions de caractères collés coûtent environ 0,9 s par segmentation (mesuré) ; rien n'est découpé en jetons avant le refus, le risque d'abus est tenu ; correction : arrêter de compter à 281
 - Info : M2 tenue : toute saisie passe par `verifier` avant `jouerSeul`, et le texte n'est inséré que par `append` d'une chaîne (src/modules/jeu/ui/dom.js:11) ; M6 tenue : `jeu` n'importe pas `compteur`, il reçoit l'objet de `monter` ; aucun secret ; aucune donnée gardée
-- Info : textes de SC4 identiques à `textes.md` (étiquettes, « n / 280 caractères », « ✋ Tu n'as pas écrit la phrase en français. », « ✂️ … dépasse la limite de 32 caractères. Coupe un peu. »)
+- Info : textes de SC4 identiques à `contenu.md` (étiquettes, « n / 280 caractères », « ✋ Tu n'as pas écrit la phrase en français. », « ✂️ … dépasse la limite de 32 caractères. Coupe un peu. »)
 
 ### Non jugé
 
@@ -40,7 +40,7 @@ Vérifs : lancées — `./build.sh`, code de sortie 0, « tests 88, pass 88, fai
 - Détail : src/modules/jeu/ui/revelation.js:55 `partie?.repondre(...)` — la rapidité se mesure à l'instant où `revelation.js` est montré, pas à l'instant du toucher (spec : « de l'affichage du défi au choix ») ; au premier défi, le chargement de `revelation.js` et de son `.css` s'ajoute au temps, une personne qui répond à 14,9 s sur une connexion lente peut perdre 5 points ; correction : relever l'heure dans le `onclick` de src/modules/jeu/ui/jeu.js:88 et la passer à `repondre`
 - Détail : src/modules/jeu/api.js:18 `.catch(() => …)` — toute erreur d'un écran vide l'emplacement sans trace, ce qui cache le défaut de US3 ; correction : ne vider que sur échec du `import`, pas sur une erreur dans `montrer`
 - Info : le correctif de US1 sur les points de révélation reste en place ; la rapidité par l'heure (`performance.now`), pas par minuteur, tient l'onglet en arrière-plan
-- Info : textes de SC3 identiques à `textes.md`, formes du singulier et du pluriel comprises ; aucun secret, aucune donnée gardée, `architecture.md`, `adr/` et `CHANGELOG.md` non touchés
+- Info : textes de SC3 identiques à `contenu.md`, formes du singulier et du pluriel comprises ; aucun secret, aucune donnée gardée, `architecture.md`, `adr/` et `CHANGELOG.md` non touchés
 
 ### Non jugé
 

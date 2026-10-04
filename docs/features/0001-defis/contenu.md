@@ -1,4 +1,4 @@
-# Défis — textes
+# Défis — contenu
 
 ## SC1 Accueil
 
