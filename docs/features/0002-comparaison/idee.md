@@ -1,22 +1,23 @@
-# Comparaison guidée
+# Accueil
 ## Résultat
-À côté du jeu, le visiteur peut ouvrir des exemples tout prêts, avec une explication de l'écart de jetons entre le français et l'anglais, sans avoir à jouer.
+En arrivant sur le site, le visiteur comprend d'abord ce qu'est un jeton et pourquoi ça compte — avec une explication retravaillée en profondeur, bien écrite — puis choisit distinctement entre jouer (les défis) ou comparer directement deux textes.
 ## Pour qui
-Toute personne qui veut comparer le coût en jetons d'une requête en français et en anglais ; d'abord le propriétaire.
+Toute personne qui veut comparer le coût en jetons d'une requête en français et en anglais ; d'abord le propriétaire, sur son téléphone.
 ## Problème
-Le jeu montre l'écart sans l'expliquer.
+Aujourd'hui le jeu et le comparateur sont mélangés sur la même page sans distinction : rien ne sépare le moment où on joue de celui où on compare directement, et l'explication du jeton tient en une phrase sommaire (le lede).
 ## Pourquoi maintenant
-Deuxième fonctionnalité de la découpe, après les défis.
+Troisième étape de la découpe, après les défis (0001) ; on a découvert en travaillant sur 0002 que les exemples et l'explication de l'écart existaient déjà, mais sans accueil, sans séparation claire, et sans explication approfondie du jeton.
 ## Mesure
-À fixer avec les défis une fois livrés.
+Ce soir, le 4 octobre 2026 avant 20h, le propriétaire arrive sur la page sur son téléphone, sans aide, comprend ce qu'est un jeton et pourquoi ça compte, et choisit clairement entre jouer et comparer.
 ## Contraintes
 - 0 € par mois, sans nouveau service.
 - Hors de la route du cycle : mise en pratique de cadrer-x.
+- Les textes suivent les règles de `cadrer-x-textes` (pas de tournures IA).
 ## Existant
-Aucun outil à reprendre (voir 0001-defis).
+Le lede explique déjà sommairement le jeton ; les exemples, le comparateur et l'explication de l'écart existent déjà plus bas sur la page, mais mélangés avec le jeu sans distinction.
 ## Non couverts
-- Les défis — fonctionnalité 0001, avant celle-ci.
-- La progression — fonctionnalité 0003.
+- La progression (ce que le visiteur a déjà joué, meilleur score) — fonctionnalité 0003, après celle-ci.
 ## Ouvert
-- Où s'affichent les exemples par rapport au jeu.
-- Qui écrit les explications.
+- Ce qui se passe après le choix (le jeu et le comparateur restent-ils sur la même page, ou deux vues séparées).
+- Le texte exact de l'explication du jeton.
+- Revenir en arrière après avoir choisi, ou pas.
