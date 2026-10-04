@@ -12,19 +12,26 @@
 
 ## En ligne
 
-pas encore
+https://karnonson.github.io/prix-du-francais/ — 2026-10-04 — commit 04657c8 — version 0.2.0
 
 ## Mise en ligne
 
-pas encore
+1. `./build.sh` (vérifs)
+2. `./deploy.sh` (construit, puis force-pousse `dist/` sur la branche `gh-pages`)
 
 ## Vérifié
 
-pas encore
+- Accueil à 390 px : titre « Tokenette », explication du jeton, deux blocs Jouer/Comparer, sans défilement de côté — vu, `captures/livraison-accueil.png`
+- « Jouer » bascule vers le jeu, avec « Retour à l'accueil » visible — vu, `captures/livraison-jeu.png`
+- « Retour à l'accueil » ramène à l'accueil seul — vu (même état que `livraison-accueil.png`)
+- « Comparer » bascule vers le comparateur, avec « Retour à l'accueil » visible — vu, `captures/livraison-comparateur.png`
+- Le bouton « Traduire » reste cachée sur GitHub Pages (pas de capability `sample` ici), comme avant cette fonctionnalité — vu dans la page
 
 ## En cas de problème
 
-pas encore
+- Revenir à la version d'avant : `git push -f origin f453fd0c391e8b863d85fb4946bb01b2d6a0b54b:gh-pages`
+- Rien n'est gardé (aucune donnée à récupérer)
+- En cas de souci : relancer `./build.sh` en local, puis regarder la console du navigateur sur la page en ligne
 
 ## À faire
 

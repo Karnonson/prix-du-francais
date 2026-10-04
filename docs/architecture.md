@@ -11,7 +11,7 @@
 - Le compteur de jetons, chargé depuis jsDelivr et exécuté dans le navigateur — `gpt-tokenizer` 2.9.0 (à ne pas monter en 3.x, voir README)
 - Les polices, chargées depuis Google Fonts — Bricolage Grotesque, Atkinson Hyperlegible
 - Le site publié, servi par GitHub Pages depuis la branche `gh-pages` — `deploy.sh`
-- La copie Claude Artifact, avec le bouton « Traduire » (capability `sample`) — `index.html` publié tel quel
+- Aucune copie Claude Artifact n'est publiée aujourd'hui (l'ancienne, qui montrait le bouton « Traduire », a été retirée) ; `index.html` peut être republié tel quel avec `capabilities: {sample: {}}` pour le faire réapparaître
 
 ## Modules
 
