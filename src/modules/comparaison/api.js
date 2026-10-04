@@ -238,7 +238,6 @@ export function monter() {
 
   function applyUi() {
     document.documentElement.lang = state.ui === "fr" ? "fr" : "en";
-    document.title = state.ui === "fr" ? "Le prix du français" : "The price of French";
     for (const el of document.querySelectorAll("[data-i18n]")) el.textContent = t(el.dataset.i18n);
     for (const el of document.querySelectorAll("[data-i18n-html]")) el.innerHTML = t(el.dataset.i18nHtml);
     for (const b of document.querySelectorAll("[data-ui]")) b.setAttribute("aria-pressed", String(b.dataset.ui === state.ui));

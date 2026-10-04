@@ -128,6 +128,22 @@ test("étant donné l'accueil affiché, quand je touche deux fois de suite « Jo
   assert.equal(etat(document, "comparateur").hidden, true);
 });
 
+// --- Correctifs US2 -----------------------------------------------------
+
+test("étant donné le dépôt, quand j'ouvre index.html, alors le <h1> du comparateur dit encore Tokenette, jamais « Le prix du français »", () => {
+  const comparateur = texteEtat(lireIndex(), "comparateur");
+
+  assert.match(titreH1(comparateur), /Token(?:<[^>]*>)?ette/, "le titre « Tokenette » manque du <h1> du comparateur");
+  assert.doesNotMatch(comparateur, /Le prix du français/);
+  assert.doesNotMatch(comparateur, /The price of French/);
+});
+
+test("étant donné l'accueil affiché, quand la page se charge, alors le titre de l'onglet reste « Tokenette », jamais « Le prix du français »", async () => {
+  const document = await monterAccueil();
+
+  assert.equal(document.title, "", "monterComparaison() ne doit plus écraser le titre de l'onglet déjà posé par index.html");
+});
+
 // --- T03 ---------------------------------------------------------------
 
 test("étant donné que je suis en pleine partie de défis, quand je touche « Retour à l'accueil », alors la partie est perdue, comme si je fermais la page, et je repars de l'accueil", async () => {

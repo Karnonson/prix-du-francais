@@ -1,6 +1,6 @@
 export const STRINGS = {
   fr: {
-    title: 'Le prix du <span class="fr-word">français</span>',
+    title: '🧮 Token<span class="fr-word">ette</span>',
     lede: "Une IA ne lit pas des mots\u00a0: elle lit des morceaux de texte, appelés <em>jetons</em>. Chaque jeton se paie — en argent, et en place dans sa mémoire. Écris la même phrase en anglais et en français, et compte.",
     templatesLabel: "Essaie un exemple, ou écris le tien plus bas",
     run: "Lancer →",
@@ -39,7 +39,7 @@ export const STRINGS = {
     uiGroup: "Langue de la page",
   },
   en: {
-    title: 'The price of <span class="fr-word">French</span>',
+    title: '🧮 Token<span class="fr-word">ette</span>',
     lede: "An AI doesn’t read words: it reads chunks of text called <em>tokens</em>. Every token costs — in money, and in room in its memory. Write the same sentence in English and in French, and count.",
     templatesLabel: "Try an example, or write your own below",
     run: "Run →",

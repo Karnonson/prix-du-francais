@@ -16,7 +16,7 @@ async function pageAvec(en, fr, options) {
 test("au départ : l'exemple « skill » est chargé dans les deux cases, en français", async () => {
   const page = await monterPage();
 
-  assert.equal(page.document.title, "Le prix du français");
+  assert.equal(page.document.title, "", "le module ne touche plus au titre de l'onglet (Tokenette, posé par la page elle-même)");
   assert.equal(page.document.documentElement.lang, "fr");
   assert.match(page.el("text-en").value, /^You are helping decide \*what\* to build/);
   assert.match(page.el("text-fr").value, /^Tu aides à décider \*quoi\* construire/);
@@ -166,7 +166,7 @@ test("passer la page en anglais : titre, langue, textes, nombres et verdict", as
 
   page.el("ui-en").click();
 
-  assert.equal(page.document.title, "The price of French");
+  assert.equal(page.document.title, "", "le module ne touche plus au titre de l'onglet, même en passant la page en anglais");
   assert.equal(page.document.documentElement.lang, "en");
   assert.equal(page.el("ui-en").getAttribute("aria-pressed"), "true");
   assert.equal(page.el("ui-fr").getAttribute("aria-pressed"), "false");
