@@ -1,9 +1,14 @@
 // T01 — l'accueil au premier chargement : titre, explication du jeton, blocs Jouer/Comparer, sans le
-// jeu ni le comparateur. Lu tel qu'écrit sur le disque, sans navigateur : le basculement (US2) n'est
-// pas encore câblé.
-import { test } from "node:test";
+// jeu ni le comparateur. Lu tel qu'écrit sur le disque, sans navigateur.
+// T02 — le basculement entre l'accueil, le jeu et le comparateur (US2) : un faux document bâti depuis
+// le balisage de index.html (même aide que la comparaison, `tests/aide/page.js`), assez pour cliquer
+// les boutons `[data-goto]` de `src/main.js` et lire `hidden` sur les sections `[data-state]` après coup.
+import { test, afterEach } from "node:test";
 import assert from "node:assert/strict";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { dirname, join } from "node:path";
 import { lireIndex, lireReadme, estCachee, texteEtat, premierTitreReadme, titreH1 } from "./aide/accueil.js";
+import { creerDocument } from "./aide/page.js";
 
 test("étant donné que j'ouvre le site, quand la page se charge, alors je vois le titre « Tokenette », l'explication du jeton, puis les deux blocs Jouer et Comparer", () => {
   const accueil = texteEtat(lireIndex(), "accueil", "jeu");
@@ -45,4 +50,80 @@ test("étant donné le dépôt, quand j'ouvre index.html et README.md, alors le 
   assert.doesNotMatch(accueil, /Le prix du français/);
 
   assert.equal(premierTitreReadme(lireReadme()), "Tokenette");
+});
+
+// --- T02 ---------------------------------------------------------------
+
+const CHEMIN_MAIN = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "main.js");
+
+afterEach(() => {
+  delete globalThis.document;
+  delete globalThis.window;
+});
+
+// Monte la page par son vrai point d'entrée (`src/main.js`), sur un faux document tiré du balisage de
+// index.html : de quoi cliquer les boutons et lire `hidden` ensuite. Une requête différente par appel
+// force une ré-évaluation de main.js (sinon Node ne l'exécute qu'une fois, sur le premier faux document).
+async function monterAccueil() {
+  const document = creerDocument();
+  globalThis.document = document;
+  globalThis.window = globalThis;
+  await import(`${pathToFileURL(CHEMIN_MAIN).href}?t=${Date.now()}-${Math.random()}`);
+  return document;
+}
+
+function etat(document, nom) {
+  return [...document.querySelectorAll("[data-state]")].find((s) => s.dataset.state === nom);
+}
+
+function boutonGoto(document, cible) {
+  return [...document.querySelectorAll("[data-goto]")].find((b) => b.dataset.goto === cible);
+}
+
+test("étant donné l'accueil affiché, quand je touche « Jouer », alors l'accueil disparaît et le jeu prend toute la page, avec un bouton « Retour à l'accueil » visible", async () => {
+  const document = await monterAccueil();
+  assert.equal(etat(document, "accueil").hidden, false, "l'accueil est affiché au départ");
+
+  boutonGoto(document, "jeu").click();
+
+  assert.equal(etat(document, "accueil").hidden, true, "l'accueil disparaît");
+  assert.equal(etat(document, "jeu").hidden, false, "le jeu prend la page");
+  assert.equal(etat(document, "comparateur").hidden, true, "le comparateur reste caché");
+  assert.ok(boutonGoto(document, "accueil"), "un bouton « Retour à l'accueil » existe sur l'écran jeu");
+});
+
+test("étant donné l'accueil affiché, quand je touche « Comparer », alors l'accueil disparaît et le comparateur prend toute la page, avec un bouton « Retour à l'accueil » visible", async () => {
+  const document = await monterAccueil();
+
+  boutonGoto(document, "comparateur").click();
+
+  assert.equal(etat(document, "accueil").hidden, true, "l'accueil disparaît");
+  assert.equal(etat(document, "comparateur").hidden, false, "le comparateur prend la page");
+  assert.equal(etat(document, "jeu").hidden, true, "le jeu reste caché");
+  assert.ok(boutonGoto(document, "accueil"), "un bouton « Retour à l'accueil » existe sur l'écran comparateur");
+});
+
+test("étant donné le jeu ou le comparateur affiché, quand je touche « Retour à l'accueil », alors je reviens à l'accueil tel qu'au premier chargement : les deux blocs, rien d'autre", async () => {
+  const document = await monterAccueil();
+
+  boutonGoto(document, "jeu").click();
+  boutonGoto(document, "accueil").click();
+
+  assert.equal(etat(document, "accueil").hidden, false, "l'accueil revient");
+  assert.equal(etat(document, "jeu").hidden, true, "le jeu se cache");
+  assert.equal(etat(document, "comparateur").hidden, true, "le comparateur reste caché");
+});
+
+test("étant donné l'accueil affiché, quand je touche deux fois de suite « Jouer » ou « Comparer », alors je reste sur la section déjà affichée, sans erreur", async () => {
+  const document = await monterAccueil();
+  const jouer = boutonGoto(document, "jeu");
+
+  assert.doesNotThrow(() => {
+    jouer.click();
+    jouer.click();
+  });
+
+  assert.equal(etat(document, "jeu").hidden, false, "je reste sur le jeu");
+  assert.equal(etat(document, "accueil").hidden, true);
+  assert.equal(etat(document, "comparateur").hidden, true);
 });

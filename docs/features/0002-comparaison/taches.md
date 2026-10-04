@@ -57,11 +57,11 @@ jamais les deux usages en même temps.
 
 **Test seul** : se vérifie entièrement en touchant « Jouer » puis « Retour à l'accueil ».
 
-- [ ] T02 [US2] Faire basculer vers le jeu ou le comparateur, avec le bouton retour
-  - [ ] Étant donné l'accueil affiché, quand je touche « Jouer », alors l'accueil disparaît et le jeu des défis prend toute la page, avec un bouton « Retour à l'accueil » visible.
-  - [ ] Étant donné l'accueil affiché, quand je touche « Comparer », alors l'accueil disparaît et le comparateur prend toute la page, avec un bouton « Retour à l'accueil » visible.
-  - [ ] Étant donné le jeu ou le comparateur affiché, quand je touche « Retour à l'accueil », alors je reviens à l'accueil tel qu'au premier chargement : les deux blocs, rien d'autre.
-  - [ ] Étant donné l'accueil affiché, quand je touche deux fois de suite « Jouer » ou « Comparer », alors je reste sur la section déjà affichée, sans erreur.
+- [x] T02 [US2] Faire basculer vers le jeu ou le comparateur, avec le bouton retour
+  - [x] Étant donné l'accueil affiché, quand je touche « Jouer », alors l'accueil disparaît et le jeu des défis prend toute la page, avec un bouton « Retour à l'accueil » visible.
+  - [x] Étant donné l'accueil affiché, quand je touche « Comparer », alors l'accueil disparaît et le comparateur prend toute la page, avec un bouton « Retour à l'accueil » visible.
+  - [x] Étant donné le jeu ou le comparateur affiché, quand je touche « Retour à l'accueil », alors je reviens à l'accueil tel qu'au premier chargement : les deux blocs, rien d'autre.
+  - [x] Étant donné l'accueil affiché, quand je touche deux fois de suite « Jouer » ou « Comparer », alors je reste sur la section déjà affichée, sans erreur.
   Exigences : EF2, EF3, EF4
   Risques : abus — clics rapides et répétés sur Jouer, Comparer ou Retour → un seul état affiché à la fois, pas de montage multiple
   Écrans : SC1
