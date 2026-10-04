@@ -1,0 +1,123 @@
+/* Design system de « Le prix du français » : repris de ce que la page `index.html` utilise déjà
+   (couleurs, polices, tailles, coins), rien d'inventé sauf la taille des cibles tactiles et l'échelle des espaces. */
+:root {
+  --ground: #f2f4f7;
+  --surface: #ffffff;
+  --ink: #151b28;
+  --muted: #5a6478;
+  --rule: #d8dde6;
+  --en: #2350b8;
+  --en-chip-a: #dfe7fb;
+  --en-chip-b: #c9d6f6;
+  --fr: #b8324f;
+  --fr-chip-a: #f9e0e6;
+  --fr-chip-b: #f2c9d3;
+  --focus: #2350b8;
+  --track: #e4e8ef;
+  --band: #e9ecf2;
+
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: 1.5rem;
+  --step-3: 2.25rem;
+  --step-4: clamp(2.5rem, 6vw, 3.75rem);
+
+  --espace-1: 4px;
+  --espace-2: 8px;
+  --espace-3: 12px;
+  --espace-4: 20px;
+  --espace-5: 28px;
+  --espace-6: 40px;
+  --rayon-1: 3px;
+  --rayon-2: 8px;
+  --rayon-3: 14px;
+  --rayon-pilule: 999px;
+  --cible: 44px;
+  --largeur: 1080px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #0e1219;
+    --surface: #161b25;
+    --ink: #e5e9f1;
+    --muted: #97a1b3;
+    --rule: #2a3140;
+    --en: #8aa9f6;
+    --en-chip-a: #1d2945;
+    --en-chip-b: #283758;
+    --fr: #f28ca2;
+    --fr-chip-a: #3c1d27;
+    --fr-chip-b: #4d2633;
+    --focus: #8aa9f6;
+    --track: #232a37;
+    --band: #1b212c;
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: var(--step-0); line-height: 1.55; padding: var(--espace-5) var(--espace-4) var(--espace-6); }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.1; }
+h1 { font-size: var(--step-3); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: var(--step-2); font-weight: 700; }
+h3 { font-size: var(--step-1); font-weight: 700; }
+p { margin: 0; }
+a { color: inherit; }
+button, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.page { max-width: var(--largeur); margin-inline: auto; display: grid; gap: var(--espace-6); }
+.pile { display: grid; gap: var(--espace-3); }
+.rangee { display: flex; flex-wrap: wrap; gap: var(--espace-3); align-items: center; }
+.num { font-variant-numeric: tabular-nums; }
+.mot-fr { color: var(--fr); }
+.discret { color: var(--muted); font-size: var(--step--1); }
+.etiquette { font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.chapo { font-size: var(--step-1); max-width: 64ch; }
+
+/* Parties */
+.carte { display: grid; gap: var(--espace-3); background: var(--surface); border: 1px solid var(--rule); border-radius: var(--rayon-3); padding: var(--espace-4); }
+.carte.bande { background: var(--band); }
+.bouton {
+  display: inline-flex; align-items: center; justify-content: center; min-height: var(--cible);
+  padding: var(--espace-2) var(--espace-4); font-weight: 700; cursor: pointer; text-decoration: none;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--ground); border-radius: var(--rayon-pilule);
+}
+.bouton.secondaire { background: transparent; color: var(--ink); border-color: var(--rule); }
+.langue { display: inline-block; font-family: var(--mono); font-size: var(--step--1); color: var(--surface); background: var(--lang, var(--muted)); padding: 1px 7px; border-radius: 4px; letter-spacing: 0.04em; }
+[data-lang="en"] { --lang: var(--en); --chip-a: var(--en-chip-a); --chip-b: var(--en-chip-b); }
+[data-lang="fr"] { --lang: var(--fr); --chip-a: var(--fr-chip-a); --chip-b: var(--fr-chip-b); }
+.choix {
+  text-align: left; cursor: pointer; min-height: var(--cible); background: var(--surface); border: 1px solid var(--rule);
+  border-radius: var(--rayon-2); padding: var(--espace-3) var(--espace-4); display: grid; gap: var(--espace-1); align-content: start;
+}
+.choix:hover { border-color: var(--muted); }
+.choix[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.choix strong { font-family: var(--display); font-size: var(--step-1); font-weight: 700; }
+.champ { display: grid; gap: var(--espace-2); }
+.champ label { display: flex; align-items: center; gap: var(--espace-2); font-weight: 700; }
+.champ textarea {
+  width: 100%; min-height: 7.5rem; resize: vertical; border: 1px solid var(--rule); border-radius: var(--rayon-2);
+  background: var(--ground); padding: var(--espace-3) var(--espace-3); line-height: 1.5;
+}
+.champ textarea:focus-visible { outline: 2px solid var(--lang, var(--focus)); outline-offset: 1px; }
+.champ textarea[aria-invalid="true"] { border-color: var(--fr); }
+.note { font-size: var(--step--1); color: var(--muted); }
+.note.erreur { color: var(--fr); }
+.alerte { border: 1px solid var(--fr); color: var(--fr); border-radius: var(--rayon-2); padding: var(--espace-3) var(--espace-4); display: grid; gap: var(--espace-2); }
+.jetons { font-family: var(--mono); font-size: 0.9375rem; line-height: 1.95; }
+.pastille { display: inline-block; max-width: 100%; overflow-wrap: anywhere; white-space: pre; background: var(--chip-a); border-radius: var(--rayon-1); padding-inline: 1px; line-height: 1.5; margin-block: 2px; }
+.pastille.alt { background: var(--chip-b); }
+.compte { display: flex; align-items: baseline; gap: var(--espace-3); flex-wrap: wrap; }
+.compte .nombre { font-family: var(--display); font-size: var(--step-3); font-weight: 800; color: var(--lang, var(--ink)); line-height: 1; }
+.grand { font-family: var(--display); font-size: var(--step-4); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.barre { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr) 4.5rem; align-items: center; gap: var(--espace-2); font-size: var(--step--1); }
+.barre .code { font-family: var(--mono); color: var(--muted); }
+.barre .piste { display: block; height: 10px; background: var(--track); border-radius: 2px; overflow: hidden; }
+.barre .remplissage { display: block; height: 100%; border-radius: 2px; background: var(--lang); width: var(--part, 0%); }
+.barre .valeur { text-align: right; }
+.liste { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--espace-2); }
