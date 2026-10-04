@@ -1,5 +1,33 @@
 # Accueil — audit
 
+## US2 Passer de l'accueil à l'usage choisi, et revenir
+
+**Tour** : 1
+**Date** : 2026-10-04
+**Verdict** : à corriger
+
+### Spec
+
+- Bloquant : src/modules/comparaison/api.js:241 — contraire : `applyUi()` remet `document.title` à « Le prix du français » (ou « The price of French »), et elle tourne dès le chargement de la page (`monterComparaison()` dans `src/main.js`, appelée sans condition d'état) ; le même texte reste dans le `<h1 data-i18n-html="title">` du comparateur (index.html:322, texte dans src/modules/comparaison/textes.js:3) qui devient visible dès que je touche « Comparer » (EF3). Vérifié par exécution : `document.title` vaut « Le prix du français » juste après le chargement, dans le propre faux document de test du projet (`tests/aide/page.js`), sans modifier ni le code ni les tests. Une personne qui vient de lire « Tokenette » sur l'accueil revoit l'ancien nom dans l'onglet du navigateur dès l'ouverture, puis en gros titre visible en touchant « Comparer » — exactement ce que D4 et EF6 disent de ne plus jamais montrer (« Tokenette … partout … sans « Le prix du français » »). Correction : dans `applyUi()`, fixer `document.title` à un texte qui garde « Tokenette » (ou ne plus le changer du tout, l'accueil portant déjà ce rôle) ; remplacer le texte du `<h1 data-i18n-html="title">` du comparateur (et sa traduction anglaise) par un texte qui ne répète pas l'ancien nom.
+- À corriger : src/main.js:20 — partiel : le test nommé pour le risque abus de T02 (« je touche deux fois de suite ») ne prouve rien contre ce risque : vérifié en retirant `etat === etatActuel ||` de `basculer()` dans un worktree jetable (`git worktree add --detach … feature/comparaison`, puis supprimé) — les 8 tests de `tests/accueil.test.js` restent verts, y compris celui-là, parce que le reste du code (bascule de `hidden`, garde `etatActuel === "jeu"` avant `remonterJeu()`) rend déjà la bascule idempotente sans ce garde-fou. Une personne ne rencontre rien de cassé à l'usage, mais le `Risques :` de T02 (« abus … → un seul état affiché à la fois, pas de montage multiple ») n'est couvert par aucun test qui échouerait si ce garde-fou disparaissait. Correction : soit un test qui distingue réellement le cas (ex. un compteur d'appels sur le montage du jeu, qui doit rester à 1 même après plusieurs clics rapprochés), soit retirer la ligne `Risques :` de T02 si la bascule est de fait sans risque.
+- Info : scénarios 1 (Jouer), 3 (Retour à l'accueil) et 4 (partie perdue au retour) vus dans `src/main.js` et prouvés par `tests/accueil.test.js` ; le scénario 4 vérifié par cassure : en retirant `if (etatActuel === "jeu" && etat !== "jeu") remonterJeu();` (src/main.js:21) dans le même worktree jetable, le test dédié échoue bien (`la partie en cours ne doit pas survivre au retour à l'accueil`), remis ensuite.
+- Info : « deux clics » (cas limite) ne lève pas d'erreur et laisse la section déjà affichée, lu dans le test correspondant.
+- Info : aucune fonction, route ou table ajoutée hors de ce que les scénarios demandent ; `basculer()` et `remonterJeu` ne font que montrer/cacher et remonter par l'entrée du module (D5).
+
+### Règles
+
+- Info : M6 — aucune frontière franchie : `src/main.js` n'appelle que `monter()`, point d'entrée de `comparaison`, `compteur` et `jeu`, jamais leurs fichiers internes.
+- Info : aucun secret, aucune nouvelle dépendance, aucune saisie ajoutée (M1, M2, M5 respectés) ; T02 et T03 ne touchent que `src/main.js` et `tests/accueil.test.js`, comme prévu par leurs `Fichiers :`.
+- Info : le texte du bouton « ← Retour à l'accueil » (index.html:310,317) correspond mot pour mot à `contenu.md` → jeu et comparateur.
+- Info : `README.md` et `architecture.md` non mis à jour pour le basculement — `rendre`'s, à la livraison.
+
+### Non jugé
+
+Vérifs : lancées — `./build.sh`, code de sortie 0, « tests 119 / pass 119 / fail 0 ».
+Écrans : pas cliqués — SC1 : aucun `commands.dev` dans `cadrer-x.yml` pour lancer l'appli ; jugé depuis le code et son exécution directe (`node`, sans navigateur), comme au tour de US1.
+- Le défilement latéral à 390 px (CS2) et le contraste/focus réels n'ont pas pu être vérifiés dans un navigateur ; déjà notés sous l'US1 comme vérifiés seulement à la relecture.
+- Le double-montage du compteur de jetons à chaque retour du jeu (`remonterJeu` recrée `creerCompteur()`) n'a pas d'effet observé dans les tests ; son coût réel (réseau, mémoire) n'a pas été mesuré, hors de portée sans navigateur.
+
 ## US1 Comprendre le jeton et choisir
 
 **Tour** : 2
