@@ -5,7 +5,7 @@
 ## Pièces
 
 - La page, qui tourne dans le navigateur du visiteur : compte les jetons et les affiche découpés — `index.html`
-- Le jeu des défis, qui s'ajoute à la page dans `<section id="jeu">`, en modules chargés à la demande ; absent de la copie Claude Artifact, publiée seule — `src/modules/`, [ADR 0001](adr/0001-le-jeu-a-cote-de-la-page.md)
+- Le jeu des défis, qui s'ajoute à la page dans `<section id="jeu">`, en modules chargés à la demande — `src/modules/`, [ADR 0001](adr/0001-le-jeu-a-cote-de-la-page.md)
 - Le compteur de jetons, chargé depuis jsDelivr et exécuté dans le navigateur — `gpt-tokenizer` 2.9.0 (à ne pas monter en 3.x, voir README)
 - Les polices, chargées depuis Google Fonts — Bricolage Grotesque, Atkinson Hyperlegible
 - Le site publié, servi par GitHub Pages depuis la branche `gh-pages` — `deploy.sh`
@@ -13,19 +13,17 @@
 
 ## Modules
 
-La disposition, celle d'un site statique sans framework : `src/modules/<module>/api.js` (chargé par
-`import`, `ui/` pour ce qu'il dessine), `src/shared/` pour ce que plusieurs modules partagent, les tests
-dans `tests/modules/<module>/` lancés par `node --test`, `dist/` le site construit par `build.sh`, jamais
-modifié à la main. `index.html` reste à la racine : `build.sh` l'enveloppe et copie `src/` dans `dist/`.
-
-État actuel : les modules `compteur` et `jeu` (fonctionnalité Défis, [ADR 0001](adr/0001-le-jeu-a-cote-de-la-page.md))
-sont dans `src/modules/` ; la page de comparaison, elle, reste dans le script de `index.html` jusqu'au
-rangement (voir À faire).
+La disposition, celle d'un site statique sans framework : `src/main.js` branche les modules à la page,
+`src/modules/<module>/api.js` est l'entrée de chaque module (`ui/` pour ce qu'il dessine), les tests sont
+dans `tests/modules/<module>/` lancés par `node --test`, `dist/` est le site construit par `build.sh`,
+jamais modifié à la main. `index.html` reste à la racine, avec le balisage et le style de la page :
+`build.sh` l'enveloppe et copie `src/` dans `dist/`. Pas de `src/shared/` : aucun code n'y est partagé
+par plusieurs modules aujourd'hui.
 
 | Module | Possède | Chemins |
 |---|---|---|
-| (page) | la comparaison des deux phrases, le style de la page | `index.html` |
-| compteur | compter les jetons « Récent » et découper une phrase pour le jeu | `src/modules/compteur/` |
+| comparaison | la comparaison des deux phrases : exemples, jetons découpés, verdict, découpeur choisi, langue de la page, mesures sur textes longs, bouton « Traduire » | `src/modules/comparaison/`, `tests/modules/comparaison/` |
+| compteur | compter les jetons « Récent » et découper une phrase pour le jeu | `src/modules/compteur/`, `tests/modules/compteur/` |
 | jeu | les défis, la partie de 5, le score, les écrans (accueil, défi, révélation, fin, composer) | `src/modules/jeu/`, `tests/modules/jeu/` |
 
 ## Données
@@ -42,7 +40,7 @@ Aucun. `deploy.sh` utilise les identifiants git de la machine, déjà en place.
 
 ## En local
 
-Lancer `./build.sh`, puis ouvrir `dist/index.html`. Il faut internet pour le compteur et les polices.
+Lancer `./build.sh`, puis servir `dist/` (`python3 -m http.server -d dist`) et ouvrir http://localhost:8000. Les modules ne se chargent pas depuis un fichier ouvert directement (`file://`). Il faut internet pour le compteur et les polices.
 
 ## Lancer
 
@@ -55,7 +53,7 @@ Tu écris une phrase en français → la page envoie le texte au compteur dans t
 
 ## À faire
 
-- [ ] ranger le code en modules : /cadrer-x-ranger — avant la construction (après la livraison de Défis, pour ne pas la gêner)
+- [x] ranger le code en modules : /cadrer-x-ranger
 
 ## Écarté
 

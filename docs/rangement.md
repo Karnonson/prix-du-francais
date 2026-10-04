@@ -14,6 +14,7 @@
 Déjà rangés, rien à y déplacer : `compteur`, `jeu`. Pas de `shared/` : aucun code n'est partagé par plusieurs modules aujourd'hui.
 
 ## Remarques
+- Seul écart vu par le second regard : ouvrir `dist/index.html` directement (`file://`) ne charge plus la page, les modules étant bloqués par le navigateur. Servi en HTTP (GitHub Pages, serveur local), rien ne change. `docs/architecture.md` → En local le dit maintenant.
 - Deux tests de `tests/modules/jeu/branchement.test.js` lisaient le `<script type="module">` de `index.html` : l'un lit maintenant `src/main.js` (mêmes assertions) ; l'autre, « publiée seule… », vérifiait la copie Claude Artifact, abandonnée, et est remplacé par un test qui monte vraiment `main.js` et vérifie que l'accueil du jeu apparaît dans `#jeu`.
 - La copie Claude Artifact (`index.html` publié seul, avec « Traduire ») ne marchera plus après le rangement : décision de la personne, on ne publie plus que le site construit. À reporter dans l'ADR 0001 / le README par un prochain changement, pas ici.
 - Le style de la page reste dans le `<style>` de `index.html` : `build.sh` coupe le fichier à cette balise pour faire `dist/index.html`. Le sortir dans `src/styles.css` changerait le build, pas un simple déplacement.
