@@ -150,12 +150,12 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
 
 **Test seul** : écrire deux phrases et voir la révélation.
 
-- [ ] T10 [P] [US3] Écrire deux phrases et refuser celles qui sont vides ou trop longues
-  - [ ] Étant donné l'accueil, quand je touche « Composer mon défi », alors je vois deux champs, un pour la phrase française et un pour l'anglaise, chacun avec son étiquette et un compteur « n / 280 caractères », et rien n'est traduit pour moi
-  - [ ] Étant donné un champ vide ou fait seulement d'espaces, quand je touche « Jouer ce défi », alors on me dit quel champ est à remplir, et le défi ne démarre pas
-  - [ ] Étant donné une phrase plus longue que 280 caractères (ceux que je vois : un emoji ou une lettre accentuée compte pour un), quand je touche « Jouer ce défi », alors on me dit que la phrase est trop longue et de combien, et le défi ne démarre pas ; ce que j'ai écrit reste dans le champ
-  - [ ] Deux phrases correctes appellent `jouerSeul(defi)` du contexte avec les phrases telles qu'écrites ; « Retour à l'accueil » y mène
-  - [ ] Sur un écran de 390 pixels de large, l'écran composer ne demande aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
+- [x] T10 [P] [US3] Écrire deux phrases et refuser celles qui sont vides ou trop longues
+  - [x] Étant donné l'accueil, quand je touche « Composer mon défi », alors je vois deux champs, un pour la phrase française et un pour l'anglaise, chacun avec son étiquette et un compteur « n / 280 caractères », et rien n'est traduit pour moi
+  - [x] Étant donné un champ vide ou fait seulement d'espaces, quand je touche « Jouer ce défi », alors on me dit quel champ est à remplir, et le défi ne démarre pas
+  - [x] Étant donné une phrase plus longue que 280 caractères (ceux que je vois : un emoji ou une lettre accentuée compte pour un), quand je touche « Jouer ce défi », alors on me dit que la phrase est trop longue et de combien, et le défi ne démarre pas ; ce que j'ai écrit reste dans le champ
+  - [x] Deux phrases correctes appellent `jouerSeul(defi)` du contexte avec les phrases telles qu'écrites ; « Retour à l'accueil » y mène
+  - [x] Sur un écran de 390 pixels de large, l'écran composer ne demande aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
   Exigences : EF10, EF11
   Risques : saisies — une phrase vide, d'espaces ou énorme → vérifiée avant tout comptage, plafond de 280 caractères vus ; abus — un très long texte collé pour ralentir la page → refusé avant d'être découpé ; saisies — des balises dans un champ → affichées comme texte, jamais comme code
   Écrans : SC4
