@@ -28,10 +28,24 @@ export function tirerDefis(hasard = Math.random, n = NB_DEFIS, defis = DEFIS) {
 }
 
 export function creerPartie({ defis = tirerDefis() } = {}) {
-  const position = 0;
+  let position = 0;
+  const reponses = [];
   return {
     numero: () => position + 1,
     total: () => defis.length,
     defiCourant: () => defis[position],
+    // Une réponse par défi : toucher deux fois la même phrase ne compte qu'une fois.
+    repondre(reponse) {
+      if (reponses.length > position) return false;
+      reponses.push(reponse);
+      return true;
+    },
+    reponses: () => [...reponses],
+    // Passe au défi suivant ; faux quand c'était le dernier.
+    suivant() {
+      if (position + 1 >= defis.length) return false;
+      position += 1;
+      return true;
+    },
   };
 }

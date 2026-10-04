@@ -77,13 +77,13 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Fichiers : src/modules/jeu/partie.js, src/modules/jeu/ui/jeu.js, src/modules/jeu/ui/jeu.css, src/modules/jeu/api.js, tests/modules/jeu/partie.test.js
   Après : T03
   Taille : M
-- [ ] T05 [US1] Révéler les nombres de jetons après un choix, et passer au défi suivant
-  - [ ] Étant donné un défi affiché, quand je touche la phrase que je pense la plus chère, alors chaque phrase est découpée en blocs de jetons colorés, deux barres comparent les nombres écrits, et on me dit si j'ai bien deviné
-  - [ ] Étant donné que les deux phrases ont le même nombre de jetons, quand je touche l'une d'elles, alors on me dit « égalité » et le défi ne compte ni comme bon ni comme mauvais
-  - [ ] Étant donné une révélation affichée, quand je touche « Défi suivant », alors le défi suivant s'affiche ; après le 5e défi, le bouton mène à l'écran final
-  - [ ] Quand je touche deux fois de suite la même phrase, alors la réponse ne compte qu'une fois
-  - [ ] Les nombres révélés sont ceux du compteur « Récent » du module compteur
-  - [ ] Sur un écran de 390 pixels de large, les phrases, les blocs et les barres restent lisibles sans défilement de côté, même avec un mot très long (vérifié à la relecture, à 390 et à 1280)
+- [x] T05 [US1] Révéler les nombres de jetons après un choix, et passer au défi suivant
+  - [x] Étant donné un défi affiché, quand je touche la phrase que je pense la plus chère, alors chaque phrase est découpée en blocs de jetons colorés, deux barres comparent les nombres écrits, et on me dit si j'ai bien deviné
+  - [x] Étant donné que les deux phrases ont le même nombre de jetons, quand je touche l'une d'elles, alors on me dit « égalité » et le défi ne compte ni comme bon ni comme mauvais
+  - [x] Étant donné une révélation affichée, quand je touche « Défi suivant », alors le défi suivant s'affiche ; après le 5e défi, le bouton mène à l'écran final
+  - [x] Quand je touche deux fois de suite la même phrase, alors la réponse ne compte qu'une fois
+  - [x] Les nombres révélés sont ceux du compteur « Récent » du module compteur
+  - [x] Sur un écran de 390 pixels de large, les phrases, les blocs et les barres restent lisibles sans défilement de côté, même avec un mot très long (vérifié à la relecture, à 390 et à 1280)
   Exigences : EF3, EF4, EF5
   Risques : saisies — un texte à balises dans une phrase révélée en blocs → chaque bloc inséré comme texte, jamais comme code
   Écrans : SC2

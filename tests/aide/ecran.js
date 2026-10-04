@@ -37,3 +37,19 @@ export async function attendreQue(condition, delai = 2000) {
     await new Promise((resolve) => setTimeout(resolve, 1));
   }
 }
+
+export function parClasse(racine, nom) {
+  return trouverTous(racine, (el) => (el.getAttribute("class") ?? "").split(" ").includes(nom));
+}
+
+// Un faux compteur : un jeton par mot, chaque mot (avec son espace de tête) est un bloc.
+export function compteurParMots(table = {}) {
+  return {
+    pret: () => true,
+    compter(texte) {
+      if (table[texte]) return table[texte];
+      const blocs = texte.split(" ").map((mot, i) => ({ texte: i === 0 ? mot : ` ${mot}`, n: 1 }));
+      return { nombre: blocs.length, blocs };
+    },
+  };
+}
