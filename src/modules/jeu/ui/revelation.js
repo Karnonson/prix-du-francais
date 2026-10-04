@@ -38,24 +38,33 @@ function carte(langue, resultat, choix, maximum) {
 export function montrer(contexte) {
   chargerStyle(STYLE);
   const { partie, choix } = contexte.donnees;
-  const resultat = juger(partie.defiCourant(), choix, contexte.compteur);
-  partie.repondre({ choix, gagnant: resultat.gagnant, correct: resultat.correct });
+  // Sans partie, c'est un défi composé : on le révèle sans rien compter.
+  const defi = partie ? partie.defiCourant() : contexte.donnees.defi;
+  const resultat = juger(defi, choix, contexte.compteur);
+  partie?.repondre({ choix, gagnant: resultat.gagnant, correct: resultat.correct });
 
   const maximum = Math.max(resultat.fr.nombre, resultat.en.nombre, 1);
   const [signe, message] = verdict(resultat, choix);
-  const dernier = partie.numero() === partie.total();
-  const suite = dernier
-    ? h("button", { type: "button", class: "bouton", onclick: () => contexte.montrer("fin", { partie }) }, emoji("🏁"), " Voir mon score")
-    : h("button", {
-      type: "button",
-      class: "bouton",
-      onclick: () => { partie.suivant(); contexte.montrer("jeu", { vue: "partie", partie }); },
-    }, emoji("➡️"), " Défi suivant");
+  const dernier = partie && partie.numero() === partie.total();
+  const suite = !partie
+    ? [
+      h("p", {}, "Ce défi est le tien. Il ne compte pas dans une partie."),
+      h("div", { class: "rangee" },
+        h("button", { type: "button", class: "bouton", onclick: () => contexte.composer() }, emoji("✍️"), " Composer un autre défi"),
+        h("button", { type: "button", class: "bouton secondaire", onclick: () => contexte.accueil() }, emoji("🏠"), " Retour à l’accueil")),
+    ]
+    : h("div", { class: "rangee" }, dernier
+      ? h("button", { type: "button", class: "bouton", onclick: () => contexte.montrer("fin", { partie }) }, emoji("🏁"), " Voir mon score")
+      : h("button", {
+        type: "button",
+        class: "bouton",
+        onclick: () => { partie.suivant(); contexte.montrer("jeu", { vue: "partie", partie }); },
+      }, emoji("➡️"), " Défi suivant"));
 
   contexte.el.append(h("div", { class: "pile", "aria-live": "polite" },
-    h("p", { class: "etiquette" }, `Défi ${partie.numero()} sur ${partie.total()}`),
+    h("p", { class: "etiquette" }, partie ? `Défi ${partie.numero()} sur ${partie.total()}` : "Ton défi"),
     h("div", { class: "duo" }, LANGUES.map((langue) => carte(langue, resultat, choix, maximum))),
     h("div", { class: "carte bande" },
       h("p", {}, h("strong", {}, emoji(signe), ` ${message}`)),
-      h("div", { class: "rangee" }, suite))));
+      suite)));
 }

@@ -162,9 +162,9 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Fichiers : src/modules/jeu/ui/composer.js, src/modules/jeu/ui/composer.css, src/modules/jeu/saisie.js, tests/modules/jeu/composer.test.js, tests/modules/jeu/saisie.test.js
   Après : T04
   Taille : M
-- [ ] T11 [US3] Jouer le défi composé, seul
-  - [ ] Étant donné deux phrases écrites, quand je touche « Jouer ce défi », alors je joue ce défi comme les autres : je choisis la phrase la plus chère (« Ton défi »), puis je vois la révélation (blocs colorés, barres), hors partie et hors score, avec « Composer un autre » et « Retour à l'accueil »
-  - [ ] Étant donné une phrase qui ressemble à du code (par exemple des balises), quand je joue le défi, alors elle s'affiche telle que je l'ai écrite, sans être interprétée
+- [x] T11 [US3] Jouer le défi composé, seul
+  - [x] Étant donné deux phrases écrites, quand je touche « Jouer ce défi », alors je joue ce défi comme les autres : je choisis la phrase la plus chère (« Ton défi »), puis je vois la révélation (blocs colorés, barres), hors partie et hors score, avec « Composer un autre » et « Retour à l'accueil »
+  - [x] Étant donné une phrase qui ressemble à du code (par exemple des balises), quand je joue le défi, alors elle s'affiche telle que je l'ai écrite, sans être interprétée
   Exigences : EF12
   Risques : saisies — des balises dans une phrase composée → affichée comme texte (jamais `innerHTML`), dans le choix et dans la révélation
   Écrans : SC2

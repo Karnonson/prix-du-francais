@@ -95,9 +95,16 @@ function defiDeLaPartie(contexte, partie) {
     contexte.montrer("revelation", { partie, choix }));
 }
 
+// Un défi composé se joue seul : hors partie, hors score.
+function defiSeul(contexte, defi) {
+  return phrasesAChoisir(defi, "Ton défi", (choix) => contexte.montrer("revelation", { defi, choix }));
+}
+
 export function montrer(contexte) {
   chargerStyle(STYLE);
-  const { vue, partie } = contexte.donnees ?? { vue: "accueil" };
-  const contenu = vue === "partie" ? defiDeLaPartie(contexte, partie ?? creerPartie()) : accueil(contexte);
+  const { vue, partie, defi } = contexte.donnees ?? { vue: "accueil" };
+  const contenu = vue === "partie" ? defiDeLaPartie(contexte, partie ?? creerPartie())
+    : vue === "seul" ? defiSeul(contexte, defi)
+    : accueil(contexte);
   contexte.el.append(contenu);
 }
