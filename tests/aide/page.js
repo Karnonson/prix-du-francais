@@ -3,7 +3,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import vm from "node:vm";
+import { pathToFileURL } from "node:url";
 
 const racine = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SANS_BALISE = /<[^>]*>/g;
@@ -47,6 +47,7 @@ class Element {
   append(...enfants) {
     for (const e of enfants) this.noeuds.push(typeof e === "string" ? { textContent: e } : e);
   }
+  appendChild(e) { this.append(e); return e; }
   replaceChildren(...enfants) { this.noeuds = []; this.append(...enfants); }
   setAttribute(n, v) { this.attributs.set(n, String(v)); }
   getAttribute(n) { return this.attributs.has(n) ? this.attributs.get(n) : null; }
@@ -64,7 +65,7 @@ class Element {
 
 function elementsDuBalisage() {
   const html = readFileSync(join(racine, "index.html"), "utf8");
-  const corps = html.slice(html.indexOf('<div class="wrap">'), html.indexOf("<script>"));
+  const corps = html.slice(html.indexOf('<div class="wrap">'), html.indexOf("<script"));
   const liste = [];
   for (const [, nom, brut] of corps.matchAll(/<(\w+)((?:\s+[\w-]+(?:="[^"]*")?)*)\s*>/g)) {
     const attributs = {};
@@ -81,7 +82,7 @@ function selecteur(sel, el) {
   return false;
 }
 
-function creerDocument() {
+export function creerDocument() {
   const elements = elementsDuBalisage();
   const document = {
     title: "",
@@ -121,29 +122,30 @@ const DECOUPEURS = {
 
 export const attendre = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Monte la page. `echouer` : les fichiers de découpeurs qui ne se chargent pas ; `attente` : les
-// découpeurs ne se chargent qu'à l'appel de `liberer()` ; `claude` : le `window.claude` de l'hôte.
+// Monte la page par l'entrée du module. `echouer` : les fichiers de découpeurs qui ne se chargent pas ;
+// `attente` : les découpeurs ne se chargent qu'à l'appel de `liberer()` ; `claude` : le `window.claude` de l'hôte.
 export async function monterPage({ echouer = [], attente = false, claude } = {}) {
   const document = creerDocument();
-  const sandbox = { document, console, setTimeout, clearTimeout };
-  sandbox.window = sandbox;
-  if (claude) sandbox.claude = claude;
+  const global = globalThis;
+  global.document = document;
+  global.window = global;
+  delete global.claude;
+  for (const nom of ["GPTTokenizer_o200k_base", "GPTTokenizer_cl100k_base"]) delete global[nom];
+  if (claude) global.claude = claude;
   const enAttente = [];
   const charger = (script) => {
     const fichier = script.src.split("/").pop();
     const [nom, couper] = DECOUPEURS[fichier];
     if (echouer.includes(fichier)) return script.onerror();
-    sandbox[nom] = fauxDecoupeur(couper);
+    global[nom] = fauxDecoupeur(couper);
     script.onload();
   };
   document.head.append = (script) => {
     if (attente) enAttente.push(script);
     else queueMicrotask(() => charger(script));
   };
-  vm.createContext(sandbox);
-  const html = readFileSync(join(racine, "index.html"), "utf8");
-  const debut = html.indexOf("<script>") + "<script>".length;
-  vm.runInContext(html.slice(debut, html.indexOf("</script>", debut)), sandbox);
+  const { monter } = await import(pathToFileURL(join(racine, "src/modules/comparaison/api.js")));
+  monter();
   await attendre(0);
   return {
     document,

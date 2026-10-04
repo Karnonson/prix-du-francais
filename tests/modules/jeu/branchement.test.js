@@ -3,12 +3,14 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { pathToFileURL } from "node:url";
 import { creerFauxDocument } from "../../aide/faux-dom.js";
+import { creerDocument } from "../../aide/page.js";
 import { monter } from "../../../src/modules/jeu/api.js";
 
 const racine = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const page = readFileSync(join(racine, "index.html"), "utf8");
-const scriptModule = page.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
+const scriptModule = readFileSync(join(racine, "src", "main.js"), "utf8");
 
 const attendre = () => new Promise((resolve) => setTimeout(resolve, 0));
 
@@ -31,26 +33,29 @@ test("index.html a l'emplacement du jeu avant le comparateur", () => {
   assert.ok(jeu < comparateur, "l'emplacement du jeu doit venir avant le comparateur");
 });
 
-test("index.html importe creerCompteur et monter par leurs points d'entrée et appelle monter sur l'emplacement", () => {
-  assert.ok(scriptModule, "pas de <script type=\"module\">");
+test("main.js importe creerCompteur et monter par leurs points d'entrée et appelle monter sur l'emplacement", () => {
+  assert.ok(scriptModule, "pas de src/main.js");
   assert.match(scriptModule, /modules\/compteur\/api\.js/);
   assert.match(scriptModule, /modules\/jeu\/api\.js/);
   assert.ok(scriptModule.includes('monter(document.getElementById("jeu"), creerCompteur())'));
 });
 
-test("publiée seule, sans modules/, la page reste celle d'avant : le script ne lève rien et l'emplacement reste vide", async () => {
-  const el = creerFauxDocument().createElement("section");
-  globalThis.document = { getElementById: () => el };
+test("la page branche le jeu : main.js monte l'accueil dans l'emplacement du jeu, et l'emplacement vide reste caché", async () => {
+  const document = creerDocument();
+  document.head.appendChild = () => {};
+  document.head.append = () => {};
+  globalThis.document = document;
+  globalThis.window = globalThis;
   try {
-    const url = "data:text/javascript;base64," + Buffer.from(scriptModule).toString("base64");
-    await import(url);
+    await import(pathToFileURL(join(racine, "src", "main.js")));
+    await attendre();
     await attendre();
   } finally {
     delete globalThis.document;
+    delete globalThis.window;
   }
 
-  assert.equal(el.textContent, "");
-  assert.equal(el.children.length, 0);
+  assert.ok(document.getElementById("jeu").children.length > 0, "l'accueil du jeu n'est pas monté");
   assert.match(page, /#jeu:empty\s*\{\s*display:\s*none/);
 });
 
