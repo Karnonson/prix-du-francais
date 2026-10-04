@@ -1,5 +1,6 @@
 // L'écran de révélation (SC2) : les vrais nombres de jetons, la découpe en blocs colorés, deux barres.
 import { juger } from "../jugement.js";
+import { calculerScore } from "../score.js";
 import { chargerStyle, emoji, h } from "./dom.js";
 
 const STYLE = new URL("./revelation.css", import.meta.url);
@@ -18,6 +19,16 @@ function verdict({ fr, en, gagnant, correct }, choix) {
   const nombres = { fr: fr.nombre, en: en.nombre };
   const choisie = LANGUES.find((l) => l.code === choix).choisie;
   return ["🤔", `Aïe, raté : ${jetons(nombres[chere.code])} ${chere.en_langue}, seulement ${nombres[moins.code]} ${moins.en_langue}. Tu avais choisi ${choisie}.`];
+}
+
+// Ce que la réponse qui vient d'être donnée rapporte, ligne par ligne.
+function lignesPoints(partie) {
+  const { pointsBonnes, pointsBonus } = calculerScore(partie.reponses().slice(-1));
+  if (!pointsBonnes) return [h("p", {}, "0 point")];
+  return [
+    h("p", {}, emoji("⭐"), ` +${pointsBonnes} points`),
+    pointsBonus > 0 && h("p", {}, emoji("⚡"), ` +${pointsBonus} points de rapidité`),
+  ];
 }
 
 function carte(langue, resultat, choix, maximum) {
@@ -66,5 +77,6 @@ export function montrer(contexte) {
     h("div", { class: "duo" }, LANGUES.map((langue) => carte(langue, resultat, choix, maximum))),
     h("div", { class: "carte bande" },
       h("p", {}, h("strong", {}, emoji(signe), ` ${message}`)),
+      partie && lignesPoints(partie),
       suite)));
 }

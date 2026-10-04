@@ -145,3 +145,40 @@ test("un mot très long sans espace ne fait pas déborder les blocs (la feuille 
   assert.match(css, /\.pastille\s*\{[^}]*overflow-wrap:\s*anywhere/);
   assert.match(css, /\.pastille\s*\{[^}]*white-space:\s*pre-wrap/);
 });
+
+// Correctif US1 : la révélation dit ce que la réponse rapporte (textes.md : bon, faux, egalite).
+const avecHorloge = (secondes) => {
+  let t = 1000;
+  const partie = creerPartie({ defis: [DENTISTE, DENTISTE, DENTISTE, DENTISTE, DENTISTE], maintenant: () => t });
+  t += secondes * 1000;
+  return partie;
+};
+const TABLE = { [DENTISTE.fr]: FR_17, [DENTISTE.en]: EN_13 };
+
+test("une bonne réponse rapide montre « ⭐ +10 points » et « ⚡ +5 points de rapidité »", () => {
+  const { el } = reveler({ choix: "fr", table: TABLE, partie: avecHorloge(4) });
+
+  assert.match(el.textContent, /⭐ \+10 points/);
+  assert.match(el.textContent, /⚡ \+5 points de rapidité/);
+});
+
+test("une bonne réponse lente montre « +10 points » sans la ligne de rapidité", () => {
+  const { el } = reveler({ choix: "fr", table: TABLE, partie: avecHorloge(40) });
+
+  assert.match(el.textContent, /⭐ \+10 points/);
+  assert.doesNotMatch(el.textContent, /rapidité/);
+});
+
+test("une réponse fausse montre « 0 point »", () => {
+  const { el } = reveler({ choix: "en", table: TABLE, partie: avecHorloge(4) });
+
+  assert.match(el.textContent, /0 point/);
+  assert.doesNotMatch(el.textContent, /\+10|rapidité/);
+});
+
+test("une égalité montre « 0 point »", () => {
+  const { el } = reveler({ choix: "fr", table: { [DENTISTE.fr]: { ...FR_17, nombre: 4 }, [DENTISTE.en]: { ...EN_13, nombre: 4 } } });
+
+  assert.match(el.textContent, /0 point/);
+  assert.doesNotMatch(el.textContent, /\+10/);
+});
