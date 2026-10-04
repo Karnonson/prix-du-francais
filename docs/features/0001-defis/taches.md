@@ -99,8 +99,8 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Fichiers : src/modules/jeu/ui/jeu.js, tests/modules/jeu/compteur.test.js
   Après : T04
   Taille : S
-- [ ] T07 [P] [US1] Ne rien garder d'une partie
-  - [ ] Étant donné une partie en cours, quand je ferme la page puis je la rouvre, alors je repars de l'accueil : une partie jouée en entier n'écrit rien dans le stockage du navigateur (localStorage, sessionStorage, cookies, IndexedDB)
+- [x] T07 [P] [US1] Ne rien garder d'une partie
+  - [x] Étant donné une partie en cours, quand je ferme la page puis je la rouvre, alors je repars de l'accueil : une partie jouée en entier n'écrit rien dans le stockage du navigateur (localStorage, sessionStorage, cookies, IndexedDB)
   Exigences : EF13
   Risques : données personnelles — un score ou une phrase restant dans le navigateur → rien n'est écrit, vérifié sur une partie entière
   Fichiers : tests/modules/jeu/rien-garde.test.js
