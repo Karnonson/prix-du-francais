@@ -15,3 +15,11 @@ style=$(grep -n '^<style>' index.html | head -1 | cut -d: -f1)
   printf '\n</body>\n</html>\n'
 } > dist/index.html
 echo "dist/index.html"
+# src/ is copied as it is: src/modules/x/y.js becomes dist/modules/x/y.js.
+if [ -d src ]; then
+  cp -R src/. dist/
+fi
+# Tests use Node's built-in runner (no dependency). SANS_TESTS=1 skips them.
+if [ -z "${SANS_TESTS:-}" ]; then
+  node --test "tests/**/*.test.js"
+fi
