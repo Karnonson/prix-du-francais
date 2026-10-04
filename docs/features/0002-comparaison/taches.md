@@ -63,7 +63,7 @@ jamais les deux usages en même temps.
   - [x] Étant donné le jeu ou le comparateur affiché, quand je touche « Retour à l'accueil », alors je reviens à l'accueil tel qu'au premier chargement : les deux blocs, rien d'autre.
   - [x] Étant donné l'accueil affiché, quand je touche deux fois de suite « Jouer » ou « Comparer », alors je reste sur la section déjà affichée, sans erreur.
   Exigences : EF2, EF3, EF4
-  Risques : abus — clics rapides et répétés sur Jouer, Comparer ou Retour → un seul état affiché à la fois, pas de montage multiple
+  Risques : abus — clics rapides et répétés sur Jouer, Comparer ou Retour → un seul état affiché à la fois
   Écrans : SC1
   Fichiers : src/main.js, tests/accueil.test.js
   Après : T01
