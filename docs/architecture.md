@@ -4,7 +4,8 @@
 
 ## Pièces
 
-- La page, qui tourne dans le navigateur du visiteur : compte les jetons, les affiche découpés, et bientôt le jeu — `index.html`
+- La page, qui tourne dans le navigateur du visiteur : compte les jetons et les affiche découpés — `index.html`
+- Le jeu des défis, qui s'ajoute à la page dans `<section id="jeu">`, en modules chargés à la demande ; absent de la copie Claude Artifact, publiée seule — `src/modules/`, [ADR 0001](adr/0001-le-jeu-a-cote-de-la-page.md)
 - Le compteur de jetons, chargé depuis jsDelivr et exécuté dans le navigateur — `gpt-tokenizer` 2.9.0 (à ne pas monter en 3.x, voir README)
 - Les polices, chargées depuis Google Fonts — Bricolage Grotesque, Atkinson Hyperlegible
 - Le site publié, servi par GitHub Pages depuis la branche `gh-pages` — `deploy.sh`
@@ -17,19 +18,19 @@ La disposition, celle d'un site statique sans framework : `src/modules/<module>/
 dans `tests/modules/<module>/` lancés par `node --test`, `dist/` le site construit par `build.sh`, jamais
 modifié à la main. `index.html` reste à la racine : `build.sh` l'enveloppe et copie `src/` dans `dist/`.
 
-État actuel : sur la branche principale, tout le code tient encore dans `index.html` (style, script,
-données). La fonctionnalité Défis (`feature/defis`) ajoute les modules `compteur` et `jeu` ; la page de
-comparaison, elle, reste dans le script de `index.html` jusqu'au rangement (voir À faire).
+État actuel : les modules `compteur` et `jeu` (fonctionnalité Défis, [ADR 0001](adr/0001-le-jeu-a-cote-de-la-page.md))
+sont dans `src/modules/` ; la page de comparaison, elle, reste dans le script de `index.html` jusqu'au
+rangement (voir À faire).
 
 | Module | Possède | Chemins |
 |---|---|---|
 | (page) | la comparaison des deux phrases, le style de la page | `index.html` |
-| compteur | compter les jetons et découper une phrase (arrive avec Défis) | `src/modules/compteur/` |
-| jeu | les défis, le score, l'écran final (arrive avec Défis) | `src/modules/jeu/`, `tests/modules/jeu/` |
+| compteur | compter les jetons « Récent » et découper une phrase pour le jeu | `src/modules/compteur/` |
+| jeu | les défis, la partie de 5, le score, les écrans (accueil, défi, révélation, fin, composer) | `src/modules/jeu/`, `tests/modules/jeu/` |
 
 ## Données
 
-Rien n'est gardé côté serveur. La progression du jeu restera dans le navigateur du visiteur (*supposé*, à décider avec la fonctionnalité).
+Rien n'est gardé, ni côté serveur ni dans le navigateur : une partie fermée est perdue, et les phrases composées ne servent qu'à compter les jetons ([ADR 0001](adr/0001-le-jeu-a-cote-de-la-page.md)). La progression viendra avec la fonctionnalité 0003.
 
 ## Secrets
 
@@ -45,7 +46,7 @@ Lancer `./build.sh`, puis ouvrir `dist/index.html`. Il faut internet pour le com
 
 ## Lancer
 
-- `./build.sh` : enveloppe `index.html` dans `dist/index.html`. C'est la vérification de `cadrer-x.yml`.
+- `./build.sh` : enveloppe `index.html` dans `dist/index.html`, copie `src/` dans `dist/`, puis lance `node --test tests/` (`SANS_TESTS=1` saute les tests). C'est la vérification de `cadrer-x.yml`.
 - `./deploy.sh` : construit, puis pousse `dist/` sur `gh-pages`.
 
 ## Trajet
