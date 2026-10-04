@@ -12,15 +12,20 @@
 
 ## Modules
 
-État actuel : tout le code tient dans `index.html` (style, script, données), sans module.
+La disposition, celle d'un site statique sans framework : `src/modules/<module>/api.js` (chargé par
+`import`, `ui/` pour ce qu'il dessine), `src/shared/` pour ce que plusieurs modules partagent, les tests
+dans `tests/modules/<module>/` lancés par `node --test`, `dist/` le site construit par `build.sh`, jamais
+modifié à la main. `index.html` reste à la racine : `build.sh` l'enveloppe et copie `src/` dans `dist/`.
 
-Cible, l'approche classique d'un site statique : `src/` le code en fichiers séparés, `public/` les images et l'icône, `dist/` le site construit (ignoré par git). `build.sh` devra rassembler `src/` en un seul `dist/index.html`.
-
-Modules prévus (*supposé*) : compteur (jetons et découpe), jeu (défis, score), progression (ce que le visiteur a déjà fait).
+État actuel : sur la branche principale, tout le code tient encore dans `index.html` (style, script,
+données). La fonctionnalité Défis (`feature/defis`) ajoute les modules `compteur` et `jeu` ; la page de
+comparaison, elle, reste dans le script de `index.html` jusqu'au rangement (voir À faire).
 
 | Module | Possède | Chemins |
 |---|---|---|
-| (aucun encore) | tout, dans un seul fichier | `index.html` |
+| (page) | la comparaison des deux phrases, le style de la page | `index.html` |
+| compteur | compter les jetons et découper une phrase (arrive avec Défis) | `src/modules/compteur/` |
+| jeu | les défis, le score, l'écran final (arrive avec Défis) | `src/modules/jeu/`, `tests/modules/jeu/` |
 
 ## Données
 
@@ -49,7 +54,7 @@ Tu écris une phrase en français → la page envoie le texte au compteur dans t
 
 ## À faire
 
-Rien.
+- [ ] ranger le code en modules : /cadrer-x-ranger — avant la construction (après la livraison de Défis, pour ne pas la gêner)
 
 ## Écarté
 
@@ -57,6 +62,4 @@ Rien.
 - Google Forms, Typeform : des quiz, mais sans découpe en jetons.
 - Tableur ou papier : les comptes se font ailleurs, sans découpe visible.
 
-## Mots
-
-- Jeton : l'unité qu'une IA compte dans un texte, en français ; « token » seulement dans les noms techniques.
+<!-- Les mots du produit et de son domaine sont dans `glossaire.md`, à côté. -->
