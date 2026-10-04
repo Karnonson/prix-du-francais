@@ -38,11 +38,11 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Fichiers : build.sh, tests/assemblage.test.js, tests/aide/faux-dom.js, docs/features/0001-defis/decisions.md, README.md
   Après : aucune
   Taille : M
-- [ ] T02 [US1] Créer le module compteur : compter les jetons « Récent » en dehors de la page
-  - [ ] `src/modules/compteur/api.js` offre `creerCompteur()` qui charge le découpeur « Récent » (`o200k`, `gpt-tokenizer` 2.9.0) depuis jsDelivr, à la même adresse que la page, et rend `compter(texte)` (nombre de jetons et blocs), `pret()`, `echec()` et `surChangement(rappel)`
-  - [ ] Avec un faux découpeur, `compter` replie les morceaux vides dans le suivant et rend le vrai nombre de jetons (un caractère coupé en plusieurs jetons garde son compte)
-  - [ ] Le compteur compte toujours avec « Récent », que la page soit réglée sur « Plus ancien » ou non : il ne lit rien de la page
-  - [ ] Si le chargement échoue, `echec()` est vrai, `pret()` reste faux et `surChangement` prévient
+- [x] T02 [US1] Créer le module compteur : compter les jetons « Récent » en dehors de la page
+  - [x] `src/modules/compteur/api.js` offre `creerCompteur()` qui charge le découpeur « Récent » (`o200k`, `gpt-tokenizer` 2.9.0) depuis jsDelivr, à la même adresse que la page, et rend `compter(texte)` (nombre de jetons et blocs), `pret()`, `echec()` et `surChangement(rappel)`
+  - [x] Avec un faux découpeur, `compter` replie les morceaux vides dans le suivant et rend le vrai nombre de jetons (un caractère coupé en plusieurs jetons garde son compte)
+  - [x] Le compteur compte toujours avec « Récent », que la page soit réglée sur « Plus ancien » ou non : il ne lit rien de la page
+  - [x] Si le chargement échoue, `echec()` est vrai, `pret()` reste faux et `surChangement` prévient
   Exigences : EF4
   Risques : aucun — pas de connexion, pas de secret ; le texte ne quitte pas le navigateur
   Fichiers : src/modules/compteur/api.js, tests/modules/compteur/compteur.test.js
