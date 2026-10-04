@@ -172,6 +172,17 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Après : T05, T06, T10
   Taille : M
 
+- [x] T12 [US3] Faire attendre « Composer mon défi » tant que le compteur charge (correctif de l'audit US3)
+  - [x] Étant donné que le compteur charge encore, quand je touche « Composer mon défi », alors le bouton attend (occupé) et l'écran composer s'ouvre dès que le compteur est prêt, une seule fois même si je touche plusieurs fois
+  - [x] Étant donné que le compteur est prêt, quand je touche « Composer mon défi », alors l'écran composer s'ouvre tout de suite
+  - [x] Étant donné que j'attends et que le compteur échoue, alors la page dit qu'il ne répond pas et l'écran composer ne s'ouvre pas
+  Exigences : EF12, EF14
+  Risques : abus — un défi composé joué avant l'arrivée du compteur vidait tout le jeu sans un mot → le compteur est prêt avant que l'écran composer n'existe
+  Écrans : SC1
+  Fichiers : src/modules/jeu/ui/jeu.js, tests/modules/jeu/compteur.test.js
+  Après : T11
+  Taille : S
+
 **Point d'étape** : US1, US2 et US3 marchent chacun seul → `/cadrer-x-examiner US3`.
 
 ---

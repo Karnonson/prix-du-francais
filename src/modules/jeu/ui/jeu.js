@@ -28,12 +28,15 @@ function erreurCompteur(contexte) {
 // L'accueil se redessine quand le compteur change d'état : s'il échoue, le jeu ne démarre pas et on le dit.
 function accueil(contexte) {
   const racine = h("div", { class: "pile" });
-  let enAttente = false;
+  // Ce que la personne a demandé pendant que le compteur charge : « partie » ou « composer ».
+  let enAttente = null;
+  const suites = { partie: () => contexte.demarrerPartie(), composer: () => contexte.composer() };
 
-  const demarrer = () => {
+  const demander = (quoi) => () => {
+    if (enAttente) return;
     if (contexte.compteur.echec()) return dessiner();
-    if (contexte.compteur.pret()) return contexte.demarrerPartie();
-    enAttente = true;
+    if (contexte.compteur.pret()) return suites[quoi]();
+    enAttente = quoi;
     dessiner();
   };
 
@@ -44,12 +47,13 @@ function accueil(contexte) {
       return;
     }
     if (contexte.compteur.pret() && enAttente) {
-      enAttente = false;
-      contexte.demarrerPartie();
+      const quoi = enAttente;
+      enAttente = null;
+      suites[quoi]();
       return;
     }
     racine.textContent = "";
-    racine.append(pageAccueil(contexte, demarrer, enAttente));
+    racine.append(pageAccueil(contexte, demander, enAttente));
   }
 
   contexte.compteur.surChangement(() => {
@@ -60,7 +64,7 @@ function accueil(contexte) {
   return racine;
 }
 
-function pageAccueil(contexte, demarrer, enAttente) {
+function pageAccueil(contexte, demander, enAttente) {
   const flottants = ["🇫🇷", "🪙", "🧮", "🪙", "🇬🇧"].map((signe, i) => h("span", { style: `--d: -${i * 0.6}s` }, signe));
   return h("div", { class: "pile" },
     h("div", { class: "hero" },
@@ -68,8 +72,8 @@ function pageAccueil(contexte, demarrer, enAttente) {
       titre(),
       h("p", { class: "chapo" }, "Tu lis une phrase en français et la même en anglais. Tu paries sur la plus chère en jetons. Tokenette compte, et tu vois qui gagne."),
       h("div", { class: "rangee" },
-        h("button", { type: "button", class: "bouton grosbouton", "aria-busy": enAttente ? "true" : false, onclick: () => { if (!enAttente) demarrer(); } }, emoji("🎮"), " C’est parti"),
-        h("button", { type: "button", class: "bouton secondaire", onclick: () => contexte.composer() }, emoji("✍️"), " Composer mon défi"))),
+        h("button", { type: "button", class: "bouton grosbouton", "aria-busy": enAttente === "partie" ? "true" : false, onclick: demander("partie") }, emoji("🎮"), " C’est parti"),
+        h("button", { type: "button", class: "bouton secondaire", "aria-busy": enAttente === "composer" ? "true" : false, onclick: demander("composer") }, emoji("✍️"), " Composer mon défi"))),
     h("div", { class: "trio" },
       CARTES.map(([signe, texte]) => h("div", { class: "carte" }, emoji(signe, { class: "grandemoji emoji" }), h("p", {}, texte)))));
 }

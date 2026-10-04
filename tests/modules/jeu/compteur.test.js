@@ -89,10 +89,45 @@ test("toucher « C’est parti » plusieurs fois pendant l'attente ne démarre q
   assert.deepEqual(appels, ["partie"]);
 });
 
-test("« Composer mon défi » reste possible tant que le compteur charge", () => {
-  const { el, appels } = ouvrir(compteurPilote());
+// Correctif US3 : un défi composé se révèle avec le compteur ; « Composer mon défi » attend comme « C’est parti ».
+test("compteur pas prêt : « Composer mon défi » attend, puis ouvre l'écran composer dès que le compteur est prêt", () => {
+  const compteur = compteurPilote();
+  const { el, appels } = ouvrir(compteur);
 
-  assert.ok(trouver(el, (e) => e.tagName === "BUTTON" && e.textContent.includes("Composer mon défi")));
   bouton(el, "Composer mon défi").click();
+  assert.deepEqual(appels, []);
+  assert.equal(bouton(el, "Composer mon défi").getAttribute("aria-busy"), "true");
+
+  compteur.arrive();
   assert.deepEqual(appels, ["composer"]);
+});
+
+test("compteur prêt : « Composer mon défi » ouvre l'écran composer tout de suite", () => {
+  const { el, appels } = ouvrir(compteurPilote({ pret: true }));
+
+  bouton(el, "Composer mon défi").click();
+
+  assert.deepEqual(appels, ["composer"]);
+});
+
+test("toucher « Composer mon défi » plusieurs fois pendant l'attente n'ouvre qu'un écran", () => {
+  const compteur = compteurPilote();
+  const { el, appels } = ouvrir(compteur);
+
+  bouton(el, "Composer mon défi").click();
+  bouton(el, "Composer mon défi").click();
+  compteur.arrive();
+
+  assert.deepEqual(appels, ["composer"]);
+});
+
+test("« Composer mon défi » attend puis le compteur échoue : la page le dit et rien ne s'ouvre", () => {
+  const compteur = compteurPilote();
+  const { el, appels } = ouvrir(compteur);
+
+  bouton(el, "Composer mon défi").click();
+  compteur.echoue();
+
+  assert.ok(el.textContent.includes(MESSAGE));
+  assert.deepEqual(appels, []);
 });
