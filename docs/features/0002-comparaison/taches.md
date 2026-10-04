@@ -35,10 +35,10 @@ blocs Jouer/Comparer, sans rien d'autre.
 
 **Test seul** : se vérifie entièrement en ouvrant la page et en lisant l'accueil.
 
-- [ ] T01 [US1] Afficher l'accueil au chargement : titre, explication du jeton, blocs Jouer/Comparer
-  - [ ] Étant donné que j'ouvre le site, quand la page se charge, alors je vois le titre « Tokenette », une explication de ce qu'est un jeton et pourquoi ça compte, puis deux blocs égaux — « Jouer » et « Comparer » — chacun avec une icône, un titre et une phrase qui dit ce qu'il fait.
-  - [ ] Étant donné l'accueil affiché, quand je regarde la page, alors je ne vois ni le jeu ni le comparateur : seul l'accueil est là.
-  - [ ] Étant donné le dépôt, quand j'ouvre `index.html` et `README.md`, alors le titre de l'onglet, le titre affiché sur la page et le premier titre du README disent « Tokenette », sans « Le prix du français ».
+- [x] T01 [US1] Afficher l'accueil au chargement : titre, explication du jeton, blocs Jouer/Comparer
+  - [x] Étant donné que j'ouvre le site, quand la page se charge, alors je vois le titre « Tokenette », une explication de ce qu'est un jeton et pourquoi ça compte, puis deux blocs égaux — « Jouer » et « Comparer » — chacun avec une icône, un titre et une phrase qui dit ce qu'il fait.
+  - [x] Étant donné l'accueil affiché, quand je regarde la page, alors je ne vois ni le jeu ni le comparateur : seul l'accueil est là.
+  - [x] Étant donné le dépôt, quand j'ouvre `index.html` et `README.md`, alors le titre de l'onglet, le titre affiché sur la page et le premier titre du README disent « Tokenette », sans « Le prix du français ».
   Exigences : EF1, EF6
   Risques : aucun — affichage statique, aucune saisie ni donnée nouvelle
   Écrans : SC1

@@ -1,4 +1,4 @@
-# Le prix du français
+# Tokenette
 
 A one-page tool for people who don't code: write the same sentence in English and in French and see how
 many tokens an AI counts for each, cut into visible pieces. It opens on an example, with three examples to
