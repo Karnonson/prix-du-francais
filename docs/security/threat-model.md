@@ -15,3 +15,11 @@ Aucun secret, aucune connexion, aucune donnée gardée.
 | données personnelles | un score ou une phrase restant dans le navigateur (T07) | rien n'est écrit (localStorage, sessionStorage, cookies, IndexedDB) | `tests/modules/jeu/rien-garde.test.js` |
 
 Reste : le compteur de frappe de l'écran composer découpe tout le texte collé à chaque frappe (environ 0,9 s pour 5 millions de caractères) ; sans effet sur le refus.
+
+## Accueil (0002)
+
+| Domaine | Menace | Protection | Test |
+|---|---|---|---|
+| abus | des clics rapides et répétés sur « Jouer », « Comparer » ou « Retour à l'accueil » (T02) | `basculer()` ignore un clic vers l'état déjà affiché ; un seul état `[data-state]` visible à la fois, jamais de montage multiple | `tests/accueil.test.js` — « étant donné l'accueil affiché, quand je touche deux fois de suite Jouer ou Comparer, alors je reste sur la section déjà affichée, sans erreur » |
+
+Reste : aucune donnée personnelle, aucune saisie, aucune connexion ajoutées par cette fonctionnalité.

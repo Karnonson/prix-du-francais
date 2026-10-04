@@ -1,6 +1,7 @@
 # Tokenette — glossaire
 
 - **Tokenette** : le site qui permet de comparer le coût en jetons d'une requête en français et en anglais, avec un jeu et un comparateur.
+- **Accueil** : le premier écran vu au chargement — le titre, l'explication du jeton, et les deux blocs Jouer/Comparer ; d'où l'on bascule vers le jeu ou le comparateur, et où l'on revient par « Retour à l'accueil ».
 - **Requête** : le texte qu'on envoie à une IA ; dans un défi, une phrase tient ce rôle.
 - **Comparateur** : l'écran où l'on saisit directement ses textes pour estimer leur coût en jetons, sans jouer ; le bloc de l'accueil qui y mène dit « Comparer ».
 - **Jeton** : l'unité qu'une IA compte dans un texte — jamais : « token », sauf dans un nom technique.
