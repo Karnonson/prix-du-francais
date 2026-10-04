@@ -2,9 +2,9 @@
 ## Résultat
 Le visiteur joue des défis de deux phrases qui disent la même chose, l'une en français et l'autre en anglais. Il choisit celle qui coûte le plus de jetons, puis il voit les vrais chiffres et la découpe, et il a un score.
 ## Pour qui
-D'abord le propriétaire, sur son téléphone ; ensuite les francophones sans code qui utilisent ses skills.
+Toute personne qui veut comparer le coût en jetons d'une requête en français et en anglais ; d'abord le propriétaire, sur son téléphone.
 ## Problème
-Aujourd'hui la page compte les jetons mais ne propose aucun jeu : l'écart entre le français et l'anglais reste abstrait. Ce besoin est une anticipation, pas un cas réel (voir la vision). Le but premier est de servir de terrain d'essai aux skills cadrer-x.
+Aujourd'hui la page compte les jetons mais ne propose aucun jeu : on ne voit pas si le français et l'anglais consomment le même nombre de jetons, l'écart reste abstrait. Le but premier est de mettre cadrer-x en pratique avec un outil amusant mais utile (voir la vision).
 ## Pourquoi maintenant
 Terrain d'essai pour les skills, avant le 4 octobre 2026 à midi.
 ## Mesure

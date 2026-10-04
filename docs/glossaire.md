@@ -1,6 +1,8 @@
 # Tokenette — glossaire
 
-- **Tokenette** : le site qui montre ce qu'une phrase coûte en jetons, en français et en anglais, et qui en fait un jeu.
+- **Tokenette** : le site qui permet de comparer le coût en jetons d'une requête en français et en anglais, avec un jeu et un compteur.
+- **Requête** : le texte qu'on envoie à une IA ; dans un défi, une phrase tient ce rôle.
+- **Compteur** : la page où l'on saisit directement ses textes pour estimer leur coût en jetons, sans jouer.
 - **Jeton** : l'unité qu'une IA compte dans un texte — jamais : « token », sauf dans un nom technique.
 - **Défi** : deux phrases qui disent la même chose, l'une en français et l'autre en anglais ; on choisit celle qui coûte le plus de jetons — jamais : « question », « quiz ».
 - **Partie** : une suite de 5 défis tirés au hasard, qui finit sur un score — jamais : « session ».
