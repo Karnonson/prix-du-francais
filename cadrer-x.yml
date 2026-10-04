@@ -1,9 +1,9 @@
-name: prix-du-francais
+name: tokenette
 docs: docs
 commands:
   checks: [./build.sh]
 envs:
   github-pages:
-    url: https://karnonson.github.io/prix-du-francais/
+    url: https://karnonson.github.io/tokenette/
     deploy: ./deploy.sh
     rollback: git push -f origin f453fd0c391e8b863d85fb4946bb01b2d6a0b54b:gh-pages

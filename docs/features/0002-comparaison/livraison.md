@@ -12,7 +12,7 @@
 
 ## En ligne
 
-https://karnonson.github.io/prix-du-francais/ — 2026-10-04 — commit 04657c8 — version 0.2.0
+https://karnonson.github.io/tokenette/ — 2026-10-04 — commit 04657c8 — version 0.2.0 ; adresse changée depuis le dépôt renommé `prix-du-francais` → `tokenette` le même jour, voir **En cas de problème**
 
 ## Mise en ligne
 
@@ -32,6 +32,9 @@ https://karnonson.github.io/prix-du-francais/ — 2026-10-04 — commit 04657c8 
 - Revenir à la version d'avant : `git push -f origin f453fd0c391e8b863d85fb4946bb01b2d6a0b54b:gh-pages`
 - Rien n'est gardé (aucune donnée à récupérer)
 - En cas de souci : relancer `./build.sh` en local, puis regarder la console du navigateur sur la page en ligne
+- Le dépôt GitHub s'appelait `prix-du-francais` ; renommé `tokenette` le 2026-10-04. L'ancienne adresse
+  (`https://karnonson.github.io/prix-du-francais/`) répond en 404. `git remote get-url origin` donne
+  l'adresse actuelle du dépôt.
 
 ## À faire
 
