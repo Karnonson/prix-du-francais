@@ -67,10 +67,10 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
 
 **Test seul** : jouer les 5 défis d'une partie jusqu'au bout.
 
-- [ ] T04 [US1] Démarrer une partie et afficher le premier défi à choisir
-  - [ ] Étant donné que j'ouvre la page, quand je touche « C'est parti », alors je vois le premier défi : deux phrases, l'une en français, l'autre en anglais, et « Défi 1 sur 5 » ; l'accueil montre son titre, ses trois cartes, « C'est parti » et « Composer mon défi », avec les textes de `textes.md` (SC1, SC2)
-  - [ ] Une partie tire 5 défis différents, dans un ordre au hasard, d'une liste écrite à la main d'au moins 5 défis ; le nombre 5 est une constante à un seul endroit
-  - [ ] Sur un écran de 390 pixels de large, l'accueil et le défi ne demandent aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
+- [x] T04 [US1] Démarrer une partie et afficher le premier défi à choisir
+  - [x] Étant donné que j'ouvre la page, quand je touche « C'est parti », alors je vois le premier défi : deux phrases, l'une en français, l'autre en anglais, et « Défi 1 sur 5 » ; l'accueil montre son titre, ses trois cartes, « C'est parti » et « Composer mon défi », avec les textes de `textes.md` (SC1, SC2)
+  - [x] Une partie tire 5 défis différents, dans un ordre au hasard, d'une liste écrite à la main d'au moins 5 défis ; le nombre 5 est une constante à un seul endroit
+  - [x] Sur un écran de 390 pixels de large, l'accueil et le défi ne demandent aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
   Exigences : EF1, EF2, EF6
   Risques : aucun — pas de connexion, pas de secret, les défis viennent d'une liste fixe
   Écrans : SC1, SC2
