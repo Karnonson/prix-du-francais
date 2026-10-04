@@ -48,11 +48,11 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Fichiers : src/modules/compteur/api.js, tests/modules/compteur/compteur.test.js
   Après : T01
   Taille : S
-- [ ] T03 [US1] Monter le jeu dans la page
-  - [ ] `index.html` a un emplacement `<section id="jeu">` avant le comparateur, et un `<script type="module">` qui importe `creerCompteur` et `monter` par leurs points d'entrée (`modules/compteur/api.js`, `modules/jeu/api.js`) et appelle `monter(document.getElementById("jeu"), creerCompteur())`
-  - [ ] `src/modules/jeu/api.js` offre `monter(el, compteur, ecrans?)` : il ne touche à rien d'autre que `el`, il s'importe sans navigateur (le DOM n'est touché qu'à l'appel), et il charge chaque écran à la demande depuis `ui/<écran>.js` (qui exporte `montrer(contexte)`), pour qu'un écran s'ajoute sans retoucher `api.js` ; le contexte offre `accueil()`, `demarrerPartie()`, `jouerSeul(defi)` et `composer()`
-  - [ ] Chaque écran charge son `.css` par un `<link>` créé depuis `import.meta.url`
-  - [ ] Publiée seule (la copie Claude Artifact, sans `modules/`), la page reste celle d'avant : l'emplacement reste vide et ne laisse aucun trou
+- [x] T03 [US1] Monter le jeu dans la page
+  - [x] `index.html` a un emplacement `<section id="jeu">` avant le comparateur, et un `<script type="module">` qui importe `creerCompteur` et `monter` par leurs points d'entrée (`modules/compteur/api.js`, `modules/jeu/api.js`) et appelle `monter(document.getElementById("jeu"), creerCompteur())`
+  - [x] `src/modules/jeu/api.js` offre `monter(el, compteur, ecrans?)` : il ne touche à rien d'autre que `el`, il s'importe sans navigateur (le DOM n'est touché qu'à l'appel), et il charge chaque écran à la demande depuis `ui/<écran>.js` (qui exporte `montrer(contexte)`), pour qu'un écran s'ajoute sans retoucher `api.js` ; le contexte offre `accueil()`, `demarrerPartie()`, `jouerSeul(defi)` et `composer()`
+  - [x] Chaque écran charge son `.css` par un `<link>` créé depuis `import.meta.url`
+  - [x] Publiée seule (la copie Claude Artifact, sans `modules/`), la page reste celle d'avant : l'emplacement reste vide et ne laisse aucun trou
   Exigences : EF4
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
   Fichiers : index.html, src/modules/jeu/api.js, tests/modules/jeu/branchement.test.js
