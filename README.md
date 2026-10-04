@@ -18,12 +18,23 @@ pick from, and a French/English switch for the page itself.
   against a working French translation. Re-run that script and edit `MEASURED` in `index.html` when the
   real French twin exists.
 
+## Tests
+
+Tests use Node's built-in runner, so there is nothing to install (Node 22 or later).
+
+- `./build.sh` builds `dist/` and then runs every `tests/**/*.test.js`; it fails if a test fails.
+- `SANS_TESTS=1 ./build.sh` builds without running the tests.
+- `node --test "tests/**/*.test.js"` runs only the tests.
+
+`src/` is copied into `dist/` as it is (`src/modules/x/y.js` becomes `dist/modules/x/y.js`).
+`tests/aide/faux-dom.js` is a minimal fake `document` for mounting a screen without a browser.
+
 ## Files
 
 | File | What it is |
 | --- | --- |
 | `index.html` | The whole page, written as a page body — the form Claude Artifacts publish |
-| `build.sh` | Wraps `index.html` into `dist/index.html`, a full document for any other static host |
+| `build.sh` | Wraps `index.html` into `dist/index.html`, a full document for any other static host; copies `src/` to `dist/`; runs the tests |
 | `deploy.sh` | Builds, then force-pushes `dist/` as the `gh-pages` branch |
 
 ## Publish
