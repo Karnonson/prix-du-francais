@@ -39,7 +39,7 @@
 - Étiquette : Défi 1 sur 5
 - Message : 🎯 Dans le mille : 17 jetons en français, 13 en anglais.
 - Points : ⭐ +10 points
-- Points : ⚡ +4 points de rapidité
+- Points : ⚡ +5 points de rapidité
 - Bouton : ➡️ Défi suivant
 - Étiquette : 👉 Ton choix
 - Compte : 1 jeton · {n} jetons
@@ -68,7 +68,7 @@
 - Étiquette : Défi 5 sur 5
 - Message : 🎯 Dans le mille : 17 jetons en français, 13 en anglais.
 - Points : ⭐ +10 points
-- Points : ⚡ +2 points de rapidité
+- Points : ⚡ +5 points de rapidité
 - Bouton : 🏁 Voir mon score
 - Étiquette : 👉 Ton choix
 
@@ -88,7 +88,7 @@
 ### score
 
 - Titre : 🎉 Et voilà, c’est fini
-- Score : 57 points
+- Score : 55 points
 - Message : 4 bonnes réponses sur 5. Joli.
 - Détail : ✅ Bonnes réponses : 40 points
 - Détail : ⚡ Bonus de rapidité : 17 points

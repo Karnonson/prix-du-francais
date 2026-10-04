@@ -31,7 +31,7 @@
 - Récits : US2
 - Fichier : maquette/fin.html
 - Parties : page, pile, rangée, carte, bouton (secondaire), grand ; nouvelles : Ligne de score, Confettis, Emoji
-- États : score (#score) — « Et voilà, c'est fini », 57 points, détail bonnes réponses, bonus de rapidité et total, confettis, « Rejouer » (mène à SC2) ; score-bas (#score-bas) — 0 point, sans confettis, même bouton
+- États : score (#score) — « Et voilà, c'est fini », 55 points, détail bonnes réponses, bonus de rapidité et total, confettis, « Rejouer » (mène à SC2) ; score-bas (#score-bas) — 0 point, sans confettis, même bouton
 - Largeurs : 390 — une colonne ; 1280 — une colonne centrée dans la largeur de la page
 - Textes : textes.md → SC3
 
@@ -64,7 +64,7 @@
 ## Ouvert
 
 - Les textes anglais du jeu ne sont pas écrits : la spec dit que le jeu suit le français ou l'anglais de la page, la maquette n'existe qu'en français.
-- Les points sont inventés dans la maquette (10 par bonne réponse, un bonus de rapidité de 0 à 5) : la spec ne les fixe pas, à décider à la construction.
+- Les points de la maquette suivent la spec : 10 par bonne réponse, un bonus de 5 points si la réponse vient en 15 secondes ou moins.
 - Les nombres de jetons et les phrases des défis sont des exemples ; la liste d'au moins 5 défis écrits à la main reste à écrire.
 - Le produit s'appelle Tokenette dans la maquette ; `index.html` et le README disent encore « Le prix du français ».
 - Les polices sont copiées dans la maquette ; la vraie page les charge depuis Google Fonts, comme `index.html`.

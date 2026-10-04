@@ -17,7 +17,7 @@ En tant que propriétaire sur mon téléphone (puis francophone qui utilise ses 
 
 **Scénarios** :
 
-1. **Étant donné** que j'ouvre la page, **quand** je touche « Jouer », **alors** je vois le premier défi : deux phrases, l'une en français, l'autre en anglais, qui disent la même chose, et je sais que la partie compte 5 défis (« Défi 1 sur 5 »).
+1. **Étant donné** que j'ouvre la page, **quand** je touche « C'est parti », **alors** je vois le premier défi : deux phrases, l'une en français, l'autre en anglais, qui disent la même chose, et je sais que la partie compte 5 défis (« Défi 1 sur 5 »).
 2. **Étant donné** un défi affiché, **quand** je touche la phrase que je pense la plus chère en jetons, **alors** on me révèle les vrais chiffres : chaque phrase découpée en blocs de jetons colorés, et deux barres à comparer, avec le nombre de jetons de chacune, et on me dit si j'ai bien deviné.
 3. **Étant donné** que les deux phrases ont le même nombre de jetons, **quand** je touche l'une d'elles, **alors** on me dit « égalité » : le défi ne compte ni comme bon ni comme mauvais.
 4. **Étant donné** une révélation affichée, **quand** je touche « Défi suivant », **alors** le défi suivant s'affiche ; après le 5e défi, le bouton mène à l'écran final.
@@ -35,10 +35,10 @@ En tant que propriétaire, je veux voir mon score à la fin de la partie, avec u
 
 **Scénarios** :
 
-1. **Étant donné** que j'ai répondu au 5e défi, **quand** j'arrive à l'écran final, **alors** je vois mon score, fait de points fixes pour chaque bonne réponse, plus un bonus quand j'ai répondu vite, et je vois comment il s'est formé (points des bonnes réponses, bonus de rapidité), le nombre de bonnes réponses sur 5, et des animations amusantes.
+1. **Étant donné** que j'ai répondu au 5e défi, **quand** j'arrive à l'écran final, **alors** je vois mon score, fait de 10 points par bonne réponse, plus un bonus de 5 points pour chaque réponse donnée en 15 secondes ou moins, et je vois comment il s'est formé (points des bonnes réponses, bonus de rapidité), le nombre de bonnes réponses sur 5 (même si un défi s'est fini en égalité), et des animations amusantes : confettis, emojis et animations d'entrée.
 2. **Étant donné** l'écran final, **quand** je touche « Rejouer », **alors** une nouvelle partie de 5 défis démarre aussitôt, sans repasser par l'accueil.
 3. **Étant donné** que mon appareil demande moins de mouvement, **quand** j'arrive à l'écran final (ou à une révélation), **alors** il n'y a aucune animation : le score et les barres s'affichent tout de suite, sans perdre d'information.
-4. **Étant donné** une partie où j'ai tout faux, **quand** j'arrive à l'écran final, **alors** je vois un score bas, sans moquerie, et le bouton « Rejouer ».
+4. **Étant donné** une partie où j'ai tout faux, **quand** j'arrive à l'écran final, **alors** je vois un score de 0 point, sans confettis et sans moquerie, et le bouton « Rejouer ».
 
 ---
 
@@ -55,16 +55,17 @@ En tant que francophone qui utilise des skills, je veux écrire moi-même les de
 1. **Étant donné** l'accueil, **quand** je touche « Composer mon défi », **alors** je vois deux champs, un pour la phrase française et un pour l'anglaise, chacun avec son étiquette, et rien n'est traduit pour moi.
 2. **Étant donné** deux phrases écrites, **quand** je touche « Jouer ce défi », **alors** je joue ce défi comme les autres : je choisis la phrase la plus chère, puis je vois la révélation (blocs colorés, barres).
 3. **Étant donné** un champ vide ou fait seulement d'espaces, **quand** je touche « Jouer ce défi », **alors** on me dit quel champ est à remplir, et le défi ne démarre pas.
-4. **Étant donné** une phrase plus longue que 280 caractères, **quand** je touche « Jouer ce défi », **alors** on me dit que la phrase est trop longue et de combien, et le défi ne démarre pas ; ce que j'ai écrit reste dans le champ.
+4. **Étant donné** une phrase plus longue que 280 caractères (ceux que je vois : un emoji ou une lettre accentuée compte pour un), **quand** je touche « Jouer ce défi », **alors** on me dit que la phrase est trop longue et de combien, et le défi ne démarre pas ; ce que j'ai écrit reste dans le champ.
 5. **Étant donné** une phrase qui ressemble à du code (par exemple des balises), **quand** je joue le défi, **alors** elle s'affiche telle que je l'ai écrite, sans être interprétée.
 
 ---
 
 ### Cas limites
 
-- Que se passe-t-il quand le compteur de jetons ne se charge pas (pas d'internet) ? Le jeu ne démarre pas, et la page dit pourquoi : « le compteur n'a pas pu se charger », avec de quoi recharger la page.
+- Que se passe-t-il quand le compteur de jetons ne se charge pas (pas d'internet) ? Le jeu ne démarre pas, et la page le dit comme dans les textes des écrans (« Le compteur de jetons ne répond pas… »), avec de quoi recharger la page.
+- Que se passe-t-il quand je touche « C'est parti » alors que le compteur charge encore ? Le jeu attend, puis démarre dès que le compteur est prêt ; s'il n'arrive pas, la page dit qu'il ne répond pas.
 - Que se passe-t-il quand je touche deux fois de suite la même phrase ? La réponse ne compte qu'une fois.
-- Que se passe-t-il quand je mets du temps à répondre ? Rien : il n'y a pas de limite, le défi attend ; seul le bonus de rapidité diminue, jusqu'à zéro, et ma bonne réponse compte quand même.
+- Que se passe-t-il quand je mets du temps à répondre ? Rien : il n'y a pas de limite, le défi attend ; au-delà de 15 secondes le bonus de rapidité vaut 0, et ma bonne réponse compte quand même ses 10 points.
 - Que se passe-t-il quand je tourne mon téléphone ou que l'écran est étroit ? Les phrases, les blocs et les barres restent lisibles sans défilement latéral.
 
 ## Exigences
@@ -72,17 +73,17 @@ En tant que francophone qui utilise des skills, je veux écrire moi-même les de
 - **EF1** : Une partie DOIT compter 5 défis. (US1, scénario 1)
 - **EF2** : Chaque défi DOIT montrer deux phrases qui disent la même chose, l'une en français, l'autre en anglais, et laisser choisir celle qu'on pense la plus chère en jetons. (US1, scénario 1)
 - **EF3** : Après le choix, l'appli DOIT révéler les vrais nombres de jetons des deux phrases, avec le découpage en blocs colorés et des barres à comparer, et dire si le choix était bon. (US1, scénario 2)
-- **EF4** : Les nombres de jetons DOIVENT être les mêmes que ceux du compteur de la page. (US1, scénario 2)
+- **EF4** : Les nombres de jetons DOIVENT être les mêmes que ceux du compteur de la page, en version « Récent », même si j'ai choisi « Plus ancien » pour la page. (US1, scénario 2)
 - **EF5** : Deux phrases au même nombre de jetons DOIVENT donner « égalité », ni bonne ni mauvaise réponse. (US1, scénario 3)
 - **EF6** : Les défis proposés DOIVENT venir d'une liste écrite à la main dans la page. (US1, scénario 1)
-- **EF7** : Le score DOIT donner des points fixes par bonne réponse, plus un bonus de rapidité, et l'écran final DOIT séparer les deux ; une réponse fausse ou une égalité ne rapporte aucun point. (US2, scénario 1)
-- **EF8** : L'écran final DOIT montrer le score, des animations amusantes, et un bouton qui relance tout de suite une partie. (US2, scénarios 1 et 2)
+- **EF7** : Le score DOIT donner 10 points par bonne réponse, plus un bonus de 5 points si la réponse est donnée en 15 secondes ou moins (0 au-delà), et l'écran final DOIT séparer les deux ; une réponse fausse ou une égalité ne rapporte aucun point. (US2, scénario 1)
+- **EF8** : L'écran final DOIT montrer le score, des animations amusantes (confettis, emojis, animations d'entrée ; pas de confettis à 0 point), et un bouton qui relance tout de suite une partie. (US2, scénarios 1 et 2)
 - **EF9** : Les animations DOIVENT être absentes quand l'appareil demande moins de mouvement. (US2, scénario 3)
 - **EF10** : Je DOIS pouvoir écrire les deux phrases d'un défi moi-même ; l'appli ne traduit rien. (US3, scénario 1)
 - **EF11** : Une phrase composée vide, faite d'espaces, ou plus longue que 280 caractères DOIT être refusée avant de jouer, avec un message clair qui dit quoi corriger. (US3, scénarios 3 et 4)
 - **EF12** : Ce que j'écris DOIT s'afficher tel quel, jamais interprété comme du code ou de la mise en forme. (US3, scénario 5)
 - **EF13** : Fermer la page en pleine partie DOIT perdre la partie, et l'appli ne DOIT rien garder de ce que j'ai joué ni écrit. (US1, scénario 5)
-- **EF14** : Si le compteur de jetons ne se charge pas, le jeu NE DOIT PAS démarrer et la page DOIT le dire. (Cas limites)
+- **EF14** : Si le compteur de jetons ne se charge pas, le jeu NE DOIT PAS démarrer et la page DOIT le dire ; tant qu'il charge, « C'est parti » DOIT attendre, puis démarrer. (Cas limites)
 
 ## Critères
 
@@ -95,9 +96,11 @@ En tant que francophone qui utilise des skills, je veux écrire moi-même les de
 - Un défi composé se joue seul (un défi, sa révélation), sans entrer dans une partie de 5 ni dans un score.
 - La liste écrite à la main contient au moins 5 défis, pour qu'une partie ne répète pas un défi ; l'ordre est tiré au hasard à chaque partie.
 - Le choix se fait en touchant l'une des deux phrases, sans bouton « valider » en plus.
+- Le bonus est tout ou rien : 5 points jusqu'à 15 secondes, pour laisser le temps de lire les phrases, puis 0.
 - La rapidité se mesure de l'affichage du défi au choix de la phrase.
 - Le nombre de défis par partie (5) est un réglage facile à changer plus tard.
 - Le jeu parle en « tu », comme le reste de la page, et suit le français/anglais de la page.
+- Le produit s'appelle « Tokenette » dans les écrans ; le nom dans la page actuelle est à aligner (hors de cette spec).
 - Un défi de la liste est fait de phrases que le propriétaire a vérifiées : ce n'est pas la page qui juge la qualité de la traduction.
 
 ## Pas encore
