@@ -1,0 +1,20 @@
+/* L'écran final : le score, ses lignes, les confettis. Les parties de base viennent de jeu.css. */
+#jeu .grand { font-family: var(--display); font-size: var(--step-4); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+#jeu .ligne-score { display: flex; justify-content: space-between; gap: var(--espace-3); border-top: 1px dashed var(--rule); padding-top: var(--espace-2); }
+#jeu .ligne-score:first-child { border-top: 0; padding-top: 0; }
+#jeu .ligne-score.total { font-weight: 700; font-size: var(--step-1); }
+#jeu .confettis { position: relative; height: calc(var(--espace-6) + var(--espace-4)); overflow: hidden; }
+#jeu .confettis i {
+  position: absolute; top: calc(-1 * var(--espace-3)); width: var(--espace-2); height: var(--espace-3);
+  border-radius: var(--rayon-1); background: var(--fr); left: var(--x);
+}
+#jeu .confettis i:nth-child(even) { background: var(--en); }
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes jeu-tombe { to { transform: translateY(calc(var(--espace-6) * 2)) rotate(240deg); } }
+  #jeu .confettis i { animation: jeu-tombe 2.4s ease-in var(--d) infinite; }
+  #jeu .grand { animation: jeu-pop 0.45s ease-out 0.1s both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #jeu .confettis { display: none; }
+}

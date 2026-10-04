@@ -117,13 +117,13 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
 
 **Test seul** : finir une partie et toucher « Rejouer ».
 
-- [ ] T08 [P] [US2] Calculer le score et l'afficher à l'écran final, avec « Rejouer »
-  - [ ] Étant donné que j'ai répondu au 5e défi, quand j'arrive à l'écran final, alors je vois mon score fait de 10 points par bonne réponse plus 5 points de bonus pour chaque réponse donnée en 15 secondes ou moins, les deux séparés, le nombre de bonnes réponses sur 5 (même avec une égalité), et des confettis et des emojis ; une réponse fausse ou une égalité ne rapporte rien
-  - [ ] Étant donné l'écran final, quand je touche « Rejouer », alors une nouvelle partie de 5 défis démarre aussitôt, sans repasser par l'accueil ; « Retour à l'accueil » y mène
-  - [ ] Étant donné une partie où j'ai tout faux, quand j'arrive à l'écran final, alors je vois 0 point, sans confettis et sans moquerie, et le bouton « Rejouer »
-  - [ ] Quand je mets plus de 15 secondes à répondre, alors le bonus vaut 0 et ma bonne réponse compte quand même ses 10 points
-  - [ ] Quand je touche « Rejouer » plusieurs fois très vite, alors une seule partie démarre
-  - [ ] Sur un écran de 390 pixels de large, l'écran final ne demande aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
+- [x] T08 [P] [US2] Calculer le score et l'afficher à l'écran final, avec « Rejouer »
+  - [x] Étant donné que j'ai répondu au 5e défi, quand j'arrive à l'écran final, alors je vois mon score fait de 10 points par bonne réponse plus 5 points de bonus pour chaque réponse donnée en 15 secondes ou moins, les deux séparés, le nombre de bonnes réponses sur 5 (même avec une égalité), et des confettis et des emojis ; une réponse fausse ou une égalité ne rapporte rien
+  - [x] Étant donné l'écran final, quand je touche « Rejouer », alors une nouvelle partie de 5 défis démarre aussitôt, sans repasser par l'accueil ; « Retour à l'accueil » y mène
+  - [x] Étant donné une partie où j'ai tout faux, quand j'arrive à l'écran final, alors je vois 0 point, sans confettis et sans moquerie, et le bouton « Rejouer »
+  - [x] Quand je mets plus de 15 secondes à répondre, alors le bonus vaut 0 et ma bonne réponse compte quand même ses 10 points
+  - [x] Quand je touche « Rejouer » plusieurs fois très vite, alors une seule partie démarre
+  - [x] Sur un écran de 390 pixels de large, l'écran final ne demande aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
   Exigences : EF7, EF8
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
   Écrans : SC3

@@ -27,8 +27,10 @@ export function tirerDefis(hasard = Math.random, n = NB_DEFIS, defis = DEFIS) {
   return melange.slice(0, n);
 }
 
-export function creerPartie({ defis = tirerDefis() } = {}) {
+// `maintenant` rend l'heure en millisecondes ; on le donne pour piloter l'horloge dans les tests.
+export function creerPartie({ defis = tirerDefis(), maintenant = () => performance.now() } = {}) {
   let position = 0;
+  let debut = maintenant();
   const reponses = [];
   return {
     numero: () => position + 1,
@@ -37,7 +39,9 @@ export function creerPartie({ defis = tirerDefis() } = {}) {
     // Une réponse par défi : toucher deux fois la même phrase ne compte qu'une fois.
     repondre(reponse) {
       if (reponses.length > position) return false;
-      reponses.push(reponse);
+      // La rapidité va de l'affichage du défi au choix, en secondes. On compare des heures, pas des
+      // minuteurs : un onglet laissé en arrière-plan garde le temps qui passe.
+      reponses.push({ ...reponse, secondes: (maintenant() - debut) / 1000 });
       return true;
     },
     reponses: () => [...reponses],
@@ -45,6 +49,7 @@ export function creerPartie({ defis = tirerDefis() } = {}) {
     suivant() {
       if (position + 1 >= defis.length) return false;
       position += 1;
+      debut = maintenant();
       return true;
     },
   };
