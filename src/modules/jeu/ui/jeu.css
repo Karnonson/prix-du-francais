@@ -1,3 +1,4 @@
+@import url("./animations.css");
 /* Le jeu, scopé à #jeu pour ne rien changer au reste de la page.
    Les tokens de couleur, de police et de taille sont ceux de la page (index.html) ;
    ceux qu'elle n'a pas encore (espaces, coins, cible tactile) reprennent les valeurs du design system. */
@@ -53,21 +54,4 @@
 #jeu .bouton.grosbouton { font-size: var(--step-2); min-height: calc(var(--cible) * 1.4); padding-inline: var(--espace-6); }
 #jeu .emoji { display: inline-block; }
 
-/* Mouvement : coupé si l'appareil demande moins de mouvement */
-@media (prefers-reduced-motion: no-preference) {
-  @keyframes jeu-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
-  @keyframes jeu-entre { from { opacity: 0; transform: translateY(var(--espace-3)); } to { opacity: 1; transform: none; } }
-  @keyframes jeu-flotte { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(calc(-1 * var(--espace-4))) rotate(8deg); } }
-  @keyframes jeu-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
-  @keyframes jeu-balance { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg) scale(1.12); } }
-  #jeu .hero .titre { animation: jeu-pop 0.6s ease-out both; }
-  #jeu .hero .chapo { animation: jeu-entre 0.6s ease-out 0.25s both; }
-  #jeu .hero .rangee { animation: jeu-entre 0.6s ease-out 0.45s both; }
-  #jeu .flottants span { animation: jeu-flotte 3s ease-in-out infinite; animation-delay: var(--d); }
-  #jeu .bouton.grosbouton { animation: jeu-pulse 1.6s ease-in-out infinite; }
-  #jeu .emoji { animation: jeu-balance 2.2s ease-in-out infinite; }
-  #jeu .choix, #jeu .bouton { transition: transform 0.12s ease; }
-  #jeu .choix:hover, #jeu .bouton:hover { transform: translateY(calc(-1 * var(--espace-1))); }
-  #jeu .duo .choix { animation: jeu-entre 0.35s ease-out both; }
-  #jeu .duo .choix:nth-child(2) { animation-delay: 0.1s; }
-}
+

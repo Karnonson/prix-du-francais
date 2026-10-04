@@ -15,12 +15,3 @@
 #jeu .barre .remplissage { display: block; height: 100%; border-radius: 2px; background: var(--lang); width: var(--part, 0%); }
 #jeu .barre .valeur { text-align: right; }
 #jeu .carte { min-width: 0; }
-
-@media (prefers-reduced-motion: no-preference) {
-  @keyframes jeu-pousse { from { width: 0; } }
-  #jeu .pastille { animation: jeu-pop 0.3s ease-out both; }
-  #jeu .barre .remplissage { animation: jeu-pousse 0.8s ease-out 0.3s both; }
-  #jeu .compte .nombre { animation: jeu-pop 0.45s ease-out 0.1s both; }
-  #jeu .duo .carte { animation: jeu-entre 0.35s ease-out both; }
-  #jeu .duo .carte:nth-child(2) { animation-delay: 0.1s; }
-}

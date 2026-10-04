@@ -7,6 +7,9 @@ const STYLE = new URL("./fin.css", import.meta.url);
 const points = (n) => (n > 1 ? `${n} points` : `${n} point`);
 const bonnesReponses = (n) => (n > 1 ? `${n} bonnes réponses` : `${n} bonne réponse`);
 
+// Moins de mouvement demandé : pas de confettis, le score est déjà tout entier à l'écran.
+const moinsDeMouvement = () => typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function confettis() {
   const bandes = Array.from({ length: 10 }, (_, i) => h("i", { style: `--x: ${5 + i * 10}%; --d: -${((i * 7) % 22) / 10 + 0.1}s` }));
   return h("div", { class: "confettis", "aria-hidden": "true" }, bandes);
@@ -19,6 +22,7 @@ export function montrer(contexte) {
   chargerStyle(STYLE);
   const score = calculerScore(contexte.donnees.partie.reponses());
   const gagne = score.total > 0;
+  const fete = gagne && !moinsDeMouvement();
   let relance = false;
 
   const rejouer = () => {
@@ -28,7 +32,7 @@ export function montrer(contexte) {
   };
 
   contexte.el.append(h("div", { class: "pile", "aria-live": "polite" },
-    gagne && confettis(),
+    fete && confettis(),
     h("h2", { class: "titre" }, emoji(gagne ? "🎉" : "🙃"), gagne ? " Et voilà, c’est fini" : " C’est fini"),
     h("p", { class: "grand num" }, points(score.total)),
     h("p", { class: "chapo" }, `${bonnesReponses(score.bonnes)} sur ${score.sur}. ${gagne ? "Joli." : "Ça arrive : rejoue pour te rattraper."}`),

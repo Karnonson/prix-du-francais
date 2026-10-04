@@ -130,9 +130,9 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Fichiers : src/modules/jeu/score.js, src/modules/jeu/ui/fin.js, src/modules/jeu/ui/fin.css, tests/modules/jeu/score.test.js
   Après : T05
   Taille : M
-- [ ] T09 [US2] Couper les animations quand l'appareil demande moins de mouvement
-  - [ ] Étant donné que mon appareil demande moins de mouvement, quand j'arrive à l'écran final ou à une révélation, alors il n'y a aucune animation : le score et les barres s'affichent tout de suite, sans perdre d'information
-  - [ ] Sans cette demande, les confettis, les emojis et les animations d'entrée jouent sur l'écran final et la révélation
+- [x] T09 [US2] Couper les animations quand l'appareil demande moins de mouvement
+  - [x] Étant donné que mon appareil demande moins de mouvement, quand j'arrive à l'écran final ou à une révélation, alors il n'y a aucune animation : le score et les barres s'affichent tout de suite, sans perdre d'information
+  - [x] Sans cette demande, les confettis, les emojis et les animations d'entrée jouent sur l'écran final et la révélation
   Exigences : EF8, EF9
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
   Écrans : SC2, SC3

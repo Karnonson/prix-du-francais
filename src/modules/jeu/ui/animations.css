@@ -1,0 +1,41 @@
+/* Tout le mouvement du jeu, au même endroit. Il ne joue que si l'appareil ne demande pas moins de mouvement :
+   sinon rien ne bouge, et rien ne se perd (les barres, les nombres et le score sont déjà à leur place). */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes jeu-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+  @keyframes jeu-entre { from { opacity: 0; transform: translateY(var(--espace-3)); } to { opacity: 1; transform: none; } }
+  @keyframes jeu-flotte { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(calc(-1 * var(--espace-4))) rotate(8deg); } }
+  @keyframes jeu-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes jeu-balance { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg) scale(1.12); } }
+  @keyframes jeu-pousse { from { width: 0; } }
+  @keyframes jeu-tombe { to { transform: translateY(calc(var(--espace-6) * 2)) rotate(240deg); } }
+
+  /* Accueil */
+  #jeu .hero .titre { animation: jeu-pop 0.6s ease-out both; }
+  #jeu .hero .chapo { animation: jeu-entre 0.6s ease-out 0.25s both; }
+  #jeu .hero .rangee { animation: jeu-entre 0.6s ease-out 0.45s both; }
+  #jeu .flottants span { animation: jeu-flotte 3s ease-in-out infinite; animation-delay: var(--d); }
+  #jeu .bouton.grosbouton { animation: jeu-pulse 1.6s ease-in-out infinite; }
+  #jeu .choix, #jeu .bouton { transition: transform 0.12s ease; }
+  #jeu .choix:hover, #jeu .bouton:hover { transform: translateY(calc(-1 * var(--espace-1))); }
+  #jeu .duo .choix { animation: jeu-entre 0.35s ease-out both; }
+  #jeu .duo .choix:nth-child(2) { animation-delay: 0.1s; }
+
+  /* Emojis, partout */
+  #jeu .emoji { animation: jeu-balance 2.2s ease-in-out infinite; }
+
+  /* Révélation */
+  #jeu .pastille { animation: jeu-pop 0.3s ease-out both; }
+  #jeu .barre .remplissage { animation: jeu-pousse 0.8s ease-out 0.3s both; }
+  #jeu .compte .nombre { animation: jeu-pop 0.45s ease-out 0.1s both; }
+  #jeu .duo .carte { animation: jeu-entre 0.35s ease-out both; }
+  #jeu .duo .carte:nth-child(2) { animation-delay: 0.1s; }
+
+  /* Écran final */
+  #jeu .confettis i { animation: jeu-tombe 2.4s ease-in var(--d) infinite; }
+  #jeu .grand { animation: jeu-pop 0.45s ease-out 0.1s both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #jeu *, #jeu *::before, #jeu *::after { animation: none !important; transition: none !important; }
+  #jeu .confettis { display: none; }
+}
