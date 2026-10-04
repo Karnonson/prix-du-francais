@@ -28,11 +28,11 @@ Ce que les récits partagent en dessous : de quoi lancer des tests, le module co
 dans la page. La page elle-même ne change pas (pas de découpage de `index.html`, la copie Claude Artifact
 reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
 
-- [ ] T01 [US1] Lancer les tests dans `./build.sh` et copier `src/` dans `dist/`
-  - [ ] `./build.sh` construit `dist/index.html` comme avant, copie `src/` dans `dist/` à l'identique (`src/modules/x/y.js` devient `dist/modules/x/y.js`, rien si `src/` n'existe pas encore), puis lance `node --test tests/` et échoue si un test échoue ; `SANS_TESTS=1 ./build.sh` saute les tests
-  - [ ] Un test construit avec `SANS_TESTS=1` et vérifie que chaque fichier de `src/` est dans `dist/` au même chemin, avec le même contenu
-  - [ ] `tests/aide/faux-dom.js` offre un faux `document` minimal (créer un élément, y ajouter des enfants, lire son texte, poser un attribut, écouter et déclencher un clic) pour importer et monter un écran sans navigateur
-  - [ ] `decisions.md` nomme l'outil sous **Stack** (le lanceur de tests intégré à Node, aucune dépendance ajoutée, pour la règle M5) et le README dit comment lancer les tests
+- [x] T01 [US1] Lancer les tests dans `./build.sh` et copier `src/` dans `dist/`
+  - [x] `./build.sh` construit `dist/index.html` comme avant, copie `src/` dans `dist/` à l'identique (`src/modules/x/y.js` devient `dist/modules/x/y.js`, rien si `src/` n'existe pas encore), puis lance `node --test tests/` et échoue si un test échoue ; `SANS_TESTS=1 ./build.sh` saute les tests
+  - [x] Un test construit avec `SANS_TESTS=1` et vérifie que chaque fichier de `src/` est dans `dist/` au même chemin, avec le même contenu
+  - [x] `tests/aide/faux-dom.js` offre un faux `document` minimal (créer un élément, y ajouter des enfants, lire son texte, poser un attribut, écouter et déclencher un clic) pour importer et monter un écran sans navigateur
+  - [x] `decisions.md` nomme l'outil sous **Stack** (le lanceur de tests intégré à Node, aucune dépendance ajoutée, pour la règle M5) et le README dit comment lancer les tests
   Exigences : aucune
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
   Fichiers : build.sh, tests/assemblage.test.js, tests/aide/faux-dom.js, docs/features/0001-defis/decisions.md, README.md

@@ -22,6 +22,7 @@
 - Q : Comment mesure-t-on la réussite ? → R : avant le 4 octobre 2026 à midi, une partie jouée de bout en bout sur téléphone, sans aide, et aimée
 ## Stack
 aucun besoin nouveau : tout se fait dans la page existante, avec le compteur de jetons déjà chargé — coût : 0 €/mois
+Tests : le lanceur de tests intégré à Node (`node --test`, module `node:test`), lancé par `./build.sh` ; aucune dépendance ajoutée (règle M5) — coût : 0 €/mois
 ## Impact archi
 Un module « jeu » (défis, score) apparaît, prévu dans `architecture.md` (*supposé*). Aucun service, aucune table, aucune donnée gardée. `architecture.md` est mis à jour par `/cadrer-x-rendre`.
 ## Données et risques
