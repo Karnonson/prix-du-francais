@@ -21,7 +21,7 @@ function lireSources(dossier) {
 async function ouvrirAccueil() {
   const document = installerFauxDocument();
   const el = document.createElement("section");
-  monter(el, { pret: () => true, compter: () => null });
+  monter(el, { pret: () => true, echec: () => false, surChangement: () => {}, compter: () => null });
   await attendreQue(() => bouton(el, "C’est parti"));
   return { document, el };
 }
@@ -68,7 +68,7 @@ test("« Composer mon défi » mène à l'écran composer", async () => {
   const appels = [];
   const { montrer } = await import("../../../src/modules/jeu/ui/jeu.js");
 
-  montrer({ el, compteur: {}, donnees: { vue: "accueil" }, composer: () => appels.push("composer"), demarrerPartie: () => appels.push("partie") });
+  montrer({ el, compteur: { pret: () => true, echec: () => false, surChangement: () => {} }, donnees: { vue: "accueil" }, composer: () => appels.push("composer"), demarrerPartie: () => appels.push("partie") });
   bouton(el, "Composer mon défi").click();
 
   assert.deepEqual(appels, ["composer"]);

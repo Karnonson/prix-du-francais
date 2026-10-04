@@ -10,15 +10,65 @@ const CARTES = [
   ["⚡", "Une bonne réponse te rapporte des points. Une réponse rapide t’en rapporte plus."],
 ];
 
+const MESSAGE_COMPTEUR = "Le compteur de jetons ne répond pas. Tu ne peux pas jouer pour l’instant. Recharge la page quand ta connexion revient.";
+
+function titre() {
+  return h("h2", { class: "titre" }, emoji("🧮"), " Token", h("span", { class: "mot-fr" }, "ette"));
+}
+
+function erreurCompteur(contexte) {
+  const recharger = contexte.recharger ?? (() => location.reload());
+  return h("div", { class: "pile" },
+    titre(),
+    h("div", { class: "alerte", role: "alert" },
+      h("p", {}, emoji("📡"), ` ${MESSAGE_COMPTEUR}`),
+      h("div", {}, h("button", { type: "button", class: "bouton secondaire", onclick: recharger }, emoji("🔄"), " Recharger"))));
+}
+
+// L'accueil se redessine quand le compteur change d'état : s'il échoue, le jeu ne démarre pas et on le dit.
 function accueil(contexte) {
+  const racine = h("div", { class: "pile" });
+  let enAttente = false;
+
+  const demarrer = () => {
+    if (contexte.compteur.echec()) return dessiner();
+    if (contexte.compteur.pret()) return contexte.demarrerPartie();
+    enAttente = true;
+    dessiner();
+  };
+
+  function dessiner() {
+    if (contexte.compteur.echec()) {
+      racine.textContent = "";
+      racine.append(erreurCompteur(contexte));
+      return;
+    }
+    if (contexte.compteur.pret() && enAttente) {
+      enAttente = false;
+      contexte.demarrerPartie();
+      return;
+    }
+    racine.textContent = "";
+    racine.append(pageAccueil(contexte, demarrer, enAttente));
+  }
+
+  contexte.compteur.surChangement(() => {
+    // l'écran a pu changer entre-temps : on ne redessine que s'il est encore affiché
+    if (Array.from(contexte.el.children).includes(racine)) dessiner();
+  });
+  dessiner();
+  return racine;
+}
+
+function pageAccueil(contexte, demarrer, enAttente) {
   const flottants = ["🇫🇷", "🪙", "🧮", "🪙", "🇬🇧"].map((signe, i) => h("span", { style: `--d: -${i * 0.6}s` }, signe));
   return h("div", { class: "pile" },
     h("div", { class: "hero" },
       h("div", { class: "flottants", "aria-hidden": "true" }, flottants),
-      h("h2", { class: "titre" }, emoji("🧮"), " Token", h("span", { class: "mot-fr" }, "ette")),
+      titre(),
       h("p", { class: "chapo" }, "Tu lis une phrase en français et la même en anglais. Tu paries sur la plus chère en jetons. Tokenette compte, et tu vois qui gagne."),
       h("div", { class: "rangee" },
-        h("button", { type: "button", class: "bouton grosbouton", onclick: () => contexte.demarrerPartie() }, emoji("🎮"), " C’est parti"),
+        h("button", { type: "button", class: "bouton grosbouton", "aria-busy": enAttente ? "true" : false, onclick: () => { if (!enAttente) demarrer(); } }, emoji("🎮"), " C’est parti"),
         h("button", { type: "button", class: "bouton secondaire", onclick: () => contexte.composer() }, emoji("✍️"), " Composer mon défi"))),
     h("div", { class: "trio" },
       CARTES.map(([signe, texte]) => h("div", { class: "carte" }, emoji(signe, { class: "grandemoji emoji" }), h("p", {}, texte)))));

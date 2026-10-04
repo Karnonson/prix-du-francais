@@ -90,9 +90,9 @@ reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
   Fichiers : src/modules/jeu/jugement.js, src/modules/jeu/ui/revelation.js, src/modules/jeu/ui/revelation.css, tests/modules/jeu/jugement.test.js
   Après : T04
   Taille : M
-- [ ] T06 [P] [US1] Attendre ou refuser de démarrer selon l'état du compteur
-  - [ ] Étant donné que le compteur de jetons ne se charge pas, quand j'ouvre la page, alors le jeu ne démarre pas, la page dit « Le compteur de jetons ne répond pas… » (texte de `textes.md`, SC1 erreur) et un bouton recharge la page
-  - [ ] Étant donné que le compteur charge encore, quand je touche « C'est parti », alors le jeu attend, puis démarre dès que le compteur est prêt ; s'il n'arrive pas, la page dit qu'il ne répond pas
+- [x] T06 [P] [US1] Attendre ou refuser de démarrer selon l'état du compteur
+  - [x] Étant donné que le compteur de jetons ne se charge pas, quand j'ouvre la page, alors le jeu ne démarre pas, la page dit « Le compteur de jetons ne répond pas… » (texte de `textes.md`, SC1 erreur) et un bouton recharge la page
+  - [x] Étant donné que le compteur charge encore, quand je touche « C'est parti », alors le jeu attend, puis démarre dès que le compteur est prêt ; s'il n'arrive pas, la page dit qu'il ne répond pas
   Exigences : EF14
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
   Écrans : SC1

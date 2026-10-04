@@ -46,6 +46,8 @@ export function parClasse(racine, nom) {
 export function compteurParMots(table = {}) {
   return {
     pret: () => true,
+    echec: () => false,
+    surChangement: () => {},
     compter(texte) {
       if (table[texte]) return table[texte];
       const blocs = texte.split(" ").map((mot, i) => ({ texte: i === 0 ? mot : ` ${mot}`, n: 1 }));

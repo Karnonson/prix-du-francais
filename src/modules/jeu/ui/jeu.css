@@ -21,6 +21,7 @@
   padding: var(--espace-2) var(--espace-4); font: inherit; font-weight: 700; cursor: pointer; text-decoration: none;
   border: 1px solid var(--ink); background: var(--ink); color: var(--ground); border-radius: var(--rayon-pilule);
 }
+#jeu .bouton[aria-busy="true"] { opacity: 0.6; cursor: progress; }
 #jeu .bouton.secondaire { background: transparent; color: var(--ink); border-color: var(--rule); }
 #jeu .bouton:focus-visible, #jeu .choix:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 #jeu .langue { display: inline-block; font-family: var(--mono); font-size: var(--step--1); color: var(--surface); background: var(--lang, var(--muted)); padding: 1px 7px; border-radius: 4px; letter-spacing: 0.04em; }
