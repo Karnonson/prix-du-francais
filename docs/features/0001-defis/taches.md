@@ -24,74 +24,39 @@ Le test s'écrit en premier, dans la tâche elle-même : pas de tâche de tests 
 
 ## Fondations
 
-Tâches de refactor, sans changement pour la personne : la page fait la même chose avant et après chacune,
-et chacune sort un morceau de `main.js` dans son module, en le supprimant de `main.js`.
+Ce que les récits partagent en dessous : de quoi lancer des tests, le module compteur, et la place du jeu
+dans la page. La page elle-même ne change pas (pas de découpage de `index.html`, la copie Claude Artifact
+reste telle quelle) : le jeu s'ajoute à côté, dans `src/modules/`.
 
-- [ ] T01 [US1] Déplacer la page dans `src/`, en fichiers séparés
-  - [ ] `./build.sh` copie `src/` tel quel dans `dist/` (plus d'enveloppe) : `dist/index.html` est un document complet qui charge `styles.css` et `main.js` (`<script type="module">`), sans style ni script écrits dedans
-  - [ ] La page se comporte comme avant (comparateur, exemples, bascule FR/EN, bouton « Traduire », polices, compteur chargé depuis jsDelivr), vérifié en servant `dist/` (`python3 -m http.server -d dist`), le test automatique venant avec T02
+- [ ] T01 [US1] Lancer les tests dans `./build.sh` et copier `src/` dans `dist/`
+  - [ ] `./build.sh` construit `dist/index.html` comme avant, copie `src/` dans `dist/` à l'identique (`src/modules/x/y.js` devient `dist/modules/x/y.js`, rien si `src/` n'existe pas encore), puis lance `node --test tests/` et échoue si un test échoue ; `SANS_TESTS=1 ./build.sh` saute les tests
+  - [ ] Un test construit avec `SANS_TESTS=1` et vérifie que chaque fichier de `src/` est dans `dist/` au même chemin, avec le même contenu
+  - [ ] `tests/aide/faux-dom.js` offre un faux `document` minimal (créer un élément, y ajouter des enfants, lire son texte, poser un attribut, écouter et déclencher un clic) pour importer et monter un écran sans navigateur
+  - [ ] `decisions.md` nomme l'outil sous **Stack** (le lanceur de tests intégré à Node, aucune dépendance ajoutée, pour la règle M5) et le README dit comment lancer les tests
   Exigences : aucune
-  Risques : aucun — pas de connexion, pas de secret, rien de nouveau
-  Fichiers : index.html, src/index.html, src/styles.css, src/main.js, build.sh
+  Risques : aucun — pas de connexion, pas de secret, rien de saisi
+  Fichiers : build.sh, tests/assemblage.test.js, tests/aide/faux-dom.js, docs/features/0001-defis/decisions.md, README.md
   Après : aucune
   Taille : M
-- [ ] T02 [US1] Lancer les tests dans `./build.sh`
-  - [ ] `./build.sh` lance `node --test tests/` (lanceur de Node, aucune dépendance ajoutée) et échoue si un test échoue
-  - [ ] Un test lit `dist/` après la construction : `index.html` charge `styles.css` et `main.js`, et `main.js` existe
-  - [ ] Le README décrit `src/`, `build.sh`, le test et le serveur local, et ne parle plus de la copie Claude Artifact
-  Exigences : aucune
-  Risques : aucun — pas de connexion, pas de secret, rien de saisi
-  Fichiers : build.sh, tests/assemblage.test.js, README.md
-  Après : T01
-  Taille : S
-- [ ] T03 [US1] Sortir le compteur de jetons dans le module compteur
-  - [ ] `src/modules/compteur/api.js` charge les deux tokenizers depuis jsDelivr (version 2.9.0) et offre `compter(texte, tokenizer = "o200k")` (nombre et blocs, un caractère coupé en plusieurs jetons gardant son vrai compte), `pret()`, `echec()` et `surChangement(rappel)`
-  - [ ] Avec un faux tokenizer, `compter` replie les morceaux vides dans le suivant et rend le vrai nombre de jetons
-  - [ ] La page compte et affiche les mêmes nombres qu'avant, par ce module
+- [ ] T02 [US1] Créer le module compteur : compter les jetons « Récent » en dehors de la page
+  - [ ] `src/modules/compteur/api.js` offre `creerCompteur()` qui charge le découpeur « Récent » (`o200k`, `gpt-tokenizer` 2.9.0) depuis jsDelivr, à la même adresse que la page, et rend `compter(texte)` (nombre de jetons et blocs), `pret()`, `echec()` et `surChangement(rappel)`
+  - [ ] Avec un faux découpeur, `compter` replie les morceaux vides dans le suivant et rend le vrai nombre de jetons (un caractère coupé en plusieurs jetons garde son compte)
+  - [ ] Le compteur compte toujours avec « Récent », que la page soit réglée sur « Plus ancien » ou non : il ne lit rien de la page
+  - [ ] Si le chargement échoue, `echec()` est vrai, `pret()` reste faux et `surChangement` prévient
   Exigences : EF4
   Risques : aucun — pas de connexion, pas de secret ; le texte ne quitte pas le navigateur
-  Fichiers : src/modules/compteur/api.js, src/main.js, tests/modules/compteur/compteur.test.js
-  Après : T02
-  Taille : M
-- [ ] T04 [US1] Brancher le module jeu sur la page
-  - [ ] `src/modules/jeu/api.js` offre `monter(el, compteur)` ; `main.js` l'importe et l'appelle sur `<main id="jeu">`, placé avant le comparateur, avec le module compteur ; `monter` ne touche à rien d'autre que `el`
-  - [ ] `dist/` contient `modules/jeu/api.js` et `modules/compteur/api.js`
+  Fichiers : src/modules/compteur/api.js, tests/modules/compteur/compteur.test.js
+  Après : T01
+  Taille : S
+- [ ] T03 [US1] Monter le jeu dans la page
+  - [ ] `index.html` a un emplacement `<section id="jeu">` avant le comparateur, et un `<script type="module">` qui importe `creerCompteur` et `monter` par leurs points d'entrée (`modules/compteur/api.js`, `modules/jeu/api.js`) et appelle `monter(document.getElementById("jeu"), creerCompteur())`
+  - [ ] `src/modules/jeu/api.js` offre `monter(el, compteur, ecrans?)` : il ne touche à rien d'autre que `el`, il s'importe sans navigateur (le DOM n'est touché qu'à l'appel), et il charge chaque écran à la demande depuis `ui/<écran>.js` (qui exporte `montrer(contexte)`), pour qu'un écran s'ajoute sans retoucher `api.js` ; le contexte offre `accueil()`, `demarrerPartie()`, `jouerSeul(defi)` et `composer()`
+  - [ ] Chaque écran charge son `.css` par un `<link>` créé depuis `import.meta.url`
+  - [ ] Publiée seule (la copie Claude Artifact, sans `modules/`), la page reste celle d'avant : l'emplacement reste vide et ne laisse aucun trou
   Exigences : EF4
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
-  Fichiers : src/modules/jeu/api.js, src/main.js, src/index.html, tests/modules/jeu/branchement.test.js
-  Après : T03
-  Taille : M
-- [ ] T05 [US1] Sortir les textes et les formats dans le module langue
-  - [ ] `src/modules/langue/api.js` et `textes.js` offrent la langue de la page, `t(clé)`, `fmt`, `pct`, `times` et un abonnement au changement de langue ; la bascule FR/EN fait ce qu'elle faisait
-  - [ ] `fmt`, `pct` et `times` rendent les formats français et anglais d'avant (`fr-CA`, `en-CA`)
-  Exigences : aucune
-  Risques : aucun — pas de connexion, pas de secret, rien de saisi
-  Fichiers : src/modules/langue/api.js, src/modules/langue/textes.js, src/main.js, tests/modules/langue/langue.test.js
-  Après : T04
-  Taille : M
-- [ ] T06 [US1] Sortir le graphique des mesures dans le module mesures
-  - [ ] `src/modules/mesures/api.js` offre les mesures fixes et le dessin du graphique ; la page l'affiche comme avant, dans les deux langues
-  - [ ] Pour les mesures fournies, la bande et les rapports français sur anglais sont ceux d'avant
-  Exigences : aucune
-  Risques : aucun — pas de connexion, pas de secret, rien de saisi
-  Fichiers : src/modules/mesures/api.js, src/main.js, tests/modules/mesures/mesures.test.js
-  Après : T05
-  Taille : S
-- [ ] T07 [US1] Sortir le comparateur (les deux cases, les exemples, le verdict) dans son module
-  - [ ] `src/modules/comparateur/api.js`, `affichage.js` et `exemples.js` portent les deux cases, les blocs, le verdict, les barres et les trois exemples, par les modules compteur et langue ; la page fait ce qu'elle faisait
-  - [ ] Les trois exemples gardent leurs textes d'avant, dans les deux langues
-  Exigences : aucune
-  Risques : saisies — du texte tapé dans une case affiché dans la page → inséré comme texte, jamais comme code, comme avant
-  Fichiers : src/modules/comparateur/api.js, src/modules/comparateur/affichage.js, src/modules/comparateur/exemples.js, src/main.js, tests/modules/comparateur/exemples.test.js
-  Après : T06
-  Taille : M
-- [ ] T08 [US1] Sortir le bouton « Traduire » dans le comparateur
-  - [ ] `src/modules/comparateur/traduction.js` garde le bouton « Traduire » comme avant : caché hors d'un lecteur Claude qui accepte `sample`, visible dedans ; `main.js` ne contient plus que le branchement des modules
-  - [ ] La consigne envoyée pour traduire vers le français (tutoiement) et vers l'anglais est celle d'avant
-  Exigences : aucune
-  Risques : saisies — la traduction rendue par l'IA mise dans la case → insérée comme texte, jamais comme code
-  Fichiers : src/modules/comparateur/traduction.js, src/modules/comparateur/api.js, src/main.js, tests/modules/comparateur/traduction.test.js
-  Après : T07
+  Fichiers : index.html, src/modules/jeu/api.js, tests/modules/jeu/branchement.test.js
+  Après : T02
   Taille : M
 
 ---
@@ -102,41 +67,44 @@ et chacune sort un morceau de `main.js` dans son module, en le supprimant de `ma
 
 **Test seul** : jouer les 5 défis d'une partie jusqu'au bout.
 
-- [ ] T09 [P] [US1] Démarrer une partie et afficher le premier défi à choisir
-  - [ ] Étant donné que j'ouvre la page, quand je touche « C'est parti », alors je vois le premier défi : deux phrases, l'une en français, l'autre en anglais, et « Défi 1 sur 5 »
+- [ ] T04 [US1] Démarrer une partie et afficher le premier défi à choisir
+  - [ ] Étant donné que j'ouvre la page, quand je touche « C'est parti », alors je vois le premier défi : deux phrases, l'une en français, l'autre en anglais, et « Défi 1 sur 5 » ; l'accueil montre son titre, ses trois cartes, « C'est parti » et « Composer mon défi », avec les textes de `textes.md` (SC1, SC2)
   - [ ] Une partie tire 5 défis différents, dans un ordre au hasard, d'une liste écrite à la main d'au moins 5 défis ; le nombre 5 est une constante à un seul endroit
-  - [ ] Le module jeu est fait de vrais modules JavaScript (`import`/`export`, chemins relatifs avec `.js`) qui s'importent sans navigateur : le DOM n'est touché qu'à l'appel de `monter` ; chaque écran charge son `.css` par un `<link>` créé depuis `import.meta.url` ; `api.js` offre `monter(el, compteur)` et garde `ecrans`, `demarrerPartie()`, `jouerSeul(defi)` et `suivant()` ; au choix d'une phrase il appelle `ecrans.revelation({defi, choix, comptes, ms})` et, après le 5e défi, `ecrans.fin(resultats)` (en attendant, il écrit « Partie terminée ») ; le bouton « Composer mon défi » appelle `ecrans.composer()`
+  - [ ] Sur un écran de 390 pixels de large, l'accueil et le défi ne demandent aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
   Exigences : EF1, EF2, EF6
   Risques : aucun — pas de connexion, pas de secret, les défis viennent d'une liste fixe
   Écrans : SC1, SC2
-  Fichiers : src/modules/jeu/defis.js, src/modules/jeu/partie.js, src/modules/jeu/api.js, src/modules/jeu/ui/jeu.css, tests/modules/jeu/partie.test.js
-  Après : T04
+  Fichiers : src/modules/jeu/partie.js, src/modules/jeu/ui/jeu.js, src/modules/jeu/ui/jeu.css, src/modules/jeu/api.js, tests/modules/jeu/partie.test.js
+  Après : T03
   Taille : M
-- [ ] T10 [US1] Révéler les nombres de jetons après un choix, et passer au défi suivant
+- [ ] T05 [US1] Révéler les nombres de jetons après un choix, et passer au défi suivant
   - [ ] Étant donné un défi affiché, quand je touche la phrase que je pense la plus chère, alors chaque phrase est découpée en blocs de jetons colorés, deux barres comparent les nombres écrits, et on me dit si j'ai bien deviné
   - [ ] Étant donné que les deux phrases ont le même nombre de jetons, quand je touche l'une d'elles, alors on me dit « égalité » et le défi ne compte ni comme bon ni comme mauvais
   - [ ] Étant donné une révélation affichée, quand je touche « Défi suivant », alors le défi suivant s'affiche ; après le 5e défi, le bouton mène à l'écran final
   - [ ] Quand je touche deux fois de suite la même phrase, alors la réponse ne compte qu'une fois
-  Exigences : EF3, EF4, EF5, EF12
+  - [ ] Les nombres révélés sont ceux du compteur « Récent » du module compteur
+  - [ ] Sur un écran de 390 pixels de large, les phrases, les blocs et les barres restent lisibles sans défilement de côté, même avec un mot très long (vérifié à la relecture, à 390 et à 1280)
+  Exigences : EF3, EF4, EF5
   Risques : saisies — un texte à balises dans une phrase révélée en blocs → chaque bloc inséré comme texte, jamais comme code
   Écrans : SC2
   Fichiers : src/modules/jeu/jugement.js, src/modules/jeu/ui/revelation.js, src/modules/jeu/ui/revelation.css, tests/modules/jeu/jugement.test.js
-  Après : T09
+  Après : T04
   Taille : M
-- [ ] T11 [P] [US1] Refuser de démarrer quand le compteur ne se charge pas
-  - [ ] Étant donné que le compteur de jetons ne se charge pas, quand j'ouvre la page, alors le jeu ne démarre pas, la page dit « le compteur n'a pas pu se charger » et un bouton recharge la page
+- [ ] T06 [P] [US1] Attendre ou refuser de démarrer selon l'état du compteur
+  - [ ] Étant donné que le compteur de jetons ne se charge pas, quand j'ouvre la page, alors le jeu ne démarre pas, la page dit « Le compteur de jetons ne répond pas… » (texte de `textes.md`, SC1 erreur) et un bouton recharge la page
+  - [ ] Étant donné que le compteur charge encore, quand je touche « C'est parti », alors le jeu attend, puis démarre dès que le compteur est prêt ; s'il n'arrive pas, la page dit qu'il ne répond pas
   Exigences : EF14
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
   Écrans : SC1
-  Fichiers : src/modules/jeu/api.js, tests/modules/jeu/compteur.test.js
-  Après : T09
+  Fichiers : src/modules/jeu/ui/jeu.js, tests/modules/jeu/compteur.test.js
+  Après : T04
   Taille : S
-- [ ] T12 [P] [US1] Ne rien garder d'une partie
+- [ ] T07 [P] [US1] Ne rien garder d'une partie
   - [ ] Étant donné une partie en cours, quand je ferme la page puis je la rouvre, alors je repars de l'accueil : une partie jouée en entier n'écrit rien dans le stockage du navigateur (localStorage, sessionStorage, cookies, IndexedDB)
   Exigences : EF13
   Risques : données personnelles — un score ou une phrase restant dans le navigateur → rien n'est écrit, vérifié sur une partie entière
-  Fichiers : tests/modules/jeu/rien-gardé.test.js
-  Après : T10
+  Fichiers : tests/modules/jeu/rien-garde.test.js
+  Après : T05
   Taille : XS
 
 **Point d'étape** : US1 marche seul → `/cadrer-x-examiner US1`.
@@ -149,25 +117,27 @@ et chacune sort un morceau de `main.js` dans son module, en le supprimant de `ma
 
 **Test seul** : finir une partie et toucher « Rejouer ».
 
-- [ ] T13 [P] [US2] Calculer le score et l'afficher à l'écran final, avec « Rejouer »
-  - [ ] Étant donné que j'ai répondu au 5e défi, quand j'arrive à l'écran final, alors je vois mon score, les points des bonnes réponses, le bonus de rapidité, le nombre de bonnes réponses sur 5 : 10 points par bonne réponse, un bonus de 5 points à 3 s ou moins qui descend à 0 à 15 s, une réponse fausse ou une égalité ne rapporte rien
-  - [ ] Étant donné l'écran final, quand je touche « Rejouer », alors une nouvelle partie de 5 défis démarre aussitôt, sans repasser par l'accueil
-  - [ ] Étant donné une partie où j'ai tout faux, quand j'arrive à l'écran final, alors je vois un score bas, sans moquerie, et le bouton « Rejouer »
-  - [ ] Quand je mets plus de 15 s à répondre, alors le bonus vaut 0 et ma bonne réponse compte quand même
+- [ ] T08 [P] [US2] Calculer le score et l'afficher à l'écran final, avec « Rejouer »
+  - [ ] Étant donné que j'ai répondu au 5e défi, quand j'arrive à l'écran final, alors je vois mon score fait de 10 points par bonne réponse plus 5 points de bonus pour chaque réponse donnée en 15 secondes ou moins, les deux séparés, le nombre de bonnes réponses sur 5 (même avec une égalité), et des confettis et des emojis ; une réponse fausse ou une égalité ne rapporte rien
+  - [ ] Étant donné l'écran final, quand je touche « Rejouer », alors une nouvelle partie de 5 défis démarre aussitôt, sans repasser par l'accueil ; « Retour à l'accueil » y mène
+  - [ ] Étant donné une partie où j'ai tout faux, quand j'arrive à l'écran final, alors je vois 0 point, sans confettis et sans moquerie, et le bouton « Rejouer »
+  - [ ] Quand je mets plus de 15 secondes à répondre, alors le bonus vaut 0 et ma bonne réponse compte quand même ses 10 points
+  - [ ] Quand je touche « Rejouer » plusieurs fois très vite, alors une seule partie démarre
+  - [ ] Sur un écran de 390 pixels de large, l'écran final ne demande aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
   Exigences : EF7, EF8
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
   Écrans : SC3
   Fichiers : src/modules/jeu/score.js, src/modules/jeu/ui/fin.js, src/modules/jeu/ui/fin.css, tests/modules/jeu/score.test.js
-  Après : T10
+  Après : T05
   Taille : M
-- [ ] T14 [US2] Animer la fin et la révélation, sauf si l'appareil demande moins de mouvement
+- [ ] T09 [US2] Couper les animations quand l'appareil demande moins de mouvement
   - [ ] Étant donné que mon appareil demande moins de mouvement, quand j'arrive à l'écran final ou à une révélation, alors il n'y a aucune animation : le score et les barres s'affichent tout de suite, sans perdre d'information
-  - [ ] Étant donné un appareil sans cette demande, quand j'arrive à l'écran final, alors les confettis, les emojis et les animations d'entrée jouent
+  - [ ] Sans cette demande, les confettis, les emojis et les animations d'entrée jouent sur l'écran final et la révélation
   Exigences : EF8, EF9
   Risques : aucun — pas de connexion, pas de secret, rien de saisi
   Écrans : SC2, SC3
   Fichiers : src/modules/jeu/ui/animations.css, src/modules/jeu/ui/fin.js, src/modules/jeu/ui/revelation.css, tests/modules/jeu/mouvement.test.js
-  Après : T13
+  Après : T08
   Taille : M
 
 **Point d'étape** : US1 et US2 marchent chacun seul → `/cadrer-x-examiner US2`.
@@ -180,25 +150,27 @@ et chacune sort un morceau de `main.js` dans son module, en le supprimant de `ma
 
 **Test seul** : écrire deux phrases et voir la révélation.
 
-- [ ] T15 [P] [US3] Écrire deux phrases et jouer ce défi seul
-  - [ ] Étant donné l'accueil, quand je touche « Composer mon défi », alors je vois deux champs, un pour la phrase française et un pour l'anglaise, chacun avec son étiquette, et rien n'est traduit pour moi
-  - [ ] Étant donné deux phrases écrites, quand je touche « Jouer ce défi », alors je joue ce défi comme les autres : je choisis la phrase la plus chère, puis je vois la révélation, hors partie et hors score, avec « Composer un autre » et un retour à l'accueil
-  - [ ] Étant donné une phrase qui ressemble à du code (par exemple des balises), quand je joue le défi, alors elle s'affiche telle que je l'ai écrite, sans être interprétée
-  Exigences : EF10, EF12
-  Risques : saisies — des balises dans une phrase composée → affichée comme texte (jamais `innerHTML`), dans les champs, le choix et la révélation
-  Écrans : SC2, SC4
-  Fichiers : src/modules/jeu/ui/composer.js, src/modules/jeu/ui/composer.css, src/modules/jeu/api.js, src/modules/jeu/ui/revelation.js, tests/modules/jeu/composer.test.js
-  Après : T10, T11
-  Taille : M
-- [ ] T16 [US3] Refuser une phrase composée vide ou trop longue
+- [ ] T10 [P] [US3] Écrire deux phrases et refuser celles qui sont vides ou trop longues
+  - [ ] Étant donné l'accueil, quand je touche « Composer mon défi », alors je vois deux champs, un pour la phrase française et un pour l'anglaise, chacun avec son étiquette et un compteur « n / 280 caractères », et rien n'est traduit pour moi
   - [ ] Étant donné un champ vide ou fait seulement d'espaces, quand je touche « Jouer ce défi », alors on me dit quel champ est à remplir, et le défi ne démarre pas
-  - [ ] Étant donné une phrase plus longue que 280 caractères, quand je touche « Jouer ce défi », alors on me dit que la phrase est trop longue et de combien, et le défi ne démarre pas ; ce que j'ai écrit reste dans le champ
-  Exigences : EF11
-  Risques : saisies — une phrase vide, d'espaces ou énorme envoyée au compteur → vérifiée avant tout comptage, plafond de 280 caractères ; abus — un très long texte collé pour ralentir la page → refusé avant d'être découpé
+  - [ ] Étant donné une phrase plus longue que 280 caractères (ceux que je vois : un emoji ou une lettre accentuée compte pour un), quand je touche « Jouer ce défi », alors on me dit que la phrase est trop longue et de combien, et le défi ne démarre pas ; ce que j'ai écrit reste dans le champ
+  - [ ] Deux phrases correctes appellent `jouerSeul(defi)` du contexte avec les phrases telles qu'écrites ; « Retour à l'accueil » y mène
+  - [ ] Sur un écran de 390 pixels de large, l'écran composer ne demande aucun défilement de côté (vérifié à la relecture, à 390 et à 1280)
+  Exigences : EF10, EF11
+  Risques : saisies — une phrase vide, d'espaces ou énorme → vérifiée avant tout comptage, plafond de 280 caractères vus ; abus — un très long texte collé pour ralentir la page → refusé avant d'être découpé ; saisies — des balises dans un champ → affichées comme texte, jamais comme code
   Écrans : SC4
-  Fichiers : src/modules/jeu/saisie.js, src/modules/jeu/ui/composer.js, tests/modules/jeu/saisie.test.js
-  Après : T15
-  Taille : S
+  Fichiers : src/modules/jeu/ui/composer.js, src/modules/jeu/ui/composer.css, src/modules/jeu/saisie.js, tests/modules/jeu/composer.test.js, tests/modules/jeu/saisie.test.js
+  Après : T04
+  Taille : M
+- [ ] T11 [US3] Jouer le défi composé, seul
+  - [ ] Étant donné deux phrases écrites, quand je touche « Jouer ce défi », alors je joue ce défi comme les autres : je choisis la phrase la plus chère (« Ton défi »), puis je vois la révélation (blocs colorés, barres), hors partie et hors score, avec « Composer un autre » et « Retour à l'accueil »
+  - [ ] Étant donné une phrase qui ressemble à du code (par exemple des balises), quand je joue le défi, alors elle s'affiche telle que je l'ai écrite, sans être interprétée
+  Exigences : EF12
+  Risques : saisies — des balises dans une phrase composée → affichée comme texte (jamais `innerHTML`), dans le choix et dans la révélation
+  Écrans : SC2
+  Fichiers : src/modules/jeu/ui/jeu.js, src/modules/jeu/ui/revelation.js, src/modules/jeu/api.js, tests/modules/jeu/jouer-seul.test.js
+  Après : T05, T06, T10
+  Taille : M
 
 **Point d'étape** : US1, US2 et US3 marchent chacun seul → `/cadrer-x-examiner US3`.
 
@@ -216,41 +188,42 @@ et chacune sort un morceau de `main.js` dans son module, en le supprimant de `ma
 - Vague 2 : T02
 - Vague 3 : T03
 - Vague 4 : T04
-- Vague 5 : T05, T09
-- Vague 6 : T06, T10, T11
-- Vague 7 : T07, T12, T13, T15
-- Vague 8 : T08, T14, T16
+- Vague 5 : T05, T06, T10
+- Vague 6 : T07, T08, T11
+- Vague 7 : T09
 
 ## À surveiller
 
-- T09 : « C'est parti » touché alors que le compteur charge encore (ni prêt ni en échec) : le jeu doit attendre ou refuser, pas démarrer sans nombres.
-- T09 : la page en anglais garde les textes du jeu en français, les textes anglais n'étant pas écrits (`passation.md` → Ouvert).
-- T13 : « Rejouer » touché plusieurs fois très vite ne doit lancer qu'une partie.
-- T15 : un défi composé joué seul ne doit entrer dans aucun score de partie.
+- T04 : la page en anglais garde les textes du jeu en français, les textes anglais n'étant pas écrits (`passation.md` → Ouvert).
+- T03 : la copie Claude Artifact (`index.html` publié seul) ne charge pas le jeu ; elle doit rester la page d'avant, sans trou ni erreur visible.
+- T05 : un mot très long sans espace dans une phrase (jusqu'à 280 caractères) peut faire déborder les blocs à 390 pixels.
+- T10 : un emoji composé (drapeau, famille) ou une lettre accentuée en deux morceaux doit compter pour un seul caractère vu.
+- T08 : la rapidité se mesure de l'affichage du défi au choix ; un onglet laissé en arrière-plan ne doit pas donner de bonus à tort.
 
 ## Couverts
 
 | Quoi | Tâches |
 |---|---|
-| US1 | T01, T02, T03, T04, T05, T06, T07, T08, T09, T10, T11, T12 |
-| US2 | T13, T14 |
-| US3 | T15, T16 |
-| EF1 | T09 |
-| EF2 | T09 |
-| EF3 | T10 |
-| EF4 | T03, T04, T10 |
-| EF5 | T10 |
-| EF6 | T09 |
-| EF7 | T13 |
-| EF8 | T13, T14 |
-| EF9 | T14 |
-| EF10 | T15 |
-| EF11 | T16 |
-| EF12 | T10, T15 |
-| EF13 | T12 |
-| EF14 | T11 |
-| M2 | T10, T15, T16 |
-| M6 | T03, T04 |
-| M7 | T02 |
+| US1 | T01, T02, T03, T04, T05, T06, T07 |
+| US2 | T08, T09 |
+| US3 | T10, T11 |
+| EF1 | T04 |
+| EF2 | T04 |
+| EF3 | T05 |
+| EF4 | T02, T03, T05 |
+| EF5 | T05 |
+| EF6 | T04 |
+| EF7 | T08 |
+| EF8 | T08, T09 |
+| EF9 | T09 |
+| EF10 | T10 |
+| EF11 | T10 |
+| EF12 | T11 |
+| EF13 | T07 |
+| EF14 | T06 |
+| M2 | T05, T10, T11 |
+| M5 | T01 |
+| M6 | T02, T03 |
+| M7 | T01 |
 
 - Règles en conflit : aucune
