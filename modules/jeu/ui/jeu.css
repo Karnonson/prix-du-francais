@@ -1,0 +1,56 @@
+@import url("./animations.css");
+/* Le jeu, scopé à #jeu pour ne rien changer au reste de la page.
+   Les tokens de couleur, de police, de taille, d'espace et de coin sont ceux de la page (index.html). */
+#jeu {
+  margin-bottom: var(--espace-6);
+}
+#jeu .pile { display: grid; gap: var(--espace-3); }
+#jeu .rangee { display: flex; flex-wrap: wrap; gap: var(--espace-3); align-items: center; }
+#jeu .num { font-variant-numeric: tabular-nums; }
+#jeu .mot-fr { color: var(--fr); }
+#jeu .titre { font-family: var(--display); font-size: var(--step-3); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin: 0; text-wrap: balance; }
+#jeu p { margin: 0; }
+#jeu .etiquette { font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+#jeu .chapo { font-size: var(--step-1); max-width: 64ch; }
+#jeu .carte { display: grid; gap: var(--espace-3); background: var(--surface); border: 1px solid var(--rule); border-radius: var(--rayon-3); padding: var(--espace-4); }
+#jeu .bouton {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--espace-2); min-height: var(--cible);
+  padding: var(--espace-2) var(--espace-4); font: inherit; font-weight: 700; cursor: pointer; text-decoration: none;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--ground); border-radius: var(--rayon-pilule);
+}
+#jeu .bouton[aria-busy="true"] { opacity: 0.6; cursor: progress; }
+#jeu .bouton.secondaire { background: transparent; color: var(--ink); border-color: var(--rule); }
+#jeu .bouton:focus-visible, #jeu .choix:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+#jeu .langue { display: inline-block; font-family: var(--mono); font-size: var(--step--1); color: var(--surface); background: var(--lang, var(--muted)); padding: 1px 7px; border-radius: 4px; letter-spacing: 0.04em; }
+#jeu [data-lang="en"] { --lang: var(--en); --chip-a: var(--en-chip-a); --chip-b: var(--en-chip-b); }
+#jeu [data-lang="fr"] { --lang: var(--fr); --chip-a: var(--fr-chip-a); --chip-b: var(--fr-chip-b); }
+#jeu .choix {
+  text-align: left; cursor: pointer; min-height: var(--cible); font: inherit; color: inherit; background: var(--surface);
+  border: 1px solid var(--rule); border-radius: var(--rayon-2); padding: var(--espace-3) var(--espace-4);
+  display: grid; gap: var(--espace-1); align-content: start; overflow-wrap: anywhere;
+}
+#jeu .choix:hover { border-color: var(--muted); }
+#jeu .choix strong { font-family: var(--display); font-size: var(--step-1); font-weight: 700; }
+#jeu .alerte { border: 1px solid var(--fr); color: var(--fr); border-radius: var(--rayon-2); padding: var(--espace-3) var(--espace-4); display: grid; gap: var(--espace-2); }
+
+/* Deux cartes côte à côte, une colonne sur téléphone */
+#jeu .duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--espace-3); }
+#jeu .trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--espace-3); text-align: left; }
+#jeu .trio .carte { align-content: start; }
+#jeu .trio .grandemoji { font-size: var(--step-3); line-height: 1; }
+@media (max-width: 640px) { #jeu .duo, #jeu .trio { grid-template-columns: minmax(0, 1fr); } }
+
+/* Accueil animé */
+#jeu .hero { display: grid; gap: var(--espace-4); justify-items: center; text-align: center; padding-block: var(--espace-4); position: relative; }
+#jeu .hero .titre { font-size: var(--step-4); }
+#jeu .hero .titre .emoji { display: block; font-size: var(--step-4); }
+#jeu .hero .chapo { margin-inline: auto; }
+#jeu .hero .rangee { justify-content: center; }
+#jeu .flottants { display: flex; justify-content: center; gap: var(--espace-4); font-size: var(--step-3); }
+#jeu .bouton.grosbouton { font-size: var(--step-2); min-height: calc(var(--cible) * 1.4); padding-inline: var(--espace-6); }
+#jeu .emoji { display: inline-block; }
+
+#jeu .progression { display: grid; gap: var(--espace-2); justify-items: center; text-align: center; }
+#jeu .progression p { font-size: var(--step--1); color: var(--muted); }
+
+

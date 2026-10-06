@@ -1,0 +1,12 @@
+/* L'écran composer : les champs. Les parties de base (pile, bouton, langue…) viennent de jeu.css. */
+#jeu .champ { display: grid; gap: var(--espace-2); }
+#jeu .champ label { display: flex; align-items: center; gap: var(--espace-2); font-weight: 700; }
+#jeu .champ textarea {
+  width: 100%; min-height: 7.5rem; resize: vertical; font: inherit; color: inherit;
+  border: 1px solid var(--rule); border-radius: var(--rayon-2); background: var(--ground);
+  padding: var(--espace-3); line-height: 1.5;
+}
+#jeu .champ textarea:focus-visible { outline: 2px solid var(--lang, var(--focus)); outline-offset: 1px; }
+#jeu .champ textarea[aria-invalid="true"] { border-color: var(--fr); }
+#jeu .note { font-size: var(--step--1); color: var(--muted); }
+#jeu .note.erreur { color: var(--fr); }
