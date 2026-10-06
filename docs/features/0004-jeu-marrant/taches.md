@@ -41,10 +41,10 @@ aucune
   Fichiers : src/modules/jeu/partie.js, tests/modules/jeu/defis-marrants.test.js
   Après : aucune
   Taille : S
-- [ ] T02 [P] [US1] Afficher une phrase taquine avant le verdict de la révélation
-  - [ ] Étant donné une partie en cours, quand je choisis la bonne phrase, alors la révélation montre une des 4 phrases taquines de la bonne réponse (`contenu.md`), puis la ligne actuelle « Dans le mille : … » avec les nombres de jetons.
-  - [ ] Étant donné une partie en cours, quand je choisis la mauvaise phrase, alors la révélation montre une des 4 phrases taquines du raté, puis la ligne actuelle « Aïe, raté : … ».
-  - [ ] Étant donné un défi où les deux phrases ont le même nombre de jetons, quand je choisis l'une ou l'autre, alors la révélation montre une des 4 phrases taquines de l'égalité, puis la ligne actuelle « Match nul : … ».
+- [x] T02 [P] [US1] Afficher une phrase taquine avant le verdict de la révélation
+  - [x] Étant donné une partie en cours, quand je choisis la bonne phrase, alors la révélation montre une des 4 phrases taquines de la bonne réponse (`contenu.md`), puis la ligne actuelle « Dans le mille : … » avec les nombres de jetons.
+  - [x] Étant donné une partie en cours, quand je choisis la mauvaise phrase, alors la révélation montre une des 4 phrases taquines du raté, puis la ligne actuelle « Aïe, raté : … ».
+  - [x] Étant donné un défi où les deux phrases ont le même nombre de jetons, quand je choisis l'une ou l'autre, alors la révélation montre une des 4 phrases taquines de l'égalité, puis la ligne actuelle « Match nul : … ».
   Exigences : EF1, EF4
   Risques : aucun — textes fixes insérés comme texte (M2) ; le tirage au hasard se donne par le contexte (`hasard`, par défaut `Math.random`) pour que le test le pilote
   Fichiers : src/modules/jeu/ui/revelation.js, tests/modules/jeu/revelation-taquine.test.js

@@ -10,6 +10,33 @@ const LANGUES = [
   { code: "en", sigle: "EN", nom: "Anglais", en_langue: "en anglais", choisie: "l’anglais" },
 ];
 
+// Les phrases taquines de chaque cas (contenu.md), une tirée au hasard avant la ligne avec les nombres.
+const TAQUINES = {
+  bonne: [
+    "Bien vu, tu sens le jeton cher à dix mètres.",
+    "Bravo, ton portefeuille te remercie.",
+    "Tu lis dans les pensées de l’IA, c’est un peu inquiétant.",
+    "Joli coup. Tu devrais facturer tes conseils.",
+  ],
+  rate: [
+    "Ton portefeuille a senti passer celle-là.",
+    "L’IA te remercie pour ce généreux pourboire.",
+    "Pas grave, personne n’a rien vu. Sauf l’IA.",
+    "Ton intuition est partie en pause café.",
+  ],
+  egalite: [
+    "Les deux langues se sont mises d’accord dans ton dos.",
+    "Même prix au jeton près. L’IA ne fait pas de jaloux.",
+    "Personne ne paie plus cher cette fois. Profites-en.",
+    "Égalité parfaite. Même la balance n’en revient pas.",
+  ],
+};
+
+function taquine({ gagnant, correct }, hasard) {
+  const phrases = TAQUINES[gagnant === "egalite" ? "egalite" : correct ? "bonne" : "rate"];
+  return phrases[Math.min(Math.floor(hasard() * phrases.length), phrases.length - 1)];
+}
+
 const jetons = (n) => (n > 1 ? `${n} jetons` : `${n} jeton`);
 
 function verdict({ fr, en, gagnant, correct }, choix) {
@@ -56,6 +83,7 @@ export function montrer(contexte) {
 
   const maximum = Math.max(resultat.fr.nombre, resultat.en.nombre, 1);
   const [signe, message] = verdict(resultat, choix);
+  const phrase = taquine(resultat, contexte.hasard ?? Math.random);
   const dernier = partie && partie.numero() === partie.total();
   const suite = !partie
     ? [
@@ -76,6 +104,7 @@ export function montrer(contexte) {
     h("p", { class: "etiquette" }, partie ? `Défi ${partie.numero()} sur ${partie.total()}` : "Ton défi"),
     h("div", { class: "duo" }, LANGUES.map((langue) => carte(langue, resultat, choix, maximum))),
     h("div", { class: "carte bande" },
+      h("p", {}, phrase),
       h("p", {}, h("strong", {}, emoji(signe), ` ${message}`)),
       partie && lignesPoints(partie),
       suite)));
