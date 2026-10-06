@@ -99,6 +99,22 @@ test("l'ordre des défis est tiré au hasard à chaque partie", () => {
   assert.equal(new Set(toujoursHaut).size, 5);
 });
 
+test("le tirage évite les défis déjà vus tant qu'il en reste d'autres (D2)", () => {
+  const vus = DEFIS.map((_, i) => i).slice(0, DEFIS.length - 3);
+  const tires = tirerDefis(Math.random, 3, DEFIS, vus);
+
+  assert.equal(tires.length, 3);
+  assert.ok(tires.every((d) => !vus.includes(DEFIS.indexOf(d))));
+});
+
+test("une fois tous les défis vus, le tirage recommence sur tous (D2)", () => {
+  const tousVus = DEFIS.map((_, i) => i);
+  const tires = tirerDefis(Math.random, 5, DEFIS, tousVus);
+
+  assert.equal(tires.length, 5);
+  assert.ok(tires.every((d) => DEFIS.includes(d)));
+});
+
 test("le nombre de défis d'une partie est une constante à un seul endroit", () => {
   assert.equal(NB_DEFIS, 5);
   assert.equal(tirerDefis().length, NB_DEFIS);

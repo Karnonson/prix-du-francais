@@ -4,7 +4,7 @@
 // un écran de plus ne demande aucune retouche ici.
 const chargerEcran = (nom) => import(`./ui/${nom}.js`);
 
-export function monter(el, compteur, ecrans = chargerEcran) {
+export function monter(el, compteur, ecrans = chargerEcran, stockage) {
   let demande = 0;
 
   function montrer(nom, donnees) {
@@ -24,6 +24,7 @@ export function monter(el, compteur, ecrans = chargerEcran) {
   const contexte = {
     el,
     compteur,
+    stockage,
     montrer,
     accueil: () => montrer("jeu", { vue: "accueil" }),
     demarrerPartie: () => montrer("jeu", { vue: "partie" }),

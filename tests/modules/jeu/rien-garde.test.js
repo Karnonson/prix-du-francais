@@ -50,17 +50,18 @@ async function jouerUnePartie(el) {
   await attendreQue(() => bouton(el, "Rejouer"));
 }
 
-test("une partie jouée en entier, puis rejouée, n'écrit rien dans localStorage, sessionStorage, les cookies ni IndexedDB", async () => {
+test("une partie jouée en entier n'écrit rien dans sessionStorage, les cookies ni IndexedDB — seule la progression (D1) va dans localStorage", async () => {
   const { document, ecritures } = installerEspions();
   const el = document.createElement("section");
 
   monter(el, compteurParMots());
   await jouerUnePartie(el);
   assert.match(el.textContent, /sur 5\./);
-  bouton(el, "Rejouer").click();
-  await attendreQue(() => el.textContent.includes("Défi 1 sur 5"));
 
-  assert.deepEqual(ecritures, []);
+  assert.deepEqual(ecritures.map((e) => e[0]), ["localStorage"]);
+  const [, methode, cle] = ecritures[0];
+  assert.equal(methode, "setItem");
+  assert.equal(cle, "tokenette-progression");
 });
 
 test("composer un défi n'écrit rien non plus", async () => {

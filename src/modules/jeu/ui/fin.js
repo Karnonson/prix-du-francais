@@ -1,5 +1,7 @@
 // L'écran final (SC3) : le score, comment il s'est formé, des confettis, et « Rejouer ».
 import { calculerScore } from "../score.js";
+import { DEFIS } from "../partie.js";
+import { enregistrerPartie } from "../progression.js";
 import { chargerStyle, emoji, h } from "./dom.js";
 
 const STYLE = new URL("./fin.css", import.meta.url);
@@ -21,6 +23,8 @@ const ligne = (signe, libelle, valeur, classe = "ligne-score") =>
 export function montrer(contexte) {
   chargerStyle(STYLE);
   const score = calculerScore(contexte.donnees.partie.reponses());
+  const vus = contexte.donnees.partie.tousLesDefis().map((d) => DEFIS.indexOf(d)).filter((i) => i !== -1);
+  enregistrerPartie(contexte.stockage, { score: score.total, vus });
   const gagne = score.total > 0;
   const fete = gagne && !moinsDeMouvement();
   let relance = false;
