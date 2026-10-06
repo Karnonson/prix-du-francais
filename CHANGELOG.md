@@ -1,5 +1,13 @@
 # Journal des changements
 
+## [0.3.0] - 2026-10-05
+
+### Ajouté
+
+- Une phrase taquine ouvre le verdict de chaque révélation. Elle change selon que la réponse est bonne, ratée ou à égalité.
+- Un titre rigolo s'affiche sous le score en fin de partie. Il va de « Mécène des jetons » à « Radin du jeton certifié ».
+- Le jeu compte 30 défis au lieu de 20. Certains sont absurdes, d'autres sont des pièges où compter les mots trompe.
+
 ## [0.2.0] - 2026-10-04
 
 ### Ajouté

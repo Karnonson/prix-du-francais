@@ -23,3 +23,7 @@ Reste : le compteur de frappe de l'écran composer découpe tout le texte collé
 | abus | des clics rapides et répétés sur « Jouer », « Comparer » ou « Retour à l'accueil » (T02) | `basculer()` ignore un clic vers l'état déjà affiché ; un seul état `[data-state]` visible à la fois, jamais de montage multiple | `tests/accueil.test.js` — « étant donné l'accueil affiché, quand je touche deux fois de suite Jouer ou Comparer, alors je reste sur la section déjà affichée, sans erreur » |
 
 Reste : aucune donnée personnelle, aucune saisie, aucune connexion ajoutées par cette fonctionnalité.
+
+## Jeu plus marrant (0004)
+
+Aucun risque nommé : les phrases taquines, les titres de fin et les 10 nouveaux défis sont des textes fixes, insérés comme texte ; aucune saisie, donnée gardée ni connexion ajoutée. La progression garde son format : les 20 anciens défis restent à leur place (`tests/modules/jeu/defis-marrants.test.js`).
