@@ -34,8 +34,8 @@ aucune
 
 **Test seul** : se vérifie entièrement en jouant une partie sur téléphone, et apporte un jeu qui fait sourire.
 
-- [ ] T01 [US1] Ajouter les 10 nouveaux défis à la suite des 20 actuels
-  - [ ] Étant donné plusieurs parties, quand je joue, alors les défis sont tirés parmi 30, dont les 10 nouveaux de `contenu.md` (au moins 4 pièges des mots), et les défis déjà joués gardés par le navigateur restent les mêmes.
+- [x] T01 [US1] Ajouter les 10 nouveaux défis à la suite des 20 actuels
+  - [x] Étant donné plusieurs parties, quand je joue, alors les défis sont tirés parmi 30, dont les 10 nouveaux de `contenu.md` (au moins 4 pièges des mots), et les défis déjà joués gardés par le navigateur restent les mêmes.
   Exigences : EF3, EF4, EF5
   Risques : aucun — des phrases fixes écrites à la main, aucune saisie nouvelle
   Fichiers : src/modules/jeu/partie.js, tests/modules/jeu/defis-marrants.test.js
