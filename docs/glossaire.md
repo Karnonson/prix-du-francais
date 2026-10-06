@@ -12,3 +12,6 @@
 - **Bonus de rapidité** : 5 points pour une réponse donnée en 15 secondes ou moins, 0 au-delà ; 10 points par bonne réponse.
 - **Composer** : écrire soi-même les deux phrases d'un défi, qui se joue seul, hors partie et hors score.
 - **Récent / Plus ancien** : les deux découpeurs de jetons ; le jeu compte toujours avec « Récent ».
+- **Phrase taquine** : la phrase drôle, tirée au hasard parmi quatre, qui ouvre le verdict de la révélation, selon que la réponse est bonne, ratée ou à égalité.
+- **Titre de fin** : le titre rigolo affiché sous le score à la fin d'une partie, un par nombre de bonnes réponses, de « Mécène des jetons » (0) à « Radin du jeton certifié » (5).
+- **Piège des mots** : un défi où la phrase qui a le moins de mots coûte le plus de jetons ; compter les mots y mène à la mauvaise réponse.
