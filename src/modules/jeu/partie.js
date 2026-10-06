@@ -25,6 +25,17 @@ export const DEFIS = [
   { fr: "J’ai besoin d’un conseil pour choisir entre ces deux appartements.", en: "I need advice choosing between these two apartments." },
   { fr: "Le médecin m’a conseillé de me reposer encore quelques jours.", en: "The doctor advised me to rest for a few more days." },
   { fr: "Pourrais-tu relire ce message avant que je l’envoie ?", en: "Could you proofread this message before I send it?" },
+  // Ajoutés après les 20 premiers, jamais intercalés : la progression gardée désigne les défis par leur position.
+  { fr: "Il ne faut pas pousser mémé dans les orties.", en: "Don’t push your luck." },
+  { fr: "Une licorne a garé sa trottinette devant ma porte.", en: "A unicorn parked its scooter in front of my door." },
+  { fr: "Anticonstitutionnellement, mon chat dort.", en: "My cat sleeps in a very unconstitutional way." },
+  { fr: "Quelle idée saugrenue !", en: "What a ridiculous idea!" },
+  { fr: "J’ai rendez-vous avec mon ostéopathe.", en: "I have an appointment with my osteopath." },
+  { fr: "Il est tombé amoureux d’un réfrigérateur.", en: "He fell in love with a fridge." },
+  { fr: "Ça coûte les yeux de la tête.", en: "It costs an arm and a leg." },
+  { fr: "Bof.", en: "Meh, not really." },
+  { fr: "Mon perroquet parle mieux anglais que moi.", en: "My parrot speaks better English than I do." },
+  { fr: "Je mange un croissant au lit, sans aucune honte.", en: "I’m eating a croissant in bed, with no shame at all." },
 ];
 
 // Mélange la liste (Fisher-Yates) puis garde les n premiers : des défis différents, dans un ordre au hasard.
