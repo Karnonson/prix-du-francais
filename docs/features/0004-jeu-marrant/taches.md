@@ -50,8 +50,8 @@ aucune
   Fichiers : src/modules/jeu/ui/revelation.js, tests/modules/jeu/revelation-taquine.test.js
   Après : aucune
   Taille : S
-- [ ] T03 [P] [US1] Afficher le titre de fin selon les bonnes réponses
-  - [ ] Étant donné une partie finie avec 3 bonnes réponses sur 5, quand l'écran de fin s'affiche, alors je vois sous le score le titre « 📒 Comptable du dimanche » ; avec 0 à 5 bonnes réponses, le titre est celui de `contenu.md` pour ce nombre.
+- [x] T03 [P] [US1] Afficher le titre de fin selon les bonnes réponses
+  - [x] Étant donné une partie finie avec 3 bonnes réponses sur 5, quand l'écran de fin s'affiche, alors je vois sous le score le titre « 📒 Comptable du dimanche » ; avec 0 à 5 bonnes réponses, le titre est celui de `contenu.md` pour ce nombre.
   Exigences : EF2, EF4
   Risques : aucun — textes fixes insérés comme texte (M2), aucune saisie nouvelle
   Fichiers : src/modules/jeu/ui/fin.js, tests/modules/jeu/titre-fin.test.js
