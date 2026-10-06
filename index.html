@@ -32,9 +32,14 @@
     --step-3: 2.25rem;
     --step-4: clamp(2.5rem, 6vw, 3.75rem);
 
+    --espace-1: 4px;
     --espace-2: 8px;
+    --espace-3: 12px;
     --espace-4: 20px;
     --espace-5: 28px;
+    --espace-6: 40px;
+    --rayon-1: 3px;
+    --rayon-2: 8px;
     --rayon-3: 14px;
     --rayon-pilule: 999px;
     --cible: 44px;
@@ -85,7 +90,11 @@
     padding-inline: 20px;
     padding-block: 28px 64px;
   }
-  .wrap { max-width: 1080px; margin-inline: auto; display: grid; gap: 40px; }
+  .wrap { max-width: 1080px; margin-inline: auto; display: grid; gap: var(--espace-6); }
+  /* Chaque état (accueil, jeu, comparateur) rythme ses propres blocs : avant, seuls les enfants
+     directs de .wrap avaient cet espace, et les sections de l'état comparateur, imbriquées d'un
+     niveau de plus, s'en trouvaient collées les unes aux autres. */
+  .etat { display: grid; gap: var(--espace-6); }
   h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.1; }
   p { margin: 0; }
   button, textarea { font: inherit; color: inherit; }
@@ -105,20 +114,20 @@
   h1 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.02em; font-variation-settings: "opsz" 96; }
   h1 .fr-word { color: var(--fr); }
   .lede { font-size: var(--step-1); color: var(--ink); }
-  .lede em { font-style: normal; font-family: var(--mono); font-size: 0.92em; background: var(--fr-chip-a); padding: 0 4px; border-radius: 3px; }
+  .lede em { font-style: normal; font-family: var(--mono); font-size: 0.92em; background: var(--fr-chip-a); padding: 0 var(--espace-1); border-radius: var(--rayon-1); }
   .ui-lang { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; background: var(--surface); flex-shrink: 0; }
   .ui-lang button {
-    border: 0; background: transparent; padding: 4px 12px; border-radius: 999px; cursor: pointer;
+    border: 0; background: transparent; padding: var(--espace-1) var(--espace-3); border-radius: var(--rayon-pilule); cursor: pointer;
     font-size: var(--step--1); font-weight: 600; letter-spacing: 0.06em; color: var(--muted);
   }
   .ui-lang button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
 
   /* Templates */
-  .templates { display: grid; gap: 12px; }
-  .template-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .templates { display: grid; gap: var(--espace-3); }
+  .template-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--espace-3); }
   .template {
     text-align: left; cursor: pointer; background: var(--surface); border: 1px solid var(--rule);
-    border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; align-content: start;
+    border-radius: 10px; padding: 14px 16px; display: grid; gap: var(--espace-1); align-content: start;
     transition: border-color 120ms ease, transform 120ms ease;
   }
   .template:hover { border-color: var(--muted); }
@@ -128,26 +137,26 @@
   .template .run { color: var(--ink); font-weight: 600; margin-top: 6px; }
 
   /* Workbench */
-  .bench { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; }
+  .bench { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--rayon-3); overflow: hidden; }
   .panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .pane { padding: 20px; display: grid; gap: 14px; align-content: start; }
+  .pane { padding: var(--espace-4); display: grid; gap: 14px; align-content: start; }
   .pane + .pane { border-left: 1px solid var(--rule); }
   .pane[data-lang="en"] { --lang: var(--en); --chip-a: var(--en-chip-a); --chip-b: var(--en-chip-b); }
   .pane[data-lang="fr"] { --lang: var(--fr); --chip-a: var(--fr-chip-a); --chip-b: var(--fr-chip-b); }
-  .pane-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .lang-name { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  .pane-head { display: flex; justify-content: space-between; align-items: center; gap: var(--espace-3); flex-wrap: wrap; }
+  .lang-name { display: flex; align-items: center; gap: var(--espace-2); font-weight: 700; }
   .lang-code {
     font-family: var(--mono); font-size: var(--step--1); color: var(--surface); background: var(--lang);
     padding: 1px 7px; border-radius: 4px; letter-spacing: 0.04em;
   }
   .translate {
-    border: 1px solid var(--rule); background: transparent; border-radius: 999px; padding: 4px 12px;
+    border: 1px solid var(--rule); background: transparent; border-radius: var(--rayon-pilule); padding: var(--espace-1) var(--espace-3);
     font-size: var(--step--1); cursor: pointer; color: var(--ink);
   }
   .translate:hover { border-color: var(--lang); color: var(--lang); }
   .translate:disabled { cursor: progress; opacity: 0.7; }
   textarea {
-    width: 100%; min-height: 7.5rem; resize: vertical; border: 1px solid var(--rule); border-radius: 8px;
+    width: 100%; min-height: 7.5rem; resize: vertical; border: 1px solid var(--rule); border-radius: var(--rayon-2);
     background: var(--ground); padding: 12px 14px; line-height: 1.5;
   }
   textarea:focus-visible { outline: 2px solid var(--lang); outline-offset: 1px; }
@@ -164,7 +173,7 @@
   }
   .chip {
     display: inline-block; max-width: 100%; overflow-wrap: anywhere; white-space: pre;
-    background: var(--chip-a); border-radius: 3px; padding-inline: 1px; line-height: 1.5; margin-block: 2px;
+    background: var(--chip-a); border-radius: var(--rayon-1); padding-inline: 1px; line-height: 1.5; margin-block: 2px;
   }
   .chip.alt { background: var(--chip-b); }
   .chip .sp { color: var(--muted); opacity: 0.7; }
@@ -172,26 +181,26 @@
   .chips-more { color: var(--muted); font-family: var(--body); font-size: var(--step--1); }
   .chips.loading { color: var(--muted); font-family: var(--body); font-size: var(--step--1); }
 
-  .how-tokens { padding: 12px 20px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .how-tokens { padding: var(--espace-3) var(--espace-4); border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; gap: var(--espace-3); flex-wrap: wrap; }
+  .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: var(--rayon-2); overflow: hidden; }
   .seg button { border: 0; background: transparent; padding: 6px 12px; cursor: pointer; font-size: var(--step--1); color: var(--muted); text-align: left; }
   .seg button + button { border-left: 1px solid var(--rule); }
   .seg button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
   .seg b { font-weight: 700; }
 
   /* Verdict */
-  .verdict { border-top: 1px solid var(--rule); background: var(--band); padding: 22px 20px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: center; }
+  .verdict { border-top: 1px solid var(--rule); background: var(--band); padding: 22px 20px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--espace-5); align-items: center; }
   .verdict-main { display: grid; gap: 6px; }
   .big { font-family: var(--display); font-size: var(--step-4); font-weight: 800; line-height: 1; letter-spacing: -0.02em; font-variation-settings: "opsz" 96; }
   .big.more { color: var(--fr); }
   .big.less { color: var(--en); }
   .verdict-text { font-size: var(--step-1); max-width: 40ch; }
   .verdict-scale { color: var(--muted); }
-  .bars { display: grid; gap: 12px; }
-  .bar-group { display: grid; gap: 4px; }
-  .bar-title { display: flex; justify-content: space-between; gap: 8px; font-size: var(--step--1); }
+  .bars { display: grid; gap: var(--espace-3); }
+  .bar-group { display: grid; gap: var(--espace-1); }
+  .bar-title { display: flex; justify-content: space-between; gap: var(--espace-2); font-size: var(--step--1); }
   .bar-title .ratio { font-weight: 700; }
-  .bar { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr) 3.5rem; align-items: center; gap: 8px; font-size: var(--step--1); }
+  .bar { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr) 3.5rem; align-items: center; gap: var(--espace-2); font-size: var(--step--1); }
   .bar .code { font-family: var(--mono); color: var(--muted); }
   .bar .track { height: 10px; background: var(--track); border-radius: 2px; overflow: hidden; }
   .bar .fill { height: 100%; border-radius: 2px; transition: width 240ms ease; }
@@ -201,7 +210,7 @@
 
   /* Measured */
   .measured { display: grid; gap: 18px; }
-  .measured-head { display: grid; gap: 8px; max-width: 64ch; }
+  .measured-head { display: grid; gap: var(--espace-2); max-width: 64ch; }
   h2 { font-size: var(--step-2); font-weight: 700; }
   .measured-head p { color: var(--muted); }
   .plot { background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: 18px 20px 14px; overflow-x: auto; }
@@ -226,7 +235,7 @@
   .plot-caption { font-size: var(--step--1); color: var(--muted); padding-top: 10px; }
 
   /* Notes */
-  .notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; border-top: 1px solid var(--rule); padding-top: 24px; }
+  .notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--espace-5); border-top: 1px solid var(--rule); padding-top: 24px; }
   .notes section { display: grid; gap: 10px; align-content: start; }
   h3 { font-size: var(--step-1); font-weight: 700; }
   .notes p { color: var(--muted); font-size: 0.9375rem; }
@@ -270,8 +279,7 @@
     .duo { grid-template-columns: minmax(0, 1fr); }
   }
 
-  /* Barre du haut, sur le jeu et le comparateur */
-  .barre-haut { margin-bottom: var(--espace-5); }
+  /* Barre du haut, sur le jeu et le comparateur : l'espace vers la suite vient du gap de l'état */
   .bouton-retour {
     display: inline-flex; align-items: center; gap: 8px; min-height: var(--cible); padding: var(--espace-2) var(--espace-4);
     font: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--rule); background: transparent;
@@ -305,14 +313,14 @@
     </div>
   </section>
 
-  <section data-state="jeu" hidden>
+  <section class="etat" data-state="jeu" hidden>
     <div class="barre-haut">
       <button type="button" class="bouton-retour" data-goto="accueil">← Retour à l’accueil</button>
     </div>
     <section id="jeu" aria-label="Jeu"></section>
   </section>
 
-  <section data-state="comparateur" hidden>
+  <section class="etat" data-state="comparateur" hidden>
     <div class="barre-haut">
       <button type="button" class="bouton-retour" data-goto="accueil">← Retour à l’accueil</button>
     </div>

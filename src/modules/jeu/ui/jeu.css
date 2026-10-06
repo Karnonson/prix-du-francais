@@ -1,11 +1,7 @@
 @import url("./animations.css");
 /* Le jeu, scopé à #jeu pour ne rien changer au reste de la page.
-   Les tokens de couleur, de police et de taille sont ceux de la page (index.html) ;
-   ceux qu'elle n'a pas encore (espaces, coins, cible tactile) reprennent les valeurs du design system. */
+   Les tokens de couleur, de police, de taille, d'espace et de coin sont ceux de la page (index.html). */
 #jeu {
-  --espace-1: 4px; --espace-2: 8px; --espace-3: 12px; --espace-4: 20px; --espace-5: 28px; --espace-6: 40px;
-  --rayon-1: 3px; --rayon-2: 8px; --rayon-3: 14px; --rayon-pilule: 999px;
-  --cible: 44px;
   margin-bottom: var(--espace-6);
 }
 #jeu .pile { display: grid; gap: var(--espace-3); }
