@@ -26,4 +26,4 @@ aucun
 ## Données et risques
 Aucune donnée personnelle nouvelle, aucun secret. La progression existante (défis vus, meilleur score, dans le navigateur) garde son format : les nouveaux défis prennent les positions 20 à 29, les anciennes positions ne bougent pas. Aucune saisie nouvelle : les verdicts et titres sont des textes fixes, insérés comme texte (M2).
 ## À faire
-- [ ] Valider la liste des verdicts, des titres et des 10 nouveaux défis — avant la construction
+- [x] Valider la liste des verdicts, des titres et des 10 nouveaux défis — avant la construction
