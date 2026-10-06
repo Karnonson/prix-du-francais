@@ -1,4 +1,4 @@
-# Le prix du français
+# Tokenette
 
 A one-page tool for people who don't code: write the same sentence in English and in French and see how
 many tokens an AI counts for each, cut into visible pieces. It opens on an example, with three examples to
@@ -39,7 +39,7 @@ Tests use Node's built-in runner, so there is nothing to install (Node 22 or lat
 
 ## Publish
 
-- **GitHub Pages** — https://karnonson.github.io/prix-du-francais/ — run `./deploy.sh` after committing.
+- **GitHub Pages** — https://karnonson.github.io/tokenette/ — run `./deploy.sh` after committing.
   Pages serves the `gh-pages` branch, so `main` stays source only. No translate button there.
 - **Claude Artifact** — publish `index.html` with `capabilities: {sample: {}}` so the translate button can
   appear.

@@ -4,12 +4,14 @@
 
 ## Pièces
 
-- La page, qui tourne dans le navigateur du visiteur : compte les jetons et les affiche découpés — `index.html`
+- La page, qui tourne dans le navigateur du visiteur : montre l'accueil (titre, explication du jeton,
+  choix Jouer/Comparer), puis bascule vers l'usage choisi — `index.html`,
+  [ADR 0002](adr/0002-accueil-bascule-vue-unique.md)
 - Le jeu des défis, qui s'ajoute à la page dans `<section id="jeu">`, en modules chargés à la demande — `src/modules/`, [ADR 0001](adr/0001-le-jeu-a-cote-de-la-page.md)
 - Le compteur de jetons, chargé depuis jsDelivr et exécuté dans le navigateur — `gpt-tokenizer` 2.9.0 (à ne pas monter en 3.x, voir README)
 - Les polices, chargées depuis Google Fonts — Bricolage Grotesque, Atkinson Hyperlegible
 - Le site publié, servi par GitHub Pages depuis la branche `gh-pages` — `deploy.sh`
-- La copie Claude Artifact, avec le bouton « Traduire » (capability `sample`) — `index.html` publié tel quel
+- Aucune copie Claude Artifact n'est publiée aujourd'hui (l'ancienne, qui montrait le bouton « Traduire », a été retirée) ; `index.html` peut être republié tel quel avec `capabilities: {sample: {}}` pour le faire réapparaître
 
 ## Modules
 
@@ -18,7 +20,9 @@ La disposition, celle d'un site statique sans framework : `src/main.js` branche 
 dans `tests/modules/<module>/` lancés par `node --test`, `dist/` est le site construit par `build.sh`,
 jamais modifié à la main. `index.html` reste à la racine, avec le balisage et le style de la page :
 `build.sh` l'enveloppe et copie `src/` dans `dist/`. Pas de `src/shared/` : aucun code n'y est partagé
-par plusieurs modules aujourd'hui.
+par plusieurs modules aujourd'hui. L'accueil n'est pas un module à part : `main.js` bascule entre lui, le
+jeu et le comparateur en montrant et cachant leurs sections, chacun par sa seule entrée `monter()`
+([ADR 0002](adr/0002-accueil-bascule-vue-unique.md)).
 
 | Module | Possède | Chemins |
 |---|---|---|
@@ -49,7 +53,11 @@ Lancer `./build.sh`, puis servir `dist/` (`python3 -m http.server -d dist`) et o
 
 ## Trajet
 
-Tu écris une phrase en français → la page envoie le texte au compteur dans ton navigateur → il le découpe en jetons → tu vois la phrase découpée et le total, en anglais et en français.
+Tu ouvres le site → l'accueil t'explique ce qu'est un jeton et te propose Jouer ou Comparer → tu choisis
+l'un des deux, l'accueil disparaît et la section prend toute la page, avec un bouton « Retour à
+l'accueil » → dans le comparateur, tu écris une phrase en français et en anglais → la page envoie le
+texte au compteur dans ton navigateur → il le découpe en jetons → tu vois la phrase découpée et le
+total, en anglais et en français.
 
 ## À faire
 

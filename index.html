@@ -1,4 +1,4 @@
-<title>Le prix du français</title>
+<title>Tokenette</title>
 <meta name="description" content="Écris une phrase en anglais et en français, et vois combien de jetons une IA compte pour chacune.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%A7%AE%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,13 @@
     --step-2: 1.5rem;
     --step-3: 2.25rem;
     --step-4: clamp(2.5rem, 6vw, 3.75rem);
+
+    --espace-2: 8px;
+    --espace-4: 20px;
+    --espace-5: 28px;
+    --rayon-3: 14px;
+    --rayon-pilule: 999px;
+    --cible: 44px;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -242,12 +249,77 @@
     * { transition: none !important; }
   }
   #jeu:empty { display: none; }
+
+  /* Accueil */
+  .accueil-intro { display: grid; gap: 14px; max-width: 64ch; margin-inline: auto; text-align: center; }
+  .accueil-intro h1 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.02em; font-variation-settings: "opsz" 96; }
+  .accueil-intro .fr-word { color: var(--fr); }
+  .accueil-intro p { font-size: var(--step-1); color: var(--ink); text-align: left; }
+  .duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--espace-4); margin-top: var(--espace-5); }
+  .duo .choix {
+    text-align: left; cursor: pointer; background: var(--surface); border: 1px solid var(--rule);
+    border-radius: var(--rayon-3); padding: var(--espace-5) var(--espace-4); display: grid; gap: 8px; align-content: start;
+    font: inherit; color: inherit; min-height: var(--cible);
+  }
+  .duo .choix:hover { border-color: var(--muted); }
+  .duo .choix .icone { font-size: var(--step-2); line-height: 1; }
+  .duo .choix strong { font-family: var(--display); font-size: var(--step-1); font-weight: 700; }
+  .duo .choix p { color: var(--muted); font-size: var(--step--1); margin: 0; }
+  .duo .choix .lancer { font-weight: 700; color: var(--ink); margin-top: 4px; }
+  @media (max-width: 640px) {
+    .duo { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Barre du haut, sur le jeu et le comparateur */
+  .barre-haut { margin-bottom: var(--espace-5); }
+  .bouton-retour {
+    display: inline-flex; align-items: center; gap: 8px; min-height: var(--cible); padding: var(--espace-2) var(--espace-4);
+    font: inherit; font-weight: 700; cursor: pointer; border: 1px solid var(--rule); background: transparent;
+    color: var(--ink); border-radius: var(--rayon-pilule);
+  }
+  .bouton-retour:hover { border-color: var(--muted); }
 </style>
 
 <div class="wrap">
+  <section class="accueil" data-state="accueil">
+    <div class="accueil-intro">
+      <h1>🧮 Token<span class="fr-word">ette</span></h1>
+      <p>Une IA ne lit pas des mots. Elle lit des jetons, des morceaux de texte. Chaque jeton coûte de l’argent, et prend de la place dans sa mémoire.</p>
+      <p>Pour dire la même chose, un texte en français demande presque toujours plus de jetons qu’en anglais.</p>
+      <p>Tokenette te permet de connaître le coût en jetons d’une requête dans les deux langues.</p>
+      <p>Elle te propose deux façons de le savoir, en jouant ou en comparant directement deux phrases.</p>
+    </div>
+    <div class="duo">
+      <button type="button" class="choix" data-goto="jeu">
+        <span class="icone" aria-hidden="true">🎮</span>
+        <strong>Jouer</strong>
+        <p>Devine en cinq défis quelle phrase coûte le plus de jetons.</p>
+        <span class="lancer">Jouer →</span>
+      </button>
+      <button type="button" class="choix" data-goto="comparateur">
+        <span class="icone" aria-hidden="true">⚖️</span>
+        <strong>Comparer</strong>
+        <p>Écris une phrase en français et en anglais, et vois l’écart de jetons.</p>
+        <span class="lancer">Comparer →</span>
+      </button>
+    </div>
+  </section>
+
+  <section data-state="jeu" hidden>
+    <div class="barre-haut">
+      <button type="button" class="bouton-retour" data-goto="accueil">← Retour à l’accueil</button>
+    </div>
+    <section id="jeu" aria-label="Jeu"></section>
+  </section>
+
+  <section data-state="comparateur" hidden>
+    <div class="barre-haut">
+      <button type="button" class="bouton-retour" data-goto="accueil">← Retour à l’accueil</button>
+    </div>
+
   <header class="top">
     <div class="intro">
-      <h1 data-i18n-html="title">Le prix du <span class="fr-word">français</span></h1>
+      <h1 data-i18n-html="title">🧮 Token<span class="fr-word">ette</span></h1>
       <p class="lede" data-i18n-html="lede">Une IA ne lit pas des mots&nbsp;: elle lit des morceaux de texte, appelés <em>jetons</em>. Chaque jeton se paie — en argent, et en place dans sa mémoire. Écris la même phrase en anglais et en français, et compte.</p>
     </div>
     <div class="ui-lang" role="group" aria-label="Langue de la page">
@@ -255,8 +327,6 @@
       <button type="button" id="ui-en" data-ui="en" aria-pressed="false">EN</button>
     </div>
   </header>
-
-  <section id="jeu" aria-label="Jeu"></section>
 
   <section class="templates" aria-labelledby="templates-label">
     <p class="label" id="templates-label" data-i18n="templatesLabel">Essaie un exemple, ou écris le tien plus bas</p>
@@ -338,6 +408,7 @@
       <p data-i18n="n3">Le comptage se fait dans ton navigateur&nbsp;: ce que tu écris n’est envoyé nulle part. Seul le bouton «&nbsp;Traduire&nbsp;», quand il est là, envoie le texte à Claude avec ton accord.</p>
     </section>
   </footer>
+  </section>
 </div>
 
 <script type="module" src="./main.js"></script>
