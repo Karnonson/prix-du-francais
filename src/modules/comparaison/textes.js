@@ -1,7 +1,7 @@
 export const STRINGS = {
   fr: {
     title: '🧮 Token<span class="fr-word">ette</span>',
-    lede: "Une IA ne lit pas des mots, mais des morceaux de texte, appelés <em>jetons</em>. Chaque jeton se paie — en argent, et en place dans sa mémoire. Écris la même phrase en anglais et en français, et compte.",
+    lede: "Une IA ne lit pas des mots. Elle lit des <em>jetons</em>, des morceaux de texte. Chaque jeton coûte de l’argent, et prend de la place dans sa mémoire. Écris la même phrase en anglais et en français, et compte.",
     templatesLabel: "Essaie un exemple, ou écris le tien plus bas",
     run: "Lancer →",
     english: "Anglais", french: "Français", tokens: "jetons",
@@ -26,7 +26,7 @@ export const STRINGS = {
     plotCaption: "Anglais ≈ 4 200 jetons partout. Version française : une traduction de travail, au tutoiement. La zone rosée couvre les tokenizers actuels.",
     n1t: "Le cas de Claude",
     n1: "Le découpeur de Claude n’est pas public. Anthropic offre un compteur exact, mais il demande une clé d’API. Ici, on mesure avec les découpeurs publics, et dans tous ceux testés, l’anglais coûte moins cher.",
-    n2t: "Pourquoi le français coûte plus",
+    n2t: "Pourquoi le français coûte plus cher",
     n2: "Deux raisons. La phrase est plus longue — articles, prépositions, terminaisons. Les découpeurs, eux, ont surtout appris sur de l’anglais : un mot anglais courant tient souvent en un jeton, un mot français se coupe plus souvent, surtout autour des accents.",
     n3t: "Ce qui reste sur ton ordinateur",
     n3: "Le comptage se fait dans ton navigateur, et ce que tu écris n’est envoyé nulle part. Seul le bouton « Traduire », quand il est là, envoie le texte à Claude avec ton accord.",

@@ -109,11 +109,13 @@
   .num { font-variant-numeric: tabular-nums; }
 
   /* Header */
-  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-  .intro { display: grid; gap: 14px; max-width: 64ch; }
+  .top { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--espace-3); }
+  /* Même traitement que l'accueil (.accueil-intro) : titre et texte centrés dans une colonne de
+     lecture, le texte lui-même aligné à gauche — .top ne fait que garder le choix de langue à côté. */
+  .intro { display: grid; gap: var(--espace-3); max-width: 64ch; margin-inline: auto; text-align: center; flex: 1; }
   h1 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.02em; font-variation-settings: "opsz" 96; }
   h1 .fr-word { color: var(--fr); }
-  .lede { font-size: var(--step-1); color: var(--ink); }
+  .lede { font-size: var(--step-1); color: var(--ink); text-align: left; }
   .lede em { font-style: normal; font-family: var(--mono); font-size: 0.92em; background: var(--fr-chip-a); padding: 0 var(--espace-1); border-radius: var(--rayon-1); }
   .ui-lang { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; background: var(--surface); flex-shrink: 0; }
   .ui-lang button {
@@ -328,7 +330,7 @@
   <header class="top">
     <div class="intro">
       <h1 data-i18n-html="title">🧮 Token<span class="fr-word">ette</span></h1>
-      <p class="lede" data-i18n-html="lede">Une IA ne lit pas des mots&nbsp;: elle lit des morceaux de texte, appelés <em>jetons</em>. Chaque jeton se paie — en argent, et en place dans sa mémoire. Écris la même phrase en anglais et en français, et compte.</p>
+      <p class="lede" data-i18n-html="lede">Une IA ne lit pas des mots. Elle lit des <em>jetons</em>, des morceaux de texte. Chaque jeton coûte de l’argent, et prend de la place dans sa mémoire. Écris la même phrase en anglais et en français, et compte.</p>
     </div>
     <div class="ui-lang" role="group" aria-label="Langue de la page">
       <button type="button" id="ui-fr" data-ui="fr" aria-pressed="true">FR</button>
@@ -408,7 +410,7 @@
       <p data-i18n="n1">Le découpeur de Claude n’est pas public. Anthropic offre un compteur exact, mais il demande une clé d’API. Ici, on mesure avec les découpeurs publics&nbsp;: dans tous ceux testés, l’anglais coûte moins cher.</p>
     </section>
     <section>
-      <h3 data-i18n="n2t">Pourquoi le français coûte plus</h3>
+      <h3 data-i18n="n2t">Pourquoi le français coûte plus cher</h3>
       <p data-i18n="n2">Deux raisons. La phrase est plus longue — articles, prépositions, terminaisons. Et les découpeurs ont surtout appris sur de l’anglais&nbsp;: un mot anglais courant tient souvent en un jeton, un mot français se coupe plus souvent, surtout autour des accents.</p>
     </section>
     <section>
